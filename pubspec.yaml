@@ -37,6 +37,7 @@ dependencies:
   firebase_auth: ^4.17.8
   firebase_core: ^2.27.0
   google_fonts: ^6.0.0
+  lottie: ^3.1.2
 
 dev_dependencies:
   flutter_test:
@@ -63,6 +64,21 @@ flutter:
   assets:
     - assets\logos\home_logo.png
     - assets\logos\aadhar_logo.png
+    - assets\logos\otp.png
+    - assets\logos\user.png
+    - assets\logos\login.png
+    - assets\logos\welcome.png
+    - assets\lottie\l1.json
+    - assets\lottie\l2.json
+    - assets\lottie\l3.json
+    - assets\lottie\l4.json
+    - assets\lottie\l5.json
+    - assets\lottie\l10.json
+    - assets\lottie\l11.json
+    - assets\lottie\l12.json
+    - assets\lottie\l13.json
+    - assets\lottie\l14.json
+    - assets\lottie\l15.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

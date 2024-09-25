@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:services/addharAuth/number_verification.dart';
+import 'package:services/auth/addharAuth/verify_aadhar_number.dart';
 
 class Number extends StatefulWidget {
   const Number({super.key});
@@ -17,7 +17,7 @@ class _NumberState extends State<Number> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => const NumberVerification(),
+          builder: (context) =>  NumberVerification(),
         ),
       );
     }
@@ -55,7 +55,7 @@ class _NumberState extends State<Number> {
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                        if (value == null || value.length < 12) {
+                        if (value == null || value.length < 12 || !RegExp(r'^\d{12}$').hasMatch(value)) {
                           return 'Aadhar number must be of 12 numbers';
                         }
                         return null;
