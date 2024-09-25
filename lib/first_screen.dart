@@ -62,15 +62,14 @@ class _FirstScreenState extends State<FirstScreen> {
         height: double.infinity,
         width: double.infinity,
         child: Container(
-          margin: const EdgeInsets.only(top: 50),
+          margin: const EdgeInsets.only(top: 10),
           child: Column(
             children: [
               SizedBox(
-                height: 100,
-                width: 100,
-                child: Image.asset('assets/logos/welcome.png'),
+                height: 180,
+                width: 180,
+                child: Image.asset('assets/logos/services_logo.png'),
               ),
-              const SizedBox(height: 5),
               SizedBox(
                 width: 350,
                 height: 350,

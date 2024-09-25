@@ -56,12 +56,10 @@ class _SplashScreenState extends State<SplashScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/logos/home_logo.png'),
-            const SizedBox(height: 20),
-            Text(
-              'Services',
-              style: GoogleFonts.lato(fontSize: 28),
-            ),
+            SizedBox(
+              height: 300,
+              width: 300,
+              child: Image.asset('assets/logos/services_logo.png')),
           ],
         ),
       ),
