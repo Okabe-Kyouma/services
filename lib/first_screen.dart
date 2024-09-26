@@ -58,7 +58,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.purple[50],
+        color: Theme.of(context).colorScheme.primaryContainer,
         height: double.infinity,
         width: double.infinity,
         child: Container(
