@@ -3,10 +3,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:services/widgets/splash_screen.dart';
 
 final colorScheme = ColorScheme.fromSeed(
-  seedColor:
-      // const Color.fromARGB(255, 125, 94, 158),
-      Color.fromARGB(255, 196, 185, 207),
-);
+    seedColor:
+        // const Color.fromARGB(255, 125, 94, 158),
+        // Color.fromARGB(255, 196, 185, 207),
+        Colors.deepPurpleAccent.shade700);
 
 void main() async {
   runApp(const MyApp());
