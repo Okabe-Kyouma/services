@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:services/auth/addharAuth/enter_aadhar_number.dart';
-import 'package:services/auth/login/login.dart';
 import 'package:services/first_screen.dart';
-import 'package:services/widgets/dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -20,7 +16,6 @@ class _SplashScreenState extends State<SplashScreen>
   bool isUserLoggedIn = false;
 
   void checkIfUserLoggedIn() {
-    
     setState(() {
       isUserLoggedIn = !isUserLoggedIn;
     });
@@ -35,7 +30,9 @@ class _SplashScreenState extends State<SplashScreen>
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const FirstScreen()),
+        MaterialPageRoute(
+            builder: (context) => const FirstScreen(),
+            settings: const RouteSettings(name: "/firstScreen")),
       );
     });
   }
@@ -57,9 +54,9 @@ class _SplashScreenState extends State<SplashScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 300,
-              width: 300,
-              child: Image.asset('assets/logos/services_logo.png')),
+                height: 300,
+                width: 300,
+                child: Image.asset('assets/logos/services_logo.png')),
           ],
         ),
       ),

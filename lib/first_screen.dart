@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:services/main_screen.dart';
+import 'package:services/auth/addharAuth/enter_aadhar_number.dart';
+import 'package:services/auth/login/login.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -127,7 +128,10 @@ class _FirstScreenState extends State<FirstScreen> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MainScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                            settings: const RouteSettings(name: "/login"),
+                          ),
                         );
                       },
                       child: const Text(
@@ -144,7 +148,13 @@ class _FirstScreenState extends State<FirstScreen> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Number()),
+                        );
+                      },
                       child: const Text(
                         'Signup',
                         style: TextStyle(color: Colors.white),
