@@ -10,7 +10,15 @@ class NumberVerification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      appBar: AppBar(
+        title: const Text(
+          'Verify Aadhar number',
+          style: TextStyle(color: Colors.white),
+        ),
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

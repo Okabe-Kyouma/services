@@ -59,7 +59,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
+        color: Theme.of(context).colorScheme.primary,
         height: double.infinity,
         width: double.infinity,
         child: Container(
@@ -100,19 +100,22 @@ class _FirstScreenState extends State<FirstScreen> {
               ),
               Text(
                 animationText[currentAnimation],
-                style: GoogleFonts.montserrat(fontSize: 23),
+                style:
+                    GoogleFonts.montserrat(fontSize: 23, color: Colors.white),
               ),
               const SizedBox(height: 25),
               Text(
                 "OR",
-                style: GoogleFonts.montserrat(fontSize: 28),
+                style:
+                    GoogleFonts.montserrat(fontSize: 28, color: Colors.white),
               ),
               const SizedBox(
                 height: 40,
               ),
               Text(
                 'Find Work Yourself!',
-                style: GoogleFonts.montserrat(fontSize: 28),
+                style:
+                    GoogleFonts.montserrat(fontSize: 28, color: Colors.white),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -136,7 +139,8 @@ class _FirstScreenState extends State<FirstScreen> {
                       },
                       child: const Text(
                         'Login',
-                        style: TextStyle(color: Colors.black),
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
@@ -157,7 +161,8 @@ class _FirstScreenState extends State<FirstScreen> {
                       },
                       child: const Text(
                         'Signup',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

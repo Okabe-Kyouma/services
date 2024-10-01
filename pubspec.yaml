@@ -71,6 +71,7 @@ flutter:
     - assets\logos\welcome.png
     - assets\logos\services_logo.png
     - assets\logos\reset_password.png
+    - assets\logos\user_image.png
     - assets\logos\email.png
     - assets\lottie\l1.json
     - assets\lottie\l2.json

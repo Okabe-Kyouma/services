@@ -6,7 +6,7 @@ final colorScheme = ColorScheme.fromSeed(
     seedColor:
         // const Color.fromARGB(255, 125, 94, 158),
         // Color.fromARGB(255, 196, 185, 207),
-        Colors.deepPurpleAccent.shade700);
+        Colors.deepPurpleAccent.shade200);
 
 void main() async {
   runApp(const MyApp());

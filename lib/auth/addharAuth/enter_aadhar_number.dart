@@ -17,7 +17,7 @@ class _NumberState extends State<Number> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) =>  NumberVerification(),
+          builder: (context) => NumberVerification(),
         ),
       );
     }
@@ -26,7 +26,15 @@ class _NumberState extends State<Number> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      appBar: AppBar(
+        title: const Text(
+          'Enter Aadhar Number',
+          style: TextStyle(color: Colors.white),
+        ),
+        foregroundColor: Colors.white,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -55,7 +63,9 @@ class _NumberState extends State<Number> {
                     child: TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
-                        if (value == null || value.length < 12 || !RegExp(r'^\d{12}$').hasMatch(value)) {
+                        if (value == null ||
+                            value.length < 12 ||
+                            !RegExp(r'^\d{12}$').hasMatch(value)) {
                           return 'Aadhar number must be of 12 numbers';
                         }
                         return null;

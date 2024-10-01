@@ -11,9 +11,10 @@ class EnterEmail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Password Recovery'),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
       ),
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

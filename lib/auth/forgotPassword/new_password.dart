@@ -11,9 +11,10 @@ class NewPassword extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Password Recovery'),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        foregroundColor: Colors.white,
       ),
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.only(top: 100),
@@ -85,11 +86,11 @@ class NewPassword extends StatelessWidget {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    Login(),
+                                builder: (context) => Login(),
                               ),
                               (Route<dynamic> route) {
-                                return route is MaterialPageRoute && route.settings.name == "/firstScreen";
+                                return route is MaterialPageRoute &&
+                                    route.settings.name == "/firstScreen";
                               },
                             );
                           }
