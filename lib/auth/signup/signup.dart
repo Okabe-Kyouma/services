@@ -1,6 +1,7 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:services/widgets/dashboard.dart';
@@ -15,13 +16,30 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final ImagePicker picker = ImagePicker();
 
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   XFile? pickedImage;
   String? selectedWork;
+  String? exp;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     selectedWork = listOfWork[0];
+    exp = listOfExp[0];
   }
+
+  final listOfExp = [
+    "Your Experience level",
+    "0-1 years",
+    "1-2 years",
+    "3-4 years",
+    "4-5 years",
+    "5+ years"
+  ];
 
   final listOfWork = [
     "Not looking for work",
@@ -67,6 +85,40 @@ class _SignupState extends State<Signup> {
     });
   }
 
+  void createUser() {
+    if (_formKey.currentState!.validate()) {
+      //create user.
+
+      if (selectedWork != listOfWork[0] && exp == listOfExp[0]) {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: const Text('PLEASE FILL ALL DETAILS',),
+            content: const Text(
+              'Please select your experience level',
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay'))
+            ],
+          ),
+        );
+        return;
+      }
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Dashboard(),
+          ), (route) {
+        return route.settings.name == '/firstScreen';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,8 +133,8 @@ class _SignupState extends State<Signup> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          decoration: BoxDecoration(
-              border: const Border(top: BorderSide(color: Colors.black))),
+          decoration: const BoxDecoration(
+              border: Border(top: BorderSide(color: Colors.black))),
           child: Center(
               child: Form(
             child: Column(
@@ -99,7 +151,7 @@ class _SignupState extends State<Signup> {
                       const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
                   child: Row(
                     children: [
-                      Container(
+                      SizedBox(
                         height: 100,
                         width: 100,
                         child: pickedImage == null
@@ -134,11 +186,18 @@ class _SignupState extends State<Signup> {
                   height: 10,
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       Container(
                         margin: EdgeInsets.all(15),
                         child: TextFormField(
+                          controller: _nameController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty)
+                              return "Please enter you name";
+                            return null;
+                          },
                           decoration: InputDecoration(
                             label: Text('Enter Your full name'),
                             border: OutlineInputBorder(
@@ -151,6 +210,16 @@ class _SignupState extends State<Signup> {
                       Container(
                         margin: EdgeInsets.all(15),
                         child: TextFormField(
+                          controller: _emailController,
+                          validator: (value) {
+                            if (value == null ||
+                                !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                    .hasMatch(value)) {
+                              return "Please enter correct mail id";
+                            }
+
+                            return null;
+                          },
                           decoration: InputDecoration(
                             label: Text('Enter Your Email-id'),
                             border: OutlineInputBorder(
@@ -163,6 +232,13 @@ class _SignupState extends State<Signup> {
                       Container(
                         margin: EdgeInsets.all(15),
                         child: TextFormField(
+                          controller: _passwordController,
+                          validator: (value) {
+                            if (value == null || value.length < 8) {
+                              return "Please enter correct password";
+                            }
+                            return null;
+                          },
                           decoration: InputDecoration(
                             label: Text('Create Your password'),
                             border: OutlineInputBorder(
@@ -183,21 +259,51 @@ class _SignupState extends State<Signup> {
                         height: 10,
                       ),
                       DropdownButton(
-                          value: selectedWork,
-                          items: listOfWork
-                              .map(
-                                (e) => DropdownMenuItem(
-                                  value: e,
-                                  enabled: true,
-                                  child: Text(e),
-                                ),
-                              )
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedWork = value!;
-                            });
-                          })
+                        value: selectedWork,
+                        items: listOfWork
+                            .map(
+                              (e) => DropdownMenuItem(
+                                value: e,
+                                enabled: true,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedWork = value!;
+                          });
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      if (selectedWork != listOfWork[0])
+                        Column(
+                          children: [
+                            Text(
+                              'Your Experience level',
+                              style: TextStyle(fontSize: 28),
+                            ),
+                            DropdownButton(
+                              value: exp,
+                              items: listOfExp
+                                  .map(
+                                    (e) => DropdownMenuItem(
+                                      value: e,
+                                      enabled: true,
+                                      child: Text(e),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  exp = value;
+                                });
+                              },
+                            ),
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -206,15 +312,12 @@ class _SignupState extends State<Signup> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Dashboard(),
-                        ), (route) {
-                      return route.settings.name == '/firstScreen';
-                    });
+                    createUser();
                   },
                   child: const Text('Submit'),
+                ),
+                const SizedBox(
+                  height: 50,
                 ),
               ],
             ),

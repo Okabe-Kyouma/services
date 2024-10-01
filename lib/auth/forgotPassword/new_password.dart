@@ -83,16 +83,18 @@ class NewPassword extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () {
                           if (_formkey.currentState!.validate()) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Login(),
-                              ),
-                              (Route<dynamic> route) {
-                                return route is MaterialPageRoute &&
-                                    route.settings.name == "/firstScreen";
-                              },
-                            );
+                            // Navigator.pushAndRemoveUntil(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => Login(),
+                            //   ),
+                            //   (Route<dynamic> route) {
+                            //     return route is MaterialPageRoute &&
+                            //         route.settings.name == "/login";
+                            //   },
+                            // );
+                            Navigator.popUntil(context,
+                                (route) => route.settings.name == "/login");
                           }
                         },
                         child: const Text('Change Password'),

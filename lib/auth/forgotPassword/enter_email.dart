@@ -43,12 +43,15 @@ class EnterEmail extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: TextFormField(
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null || !value.contains("@")) {
-                          return 'Please enter correct email-id';
-                        }
-                        return null;
-                      },
+                     validator: (value) {
+                              if (value == null ||
+                                  !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                      .hasMatch(value)) {
+                                return "Please enter correct mail id";
+                              }
+
+                              return null;
+                            },
                       decoration: const InputDecoration(
                         label: Text('Email-id'),
                         hintText: 'company12@gmail.com',
