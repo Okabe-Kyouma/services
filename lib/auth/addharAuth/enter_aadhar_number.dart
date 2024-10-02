@@ -35,59 +35,65 @@ class _NumberState extends State<Number> {
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-                height: 150,
-                width: 150,
-                child: Image.asset('assets/logos/aadhar_logo.png',
-                    fit: BoxFit.cover)),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              "Please enter your Aadhar number:",
-              style: GoogleFonts.akatab(
-                fontSize: 22,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            Form(
-              key: _formkey,
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    child: TextFormField(
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null ||
-                            value.length < 12 ||
-                            !RegExp(r'^\d{12}$').hasMatch(value)) {
-                          return 'Aadhar number must be of 12 numbers';
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        label: Text('Aadhar Number'),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: const EdgeInsets.only(top: 180),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                    height: 150,
+                    width: 150,
+                    child: Image.asset('assets/logos/aadhar_logo.png',
+                        fit: BoxFit.cover)),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Please enter your Aadhar number:",
+                  style: GoogleFonts.akatab(
+                    fontSize: 22,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                Form(
+                  key: _formkey,
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        child: TextFormField(
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: (value) {
+                            if (value == null ||
+                                value.length < 12 ||
+                                !RegExp(r'^\d{12}$').hasMatch(value)) {
+                              return 'Aadhar number must be of 12 numbers';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            label: Text('Aadhar Number'),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5)),
+                            ),
+                          ),
+                          maxLength: 12,
+                          keyboardType: TextInputType.number,
                         ),
                       ),
-                      maxLength: 12,
-                      keyboardType: TextInputType.number,
-                    ),
+                      OutlinedButton(
+                        onPressed: checkAadharNumber,
+                        child: const Text('SEND OTP'),
+                      ),
+                    ],
                   ),
-                  OutlinedButton(
-                    onPressed: checkAadharNumber,
-                    child: const Text('SEND OTP'),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
