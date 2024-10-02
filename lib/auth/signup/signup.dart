@@ -1,10 +1,9 @@
-import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:services/widgets/dashboard.dart';
+import 'package:services/widgets/work_profile_created.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -93,7 +92,9 @@ class _SignupState extends State<Signup> {
         showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
-            title: const Text('PLEASE FILL ALL DETAILS',),
+            title: const Text(
+              'PLEASE FILL ALL DETAILS',
+            ),
             content: const Text(
               'Please select your experience level',
             ),
@@ -112,7 +113,7 @@ class _SignupState extends State<Signup> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const Dashboard(),
+            builder: (context) => WorkProfileCreated(isWorkProfile: selectedWork!=listOfWork[0]),
           ), (route) {
         return route.settings.name == '/firstScreen';
       });

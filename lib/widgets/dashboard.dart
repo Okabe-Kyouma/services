@@ -10,7 +10,8 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome + username'),
+        foregroundColor: Colors.white,
+        title: const Text('Dashboard'),
         actions: [
           TextButton(
               onPressed: () {
@@ -22,9 +23,12 @@ class Dashboard extends StatelessWidget {
                   (Route<dynamic> route) => false,
                 );
               },
-              child: const Text('Logout'))
+              child: const Text(
+                'Logout',
+                style: TextStyle(color: Colors.white),
+              ))
         ],
-        backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         automaticallyImplyLeading: false,
       ),
       body: PopScope(
@@ -51,9 +55,11 @@ class Dashboard extends StatelessWidget {
             ),
           );
         },
-        child: const Center(
-          child: Text('hi'),
-        ),
+        child: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [],
+        )),
       ),
     );
   }

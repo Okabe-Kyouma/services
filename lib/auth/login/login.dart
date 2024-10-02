@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:services/auth/forgotPassword/enter_email.dart';
-import 'package:services/widgets/dashboard.dart';
+import 'package:services/widgets/work_profile_created.dart';
 
 class Login extends StatefulWidget {
   Login({super.key});
@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => const Dashboard(),
+          builder: (context) => WorkProfileCreated(isWorkProfile: false),
         ),
         (Route<dynamic> route) => false,
       );
