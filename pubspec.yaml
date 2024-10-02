@@ -74,6 +74,34 @@ flutter:
     - assets\logos\user_image.png
     - assets\logos\tick.png
     - assets\logos\email.png
+    - assets\images\nanny.jpeg
+    - assets\images\barber.jpeg
+    - assets\images\beauty.jpeg
+    - assets\images\carpentar.jpeg
+    - assets\images\chef.jpeg
+    - assets\images\cleaner.jpeg
+    - assets\images\construction.jpeg
+    - assets\images\computer.jpeg
+    - assets\images\digital.jpeg
+    - assets\images\driver.jpeg
+    - assets\images\electrician.jpeg
+    - assets\images\gardener.jpeg
+    - assets\images\handyman.jpeg
+    - assets\images\homeTutor.jpeg
+    - assets\images\houseCleaner.jpeg
+    - assets\images\laundry.jpeg
+    - assets\images\mechanic.jpeg
+    - assets\images\movers.jpeg
+    - assets\images\painter.jpeg
+    - assets\images\pest.jpeg
+    - assets\images\fitness.jpeg
+    - assets\images\photo.jpeg
+    - assets\images\ac.jpeg
+    - assets\images\plumber.jpeg
+    - assets\images\security.jpeg
+    - assets\images\tailor.jpeg
+    - assets\images\welder.jpeg
+    - assets\images\yoga.jpeg
     - assets\lottie\l1.json
     - assets\lottie\l2.json
     - assets\lottie\l3.json
