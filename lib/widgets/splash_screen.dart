@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:services/first_screen.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:restart_app/restart_app.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,6 +18,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   bool isUserLoggedIn = false;
+  bool showProg = true;
 
   void checkIfUserLoggedIn() {
     setState(() {
@@ -25,16 +30,86 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    _determinePosition().then((value) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 3), () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const FirstScreen(),
-            settings: const RouteSettings(name: "/firstScreen")),
+      setState(() {
+        showProg = false;
+      });
+
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => const FirstScreen(),
+              settings: const RouteSettings(name: "/firstScreen")),
+        );
+      });
+    }).catchError((e) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: const Text('Location Access Denied'),
+            content: const Text(
+                'Please provide your location , the app cant work without your location!'),
+            actions: [
+              TextButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  Geolocator.openLocationSettings();
+
+                  setState(() {
+                    showProg = true;
+                  });
+
+                  await Future.delayed(
+                    const Duration(seconds: 2),
+                  );
+
+                  await _determinePosition().then((value) {
+                    setState(() {
+                      showProg = false;
+                    });
+                    Restart.restartApp();
+                  }).catchError((e) {
+                    SystemNavigator.pop();
+                  });
+                },
+                child: const Text('Open Settings'),
+              ),
+            ],
+          );
+        },
       );
+
+      return;
     });
+  }
+
+  Future<Position> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition();
   }
 
   @override
@@ -47,18 +122,31 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        color: Theme.of(context).colorScheme.background,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-                height: 300,
-                width: 300,
-                child: Image.asset('assets/logos/services_logo.png')),
-          ],
-        ),
+      body: Stack(
+        children: [
+          Opacity(
+            opacity: showProg ? 0.2 : 1,
+            child: Container(
+              width: double.infinity,
+              color: Theme.of(context).colorScheme.background,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                      height: 300,
+                      width: 300,
+                      child: Image.asset('assets/logos/services_logo.png')),
+                ],
+              ),
+            ),
+          ),
+          if (showProg)
+            const Center(
+              child: Positioned(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+        ],
       ),
     );
   }
