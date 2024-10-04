@@ -10,7 +10,7 @@ class NewPassword extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Password Recovery'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,

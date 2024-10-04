@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:services/auth/signup/verify_email.dart';
@@ -12,19 +13,19 @@ class Email extends StatelessWidget {
     final TextEditingController _emailController = TextEditingController();
 
     void main() {
-      EmailOTP().setConfig(
-        appName: 'Services',
-        otpType: OTPType.digitsOnly,
-        appEmail: 'ayushpal5432@gmail.com',
-        otpLength: 6,
-        userEmail: _emailController.text,
-      );
+      EmailOTP.config(
+          appName: 'Services',
+          otpType: OTPType.numeric,
+          expiry: 30000,
+          emailTheme: EmailTheme.v3,
+          otpLength: 6,
+          appEmail: 'ayushpal5432@gmail.com');
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Email verification'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
@@ -41,7 +42,7 @@ class Email extends StatelessWidget {
               height: 30,
             ),
             const Text(
-              "Please enter your registered Email-id",
+              "Please enter your Email-id",
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18),
             ),
@@ -79,7 +80,20 @@ class Email extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () async {
                       if (_formkey.currentState!.validate()) {
-                        if (await EmailOTP().sendOTP()) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: PopScope(
+                                  canPop: false,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            });
+
+                        if (await EmailOTP.sendOTP(
+                            email: _emailController.text)) {
+                          Navigator.pop(context);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -88,7 +102,7 @@ class Email extends StatelessWidget {
                           );
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Otp failed send")),
+                            const SnackBar(content: Text("Otp failed send")),
                           );
                         }
                       }

@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       body: Container(
         height: double.infinity,

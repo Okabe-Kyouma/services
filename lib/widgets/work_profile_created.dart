@@ -32,7 +32,7 @@ class WorkProfileCreated extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ))
           ],
-          backgroundColor: Theme.of(context).colorScheme.primary,
+          backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
           automaticallyImplyLeading: false,
         ),
         body: PopScope(

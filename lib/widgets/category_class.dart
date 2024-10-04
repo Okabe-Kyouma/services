@@ -11,7 +11,7 @@ class CategoryClass extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(text),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
       ),
       body: Hero(

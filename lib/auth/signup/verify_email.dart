@@ -1,3 +1,5 @@
+import 'package:email_otp/email_otp.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:services/auth/signup/signup.dart';
@@ -9,6 +11,8 @@ class VerifyEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _otpController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -16,7 +20,7 @@ class VerifyEmail extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: SingleChildScrollView(
@@ -51,6 +55,7 @@ class VerifyEmail extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(20),
                         child: TextFormField(
+                          controller: _otpController,
                           autovalidateMode: AutovalidateMode.disabled,
                           validator: (value) {
                             if (value == null ||
@@ -74,10 +79,31 @@ class VerifyEmail extends StatelessWidget {
                       ),
                       OutlinedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Signup()),
-                          );
+                          if (EmailOTP.verifyOTP(otp: _otpController.text)) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const Signup()),
+                            );
+                          } else {
+                            showCupertinoDialog(
+                              context: context,
+                              builder: (context) {
+                                return  CupertinoAlertDialog(
+                                  title: const Text('Wront OTP'),
+                                  content: const Text(
+                                      'Please enter the correct otp which is send to your email!'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child:const  Text('Okay'))
+                                  ],
+                                );
+                              },
+                            );
+                          }
                         },
                         child: const Text('Verify'),
                       ),

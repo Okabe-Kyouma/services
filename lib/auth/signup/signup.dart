@@ -161,7 +161,7 @@ class _SignupState extends State<Signup> {
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       body: SingleChildScrollView(
         child: Container(

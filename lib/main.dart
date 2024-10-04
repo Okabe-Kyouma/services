@@ -8,10 +8,11 @@ final colorScheme = ColorScheme.fromSeed(
     seedColor:
         // const Color.fromARGB(255, 125, 94, 158),
         // Color.fromARGB(255, 196, 185, 207),
-        Colors.deepPurpleAccent.shade200);
+        Colors.deepPurpleAccent);
 
 void main() async {
-  runApp(ChangeNotifierProvider(create: (context) => LocationModel(),child: const MyApp()));
+  runApp(ChangeNotifierProvider(
+      create: (context) => LocationModel(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

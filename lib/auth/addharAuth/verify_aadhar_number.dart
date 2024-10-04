@@ -16,7 +16,7 @@ class NumberVerification extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: SingleChildScrollView(
