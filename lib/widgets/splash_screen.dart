@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen>
   bool isUserLoggedIn = false;
   bool showProg = true;
 
+
   void checkIfUserLoggedIn() {
     setState(() {
       isUserLoggedIn = !isUserLoggedIn;
@@ -30,7 +31,10 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+    initialization();
+  }
 
+  void initialization() {
     _determinePosition().then((value) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
@@ -42,8 +46,9 @@ class _SplashScreenState extends State<SplashScreen>
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => const FirstScreen(),
-              settings: const RouteSettings(name: "/firstScreen")),
+            builder: (context) => const FirstScreen(),
+            settings: const RouteSettings(name: "/firstScreen"),
+          ),
         );
       });
     }).catchError((e) {
@@ -64,9 +69,9 @@ class _SplashScreenState extends State<SplashScreen>
                     showProg = true;
                   });
 
-                  await Future.delayed(
-                    const Duration(seconds: 2),
-                  );
+                  // await Future.delayed(
+                  //   const Duration(seconds: 2),
+                  // );
 
                   await _determinePosition().then((value) {
                     setState(() {
@@ -148,9 +153,7 @@ class _SplashScreenState extends State<SplashScreen>
           ),
           if (showProg)
             const Center(
-              child: Positioned(
-                child: CircularProgressIndicator(),
-              ),
+              child: CircularProgressIndicator(),
             ),
         ],
       ),
