@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:email_otp/email_otp.dart';
 import 'package:services/auth/signup/verify_email.dart';
 
 class Email extends StatelessWidget {
@@ -8,6 +9,18 @@ class Email extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _emailController = TextEditingController();
+
+    void main() {
+      EmailOTP().setConfig(
+        appName: 'Services',
+        otpType: OTPType.digitsOnly,
+        appEmail: 'ayushpal5432@gmail.com',
+        otpLength: 6,
+        userEmail: _emailController.text,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Email verification'),
@@ -42,16 +55,17 @@ class Email extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(20),
                     child: TextFormField(
+                      controller: _emailController,
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
-                     validator: (value) {
-                              if (value == null ||
-                                  !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                                      .hasMatch(value)) {
-                                return "Please enter correct mail id";
-                              }
+                      validator: (value) {
+                        if (value == null ||
+                            !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                .hasMatch(value)) {
+                          return "Please enter correct mail id";
+                        }
 
-                              return null;
-                            },
+                        return null;
+                      },
                       decoration: const InputDecoration(
                         label: Text('Email-id'),
                         hintText: 'company12@gmail.com',
@@ -63,14 +77,20 @@ class Email extends StatelessWidget {
                     ),
                   ),
                   OutlinedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formkey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => VerifyEmail(),
-                          ),
-                        );
+                        if (await EmailOTP().sendOTP()) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => VerifyEmail(),
+                            ),
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Otp failed send")),
+                          );
+                        }
                       }
                     },
                     child: const Text('Send Otp'),

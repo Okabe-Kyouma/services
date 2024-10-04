@@ -44,6 +44,7 @@ dependencies:
   restart_app: ^1.2.1
   provider: ^6.1.2
   geocoding: ^3.0.0
+  email_otp: ^3.0.2 
 
 dev_dependencies:
   flutter_test:
