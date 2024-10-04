@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:services/auth/signup/email.dart';
 import 'package:services/auth/signup/signup.dart';
 
-class NumberVerification extends StatelessWidget {
-  NumberVerification({super.key});
+class VerifyEmail extends StatelessWidget {
+  VerifyEmail({super.key});
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -13,7 +12,7 @@ class NumberVerification extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Verify Aadhar number',
+          'Verify Email-id',
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
@@ -36,7 +35,7 @@ class NumberVerification extends StatelessWidget {
                   height: 30,
                 ),
                 Text(
-                  "We have sent an Otp to the number registered to Your aadhar card!",
+                  "We have sent an Otp to your registered email id",
                   style: GoogleFonts.akatab(
                     fontSize: 22,
                   ),
@@ -77,7 +76,7 @@ class NumberVerification extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Email()),
+                            MaterialPageRoute(builder: (context) => Signup()),
                           );
                         },
                         child: const Text('Verify'),

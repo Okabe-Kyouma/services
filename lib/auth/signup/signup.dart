@@ -23,6 +23,8 @@ class _SignupState extends State<Signup> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _houseController = TextEditingController();
+  final TextEditingController _adressController = TextEditingController();
 
   @override
   void initState() {
@@ -109,7 +111,8 @@ class _SignupState extends State<Signup> {
       Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => WorkProfileCreated(isWorkProfile: selectedWork!=listOfWork[0]),
+            builder: (context) => WorkProfileCreated(
+                isWorkProfile: selectedWork != listOfWork[0]),
           ), (route) {
         return route.settings.name == '/firstScreen';
       });
@@ -175,7 +178,9 @@ class _SignupState extends State<Signup> {
                         width: 30,
                       ),
                       OutlinedButton(
-                          onPressed: pickImage, child: Text('Upload Image'))
+                        onPressed: pickImage,
+                        child: Text('Upload Image'),
+                      )
                     ],
                   ),
                 ),
@@ -207,28 +212,6 @@ class _SignupState extends State<Signup> {
                       Container(
                         margin: EdgeInsets.all(15),
                         child: TextFormField(
-                          controller: _emailController,
-                          validator: (value) {
-                            if (value == null ||
-                                !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                                    .hasMatch(value)) {
-                              return "Please enter correct mail id";
-                            }
-
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: Text('Enter Your Email-id'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(15),
-                        child: TextFormField(
                           controller: _passwordController,
                           validator: (value) {
                             if (value == null || value.length < 8) {
@@ -237,7 +220,7 @@ class _SignupState extends State<Signup> {
                             return null;
                           },
                           decoration: InputDecoration(
-                            label: Text('Create Your password'),
+                            label: const Text('Create Your password'),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
@@ -245,10 +228,48 @@ class _SignupState extends State<Signup> {
                           keyboardType: TextInputType.visiblePassword,
                         ),
                       ),
+                      Container(
+                        margin: EdgeInsets.all(15),
+                        child: TextFormField(
+                          controller: _houseController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "Please enter your house number/flat number";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            label: const Text('House No./Flat No.'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          keyboardType: TextInputType.number,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.all(15),
+                        child: TextFormField(
+                          controller: _adressController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return "adress/area is required!";
+                            }
+                            return null;
+                          },
+                          decoration: InputDecoration(
+                            label: const Text('street adress/area'),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                          ),
+                          keyboardType: TextInputType.text,
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
-                      Text(
+                      const Text(
                         'What can you do?',
                         style: TextStyle(fontSize: 28),
                       ),
