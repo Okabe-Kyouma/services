@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:services/first_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:restart_app/restart_app.dart';
+import 'package:services/widgets/location_model.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -109,7 +110,12 @@ class _SplashScreenState extends State<SplashScreen>
           'Location permissions are permanently denied, we cannot request permissions.');
     }
 
-    return await Geolocator.getCurrentPosition();
+    Position position = await Geolocator.getCurrentPosition();
+    if (mounted) {
+      Provider.of<LocationModel>(context, listen: false)
+          .updatePosition(position);
+    }
+    return position;
   }
 
   @override

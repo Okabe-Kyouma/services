@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:services/auth/signup/email.dart';
-import 'package:services/auth/signup/signup.dart';
 
 class NumberVerification extends StatelessWidget {
   NumberVerification({super.key});

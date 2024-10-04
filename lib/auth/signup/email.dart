@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:services/auth/forgotPassword/password_recovery.dart';
 import 'package:services/auth/signup/verify_email.dart';
 
 class Email extends StatelessWidget {

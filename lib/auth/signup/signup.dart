@@ -1,8 +1,11 @@
 import 'dart:typed_data';
-
+import 'package:geocoding/geocoding.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:services/widgets/location_model.dart';
 import 'package:services/widgets/work_profile_created.dart';
 
 class Signup extends StatefulWidget {
@@ -20,8 +23,8 @@ class _SignupState extends State<Signup> {
   XFile? pickedImage;
   String? selectedWork;
   String? exp;
+  Position? position;
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _houseController = TextEditingController();
   final TextEditingController _adressController = TextEditingController();
@@ -31,6 +34,24 @@ class _SignupState extends State<Signup> {
     super.initState();
     selectedWork = listOfWork[0];
     exp = listOfExp[0];
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    position = Provider.of<LocationModel>(context).currentPosition;
+  }
+
+  Future<String> getAddressFromCoordinates(
+      double latitude, double longitude) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(latitude, longitude);
+      Placemark place = placemarks[0];
+      return '${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}';
+    } catch (e) {
+      return 'Error: $e';
+    }
   }
 
   final listOfExp = [
@@ -82,11 +103,13 @@ class _SignupState extends State<Signup> {
     });
   }
 
-  void createUser() {
+  void createUser() async {
     if (_formKey.currentState!.validate()) {
       //create user.
 
-      if (selectedWork != listOfWork[0] && exp == listOfExp[0]) {
+      if (selectedWork != listOfWork[0] &&
+          exp == listOfExp[0] &&
+          position == null) {
         showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
@@ -108,14 +131,23 @@ class _SignupState extends State<Signup> {
         return;
       }
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WorkProfileCreated(
-                isWorkProfile: selectedWork != listOfWork[0]),
-          ), (route) {
-        return route.settings.name == '/firstScreen';
-      });
+     
+
+      String address = await getAddressFromCoordinates(
+          position!.latitude, position!.longitude);
+
+           print('the address: $address');
+
+      if (mounted) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WorkProfileCreated(
+                  isWorkProfile: selectedWork != listOfWork[0]),
+            ), (route) {
+          return route.settings.name == '/firstScreen';
+        });
+      }
     }
   }
 
