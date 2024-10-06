@@ -44,7 +44,7 @@ app.post("/signup",async (req,res)=>{
  
   try{
     const existingUser = await User.findOne({email:req.body.email});
-    if(existingUser) return req.status(400).send("User already exists");
+    if(existingUser) return res.status(400).send("User already exists");
 
     const hashedPassword = await bcrypt.hash(req.body.password,10);
 
@@ -55,7 +55,7 @@ app.post("/signup",async (req,res)=>{
 
     res.status(201).send(newUser);
 
-    res.redirect('/');
+    // res.redirect('/');
 
   }
   catch(error){
@@ -64,9 +64,9 @@ app.post("/signup",async (req,res)=>{
 
 })
 
-app.post('/login',passport.authenticate("local",{successRedirect: "/",failureRedirect: "/signup"}),async (req,res)=> {
+app.post('/login',passport.authenticate("local"),async (req,res)=> {
 
-    res.status("202");
+    res.status(202).send("logged In");
 
 })
 
