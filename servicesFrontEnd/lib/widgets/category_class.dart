@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CategoryClass extends StatelessWidget {
-  CategoryClass({super.key, required this.text, required this.imageLink});
+  const CategoryClass({super.key, required this.text, required this.imageLink});
 
-  String text;
-  String imageLink;
+ final String text;
+  final String imageLink;
 
   @override
   Widget build(BuildContext context) {
