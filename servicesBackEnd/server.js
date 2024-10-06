@@ -55,7 +55,6 @@ app.post("/signup",async (req,res)=>{
 
     res.status(201).send(newUser);
 
-    res.redirect('/');
 
   }
   catch(error){
@@ -64,9 +63,9 @@ app.post("/signup",async (req,res)=>{
 
 })
 
-app.post('/login',passport.authenticate("local",{successRedirect: "/",failureRedirect: "/signup"}),async (req,res)=> {
+app.post('/login',passport.authenticate("local"),async (req,res)=> {
 
-    res.status("202");
+    res.status(202).send('LoggedIn');
 
 })
 
