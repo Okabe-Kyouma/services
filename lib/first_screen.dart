@@ -21,8 +21,6 @@ class _FirstScreenState extends State<FirstScreen> {
   }
 
   final List<String> animations = [
-    // "assets/lottie/l1.json",
-
     "assets/lottie/l12.json",
     "assets/lottie/l11.json",
     "assets/lottie/l5.json",
