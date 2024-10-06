@@ -1,69 +1,72 @@
 const mongoose = require('mongoose');
 
-const {Schema} = mongoose;
+const { Schema } = mongoose;
 
-const userSchema = new mongoose.Schema({
-    fullname:{
+const userSchema = new Schema({
+    id:{
         type:String,
-        required : true,
+        required:true,
+        unique:true,
+    },
+    username:{
+        type:String,
+        required:true,
+        unique:true,
+        minlength:6
+    },
+    fullname: {
+        type: String,
+        required: true,
         trim: true
     },
-    phoneNumber:{
-        type : String,
-        required : true,
-        unique: true,
-        match:[/^\d{10}$/, 'Please enter a valid phone number']
-        
-    },
-    email:{
-        type:String,
+    phoneNumber: {
+        type: String,
         required: true,
         unique: true,
-        lowercase:true,
-        match:[/.+\@.+\..+/, 'Please enter a valid email address']
-        
     },
-    password:{
-        type:String,
-        required:true,
-        minlength:8,
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
     },
-    service:{
-        type:String,
-        required:true,
-
+    password: {
+        type: String,
+        required: true,
+        minlength: 8,
     },
-    exp:{
-        type:Number,
+    service: {
+        type: String,
+    },
+    exp: {
+        type: Number,
         min: 0,
     },
-    currentLocation:{
-        type:{
-            type:String,
-            enum:['point'],
-            required:true,
+    currentLocation: {
+        type: {
+            type: String,
+            enum: ['Point'],  
+            required: true,
         },
-        coordinates:{
-            tpye:[Number],
-            required:true,
+        coordinates: {
+            type: [Number],  
         }
     },
-    homeLocaion:{
-        type:{
-            type:String,
-            enum:['point'],
-            required:true,
+    homeLocation: {
+        type: {
+            type: String,
+            enum: ['Point'],  
+            required: true,
         },
-        coordinates:{
-            tpye:[Number],
-            required:true,
+        coordinates: {
+            type: [Number],  
+            required: true,
         }
-    },
-
-    timestamps:true,
-
+    }
+}, {
+    timestamps: true,  
 });
 
-const User = mongoose.model('User',userSchema);
+const User = mongoose.model('User', userSchema);
 
 module.exports = User;
