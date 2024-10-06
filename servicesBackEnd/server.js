@@ -55,8 +55,10 @@ app.post("/signup",async (req,res)=>{
 
     res.status(201).send(newUser);
 
+    res.redirect('/');
+
   }
-  catch(e){
+  catch(error){
     res.status(404).send("Server error: " + error.message);
   }
 

@@ -37,10 +37,10 @@ const userSchema = new Schema({
     },
     service: {
         type: String,
+        trim: true,
     },
     exp: {
-        type: Number,
-        min: 0,
+        type: String,
     },
     currentLocation: {
         type: {
