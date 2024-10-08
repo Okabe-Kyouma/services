@@ -2,10 +2,14 @@ import 'package:email_otp/email_otp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:services/auth/signup/signup.dart';
+import 'package:services/widgets/email_model.dart';
 
 class VerifyEmail extends StatelessWidget {
-  VerifyEmail({super.key});
+  VerifyEmail({super.key,required this.email});
+
+  String email;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
@@ -80,6 +84,10 @@ class VerifyEmail extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () {
                           if (EmailOTP.verifyOTP(otp: _otpController.text)) {
+                            
+                            Provider.of<EmailModel>(context, listen: false)
+                                .updateEmail(email);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -89,7 +97,7 @@ class VerifyEmail extends StatelessWidget {
                             showCupertinoDialog(
                               context: context,
                               builder: (context) {
-                                return  CupertinoAlertDialog(
+                                return CupertinoAlertDialog(
                                   title: const Text('Wront OTP'),
                                   content: const Text(
                                       'Please enter the correct otp which is send to your email!'),
@@ -98,7 +106,7 @@ class VerifyEmail extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child:const  Text('Okay'))
+                                        child: const Text('Okay'))
                                   ],
                                 );
                               },

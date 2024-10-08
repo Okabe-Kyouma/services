@@ -97,7 +97,7 @@ class Email extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VerifyEmail(),
+                              builder: (context) => VerifyEmail(email: _emailController.text,),
                             ),
                           );
                         } else {

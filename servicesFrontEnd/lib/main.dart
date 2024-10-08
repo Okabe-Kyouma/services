@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:services/widgets/email_model.dart';
 import 'package:services/widgets/location_model.dart';
 import 'package:services/widgets/splash_screen.dart';
 
@@ -11,8 +12,17 @@ final colorScheme = ColorScheme.fromSeed(
         Colors.deepPurpleAccent);
 
 void main() async {
-  runApp(ChangeNotifierProvider(
-      create: (context) => LocationModel(), child: const MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(
+        create: (context) => LocationModel(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => EmailModel(),
+      ),
+    ],
+    child: const MyApp(),
+  ),);
 }
 
 class MyApp extends StatelessWidget {

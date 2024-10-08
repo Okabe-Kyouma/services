@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:services/auth/addharAuth/enter_aadhar_number.dart';
 import 'package:services/auth/login/login.dart';
+import 'package:services/auth/signup/signup.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -55,6 +56,7 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: Container(
         color: Theme.of(context).colorScheme.onPrimaryContainer,
