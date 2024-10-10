@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:services/api/dio_signup.dart';
+import 'package:services/widgets/aadhar_model.dart';
 import 'package:services/widgets/email_model.dart';
 import 'package:services/widgets/location_model.dart';
 import 'package:services/widgets/work_profile_created.dart';
@@ -26,6 +28,7 @@ class _SignupState extends State<Signup> {
   String? exp;
   Position? position;
   String? email;
+  String? aadhar;
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController =
@@ -46,6 +49,7 @@ class _SignupState extends State<Signup> {
     super.didChangeDependencies();
     position = Provider.of<LocationModel>(context).currentPosition;
     email = Provider.of<EmailModel>(context).email;
+    aadhar = Provider.of<AadharModel>(context).aadhar;
   }
 
   Future<String> getAddressFromCoordinates(
@@ -140,9 +144,28 @@ class _SignupState extends State<Signup> {
       String address = await getAddressFromCoordinates(
           position!.latitude, position!.longitude);
 
-      print('the address: $address');
+      int value = await signupUser(
+          username: _userNameController.text,
+          fullname: _nameController.text,
+          phoneNumber: '1234567899',
+          email: _emailController.text,
+          aadhar: aadhar!,
+          password: _passwordController.text,
+          service: selectedWork!,
+          exp: exp!,
+          profilePictureUrl: pickedImage!.path,
+          latitude: position!.latitude,
+          longitude: position!.longitude,
+          homeLocation: address);
 
-      if (mounted) {
+      print(
+          'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and ${_emailController.text} and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
+
+      if (value == 404 || value == 405) {
+        print('error in value and ${value}');
+      }
+
+      if (mounted && value == 201) {
         Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
@@ -516,132 +539,136 @@ class _SignupState extends State<Signup> {
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: SingleChildScrollView(
                     // Make this scrollable
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: _userNameController,
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.length < 6)
-                              return "Username must be of more than 5 letters";
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: Text('Create Your username'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
-                            ),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 10,
                           ),
-                          keyboardType: TextInputType.name,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: _nameController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty)
-                              return "Please enter your name";
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: Text('Enter Your full name'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          TextFormField(
+                            controller: _userNameController,
+                            validator: (value) {
+                              if (value == null ||
+                                  value.isEmpty ||
+                                  value.length < 6)
+                                return "Username must be of more than 5 letters";
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              label: Text('Create Your username'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.name,
                           ),
-                          keyboardType: TextInputType.name,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: TextEditingController(text: '8433211426'),
-                          decoration: InputDecoration(
-                            label: Text('Your Number'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller: _nameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty)
+                                return "Please enter your name";
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              label: Text('Enter Your full name'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.name,
                           ),
-                          keyboardType: TextInputType.phone,
-                          readOnly: true,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: TextEditingController(text: email),
-                          decoration: InputDecoration(
-                            label: Text('Your Email'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller:
+                                TextEditingController(text: '1234567899'),
+                            decoration: InputDecoration(
+                              label: Text('Your Number'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.phone,
+                            readOnly: true,
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                          readOnly: true,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: TextEditingController(text: '43434343'),
-                          decoration: InputDecoration(
-                            label: Text('Your Aadhar Number'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller: TextEditingController(text: email),
+                            decoration: InputDecoration(
+                              label: Text('Your Email'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.emailAddress,
+                            readOnly: true,
                           ),
-                          keyboardType: TextInputType.number,
-                          readOnly: true,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: _passwordController,
-                          validator: (value) {
-                            if (value == null || value.length < 8) {
-                              return "Please enter a correct password";
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: const Text('Create Your password'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller: TextEditingController(text: aadhar),
+                            decoration: InputDecoration(
+                              label: Text('Your Aadhar Number'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.number,
+                            readOnly: true,
                           ),
-                          keyboardType: TextInputType.visiblePassword,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: _houseController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Please enter your house number/flat number";
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: const Text('House No./Flat No.'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller: _passwordController,
+                            validator: (value) {
+                              if (value == null || value.length < 8) {
+                                return "Please enter a correct password";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              label: const Text('Create Your password'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.visiblePassword,
                           ),
-                          keyboardType: TextInputType.number,
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: _adressController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Address/area is required!";
-                            }
-                            return null;
-                          },
-                          decoration: InputDecoration(
-                            label: const Text('Street Address/Area'),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(5),
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller: _houseController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter your house number/flat number";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              label: const Text('House No./Flat No.'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
                             ),
+                            keyboardType: TextInputType.number,
                           ),
-                          keyboardType: TextInputType.text,
-                        ),
-                      ],
+                          const SizedBox(height: 25),
+                          TextFormField(
+                            controller: _adressController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Address/area is required!";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                              label: const Text('Street Address/Area'),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

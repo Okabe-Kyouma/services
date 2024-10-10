@@ -11,13 +11,16 @@ class Number extends StatefulWidget {
 
 class _NumberState extends State<Number> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController _aadharController = TextEditingController();
 
   void checkAadharNumber() {
     if (_formkey.currentState!.validate()) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => NumberVerification(),
+          builder: (context) => NumberVerification(
+            aadharNumber: _aadharController.text,
+          ),
         ),
       );
     }
@@ -64,6 +67,7 @@ class _NumberState extends State<Number> {
                       Container(
                         padding: const EdgeInsets.all(20),
                         child: TextFormField(
+                          controller: _aadharController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null ||

@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
+
+    profilePictureUrl:{
+        type:String,
+        required:false,
+    },
     username:{
         type:String,
         required:true,
@@ -54,14 +59,9 @@ const userSchema = new Schema({
     },
     homeLocation: {
         type: {
-            type: String,
-            enum: ['Point'],  
+            type: String, 
             required: true,
         },
-        coordinates: {
-            type: [Number],  
-            required: true,
-        }
     }
 }, {
     timestamps: true,  

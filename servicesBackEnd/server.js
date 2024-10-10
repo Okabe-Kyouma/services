@@ -18,11 +18,14 @@ initializingPassport(passport);
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+
+
 const sessionStore = MongoStore.create({
-  mongoUrl:'mongodb://localhost:27017/services',
+  mongoUrl:'mongodb://192.168.29.163:27017/services',
   collectionName:'sessions',
   ttl:300 * 24 * 60 * 60,
 });
+
 
 app.use(expressSession({
   secret:"secret",

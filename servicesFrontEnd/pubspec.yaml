@@ -46,6 +46,7 @@ dependencies:
   geocoding: ^3.0.0
   email_otp: ^3.0.2 
   phone_email_auth: ^0.0.6
+  dio: ^5.7.0
 
 dev_dependencies:
   flutter_test:
