@@ -6,9 +6,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:services/api/dio_signup.dart';
-import 'package:services/widgets/aadhar_model.dart';
-import 'package:services/widgets/email_model.dart';
-import 'package:services/widgets/location_model.dart';
+import 'package:services/widgets/providerModels/aadhar_model.dart';
+import 'package:services/widgets/providerModels/email_model.dart';
+import 'package:services/widgets/providerModels/location_model.dart';
 import 'package:services/widgets/work_profile_created.dart';
 
 class Signup extends StatefulWidget {

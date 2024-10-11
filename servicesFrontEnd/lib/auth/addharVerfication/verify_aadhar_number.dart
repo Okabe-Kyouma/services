@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:services/auth/signup/email.dart';
-import 'package:services/widgets/aadhar_model.dart';
+import 'package:services/auth/signup/emailVerification/email.dart';
+import 'package:services/widgets/providerModels/aadhar_model.dart';
 
 class NumberVerification extends StatelessWidget {
   NumberVerification({super.key,required this.aadharNumber});
 
-  String aadharNumber;
+  final String aadharNumber;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 

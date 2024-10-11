@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:services/widgets/aadhar_model.dart';
-import 'package:services/widgets/email_model.dart';
-import 'package:services/widgets/location_model.dart';
+import 'package:services/widgets/providerModels/aadhar_model.dart';
+import 'package:services/widgets/providerModels/email_model.dart';
+import 'package:services/widgets/providerModels/location_model.dart';
 import 'package:services/widgets/splash_screen.dart';
 
 final colorScheme = ColorScheme.fromSeed(

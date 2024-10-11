@@ -4,9 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:services/api/dio_login.dart';
 import 'package:services/auth/forgotPassword/enter_email.dart';
 import 'package:services/widgets/work_profile_created.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -18,12 +19,14 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
 
   void checkIdAndPassword() async {
+   
     if (_formKey.currentState!.validate()) {
       final response = await signIn(
           username: _usernameController.text,
           password: _passwordController.text);
 
       if (response == 202) {
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -40,16 +43,15 @@ class _LoginState extends State<Login> {
             content: const Text('Please enter correct username and password'),
             actions: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Okay'),),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Okay'),
+              ),
             ],
           ),
         );
-      }
-      else{
-
+      } else {
         showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
@@ -57,14 +59,14 @@ class _LoginState extends State<Login> {
             content: const Text('Server Error ! please try again later!!'),
             actions: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Okay'),),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Okay'),
+              ),
             ],
           ),
         );
-
       }
     }
   }
@@ -114,7 +116,7 @@ class _LoginState extends State<Login> {
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
-                              if (value == null || value.length<5) {
+                              if (value == null || value.length < 5) {
                                 return "Please enter correct username";
                               }
 

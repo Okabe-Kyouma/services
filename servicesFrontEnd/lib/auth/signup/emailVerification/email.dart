@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
-import 'package:services/auth/signup/verify_email.dart';
+import 'package:services/auth/signup/emailVerification/verify_email.dart';
 
 class Email extends StatelessWidget {
   Email({super.key});
@@ -97,7 +97,9 @@ class Email extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => VerifyEmail(email: _emailController.text,),
+                              builder: (context) => VerifyEmail(
+                                email: _emailController.text,
+                              ),
                             ),
                           );
                         } else {

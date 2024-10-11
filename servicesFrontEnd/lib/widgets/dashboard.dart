@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:services/api/dio_logout.dart';
 import 'package:services/first_screen.dart';
 import 'package:services/widgets/category_class.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
@@ -46,7 +48,12 @@ class Dashboard extends StatelessWidget {
         title: const Text('Dashboard'),
         actions: [
           TextButton(
-              onPressed: () {
+              onPressed: () async {
+
+                await logout();
+              
+              
+
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(

@@ -5,7 +5,9 @@ import 'package:services/first_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:restart_app/restart_app.dart';
-import 'package:services/widgets/location_model.dart';
+import 'package:services/widgets/dashboard.dart';
+import 'package:services/widgets/providerModels/location_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen>
   bool isUserLoggedIn = false;
   bool showProg = true;
 
-
   void checkIfUserLoggedIn() {
     setState(() {
       isUserLoggedIn = !isUserLoggedIn;
@@ -34,7 +35,9 @@ class _SplashScreenState extends State<SplashScreen>
     initialization();
   }
 
-  void initialization() {
+  void initialization() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     _determinePosition().then((value) {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
@@ -43,51 +46,66 @@ class _SplashScreenState extends State<SplashScreen>
       });
 
       Future.delayed(const Duration(seconds: 1), () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const FirstScreen(),
-            settings: const RouteSettings(name: "/firstScreen"),
-          ),
-        );
+        Widget currentWidget = const FirstScreen();
+        
+
+        final String? action = prefs.getString('session');
+
+        print('action: $action');
+
+        if (action != null) {
+          currentWidget = const Dashboard();
+        }
+
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => currentWidget,
+              settings: const RouteSettings(name: "/firstScreen"),
+            ),
+          );
+        }
       });
     }).catchError((e) {
-      showCupertinoDialog(
-        context: context,
-        builder: (context) {
-          return CupertinoAlertDialog(
-            title: const Text('Location Access Denied'),
-            content: const Text(
-                'Please provide your location , the app cant work without your location!'),
-            actions: [
-              TextButton(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  Geolocator.openLocationSettings();
+      if (mounted) {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: const Text('Location Access Denied'),
+              content: const Text(
+                  'Please provide your location , the app cant work without your location!'),
+              actions: [
+                TextButton(
+                  onPressed: () async {
+                    Navigator.pop(context);
+                    Geolocator.openLocationSettings();
 
-                  setState(() {
-                    showProg = true;
-                  });
-
-                  // await Future.delayed(
-                  //   const Duration(seconds: 2),
-                  // );
-
-                  await _determinePosition().then((value) {
                     setState(() {
-                      showProg = false;
+                      showProg = true;
                     });
-                    Restart.restartApp();
-                  }).catchError((e) {
-                    SystemNavigator.pop();
-                  });
-                },
-                child: const Text('Open Settings'),
-              ),
-            ],
-          );
-        },
-      );
+
+                    // await Future.delayed(
+                    //   const Duration(seconds: 2),
+                    // );
+
+                    await _determinePosition().then((value) {
+                      setState(() {
+                        showProg = false;
+                      });
+                      Restart.restartApp();
+                    }).catchError((e) {
+                      SystemNavigator.pop();
+                    });
+                  },
+                  child: const Text('Open Settings'),
+                ),
+              ],
+            );
+          },
+        );
+      }
 
       return;
     });

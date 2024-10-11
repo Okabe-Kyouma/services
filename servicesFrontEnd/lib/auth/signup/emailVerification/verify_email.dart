@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:services/auth/signup/signup.dart';
-import 'package:services/widgets/email_model.dart';
+import 'package:services/widgets/providerModels/email_model.dart';
 
 class VerifyEmail extends StatelessWidget {
   VerifyEmail({super.key,required this.email});
 
-  String email;
+  final String email;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 

@@ -1,37 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:services/auth/addharAuth/verify_aadhar_number.dart';
+import 'package:provider/provider.dart';
+import 'package:services/auth/signup/emailVerification/email.dart';
+import 'package:services/widgets/providerModels/aadhar_model.dart';
 
-class Number extends StatefulWidget {
-  const Number({super.key});
+class NumberVerification extends StatelessWidget {
+  NumberVerification({super.key,required this.aadharNumber});
 
-  @override
-  State<Number> createState() => _NumberState();
-}
+  final String aadharNumber;
 
-class _NumberState extends State<Number> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  final TextEditingController _aadharController = TextEditingController();
-
-  void checkAadharNumber() {
-    if (_formkey.currentState!.validate()) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NumberVerification(
-            aadharNumber: _aadharController.text,
-          ),
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Enter Aadhar Number',
+          'Verify Aadhar number',
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
@@ -40,25 +25,28 @@ class _NumberState extends State<Number> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.only(top: 180),
+          margin: const EdgeInsets.only(top: 170),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                    height: 150,
-                    width: 150,
-                    child: Image.asset('assets/logos/aadhar_logo.png',
-                        fit: BoxFit.cover)),
+                  height: 150,
+                  width: 150,
+                  child: Image.asset('assets/logos/otp.png', fit: BoxFit.cover),
+                ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 Text(
-                  "Please enter your Aadhar number:",
+                  "We have sent an Otp to the number registered to Your aadhar card!",
                   style: GoogleFonts.akatab(
                     fontSize: 22,
                   ),
                   textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 5,
                 ),
                 Form(
                   key: _formkey,
@@ -67,30 +55,38 @@ class _NumberState extends State<Number> {
                       Container(
                         padding: const EdgeInsets.all(20),
                         child: TextFormField(
-                          controller: _aadharController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          autovalidateMode: AutovalidateMode.disabled,
                           validator: (value) {
                             if (value == null ||
                                 value.length < 12 ||
                                 !RegExp(r'^\d{12}$').hasMatch(value)) {
-                              return 'Aadhar number must be of 12 numbers';
+                              return 'Otp Must be of 6 letters';
                             }
                             return null;
                           },
                           decoration: const InputDecoration(
-                            label: Text('Aadhar Number'),
+                            label: Text('OTP'),
+                            hintText: 'Enter Otp',
                             border: OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5)),
                             ),
                           ),
-                          maxLength: 12,
+                          maxLength: 6,
                           keyboardType: TextInputType.number,
                         ),
                       ),
                       OutlinedButton(
-                        onPressed: checkAadharNumber,
-                        child: const Text('SEND OTP'),
+                        onPressed: () {
+                          Provider.of<AadharModel>(context, listen: false)
+                              .updateAadhar(aadharNumber);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Email()),
+                          );
+                        },
+                        child: const Text('Verify'),
                       ),
                     ],
                   ),

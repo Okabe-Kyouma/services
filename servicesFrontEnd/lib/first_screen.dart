@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:services/auth/addharAuth/enter_aadhar_number.dart';
+import 'package:services/auth/signup/addharVerfication/enter_aadhar_number.dart';
 import 'package:services/auth/login/login.dart';
-import 'package:services/auth/signup/signup.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});

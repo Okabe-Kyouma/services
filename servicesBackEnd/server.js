@@ -30,6 +30,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
+    name : "servcies-cookie"
   })
 );
 
@@ -82,10 +83,31 @@ app.post("/login", (req, res, next) => {
       if (err) {
         return res.status(404).send("Login failed");
       }
-      return res.status(202).send("LoggedIn");
+      return res.status(202).json({
+        message: "Logged In",
+        sessionId :req.sessionID,
+      });
     });
   })(req, res, next);
 });
+
+app.post('/logout',(req,res)=>{
+
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(405).send("Logout failed");
+      }
+
+      
+      res.clearCookie('servcies-cookie', {
+        path: '/',           
+        httpOnly: true,     
+        secure: false        
+      });
+
+      return res.status(202).send("Logged out");
+    });
+})
 
 
 app.listen(4000, () => {
