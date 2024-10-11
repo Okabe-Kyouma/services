@@ -58,11 +58,9 @@ const userSchema = new Schema({
         }
     },
     homeLocation: {
-        type: {
             type: String, 
             required: true,
-        },
-    }
+    },
 }, {
     timestamps: true,  
 });

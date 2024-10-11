@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:services/api/dio_login.dart';
 import 'package:services/auth/forgotPassword/enter_email.dart';
 import 'package:services/widgets/work_profile_created.dart';
 
@@ -12,16 +14,58 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  void checkIdAndPassword() {
+  void checkIdAndPassword() async {
     if (_formKey.currentState!.validate()) {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => WorkProfileCreated(isWorkProfile: false),
-        ),
-        (Route<dynamic> route) => false,
-      );
+      final response = await signIn(
+          username: _usernameController.text,
+          password: _passwordController.text);
+
+      if (response == 202) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                const WorkProfileCreated(isWorkProfile: false),
+          ),
+          (Route<dynamic> route) => false,
+        );
+      } else if (response == 404) {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: const Text('Wrong Username or password'),
+            content: const Text('Please enter correct username and password'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay'),),
+            ],
+          ),
+        );
+      }
+      else{
+
+        showCupertinoDialog(
+          context: context,
+          builder: (context) => CupertinoAlertDialog(
+            title: const Text('Oops somethings wrong'),
+            content: const Text('Server Error ! please try again later!!'),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay'),),
+            ],
+          ),
+        );
+
+      }
     }
   }
 
@@ -59,9 +103,10 @@ class _LoginState extends State<Login> {
                         Container(
                           padding: const EdgeInsets.all(20),
                           child: TextFormField(
+                            controller: _usernameController,
                             decoration: const InputDecoration(
                               label:
-                                  Text('Please enter your registred Email id'),
+                                  Text('Please enter your registered username'),
                               border: OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(5)),
@@ -69,10 +114,8 @@ class _LoginState extends State<Login> {
                             ),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
-                              if (value == null ||
-                                  !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                                      .hasMatch(value)) {
-                                return "Please enter correct mail id";
+                              if (value == null || value.length<5) {
+                                return "Please enter correct username";
                               }
 
                               return null;
@@ -82,6 +125,7 @@ class _LoginState extends State<Login> {
                         Container(
                           padding: const EdgeInsets.all(20),
                           child: TextFormField(
+                            controller: _passwordController,
                             decoration: const InputDecoration(
                               label: Text('Please enter your password'),
                               border: OutlineInputBorder(

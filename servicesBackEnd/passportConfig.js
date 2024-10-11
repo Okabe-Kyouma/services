@@ -11,11 +11,8 @@ exports.initializingPassport = (passport) => {
 
         if (!user) return done(null, false);
 
-        console.log("passwrod: " + password);
-        console.log("saved Pass: " + user.password);
-
         const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) return done(null, false, { message: "Invalid password" });
+      if (!isMatch) return done(null, false, { message: "Invalid password",statusCode:404});
 
 
         return done(null, user);
