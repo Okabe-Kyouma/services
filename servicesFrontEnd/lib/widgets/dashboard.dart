@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:services/api/dio_logout.dart';
 import 'package:services/first_screen.dart';
 import 'package:services/widgets/category_class.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});

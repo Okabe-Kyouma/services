@@ -31,8 +31,6 @@ class _SignupState extends State<Signup> {
   String? aadhar;
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController =
-      TextEditingController(text: 'example');
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _houseController = TextEditingController();
   final TextEditingController _adressController = TextEditingController();
@@ -144,11 +142,14 @@ class _SignupState extends State<Signup> {
       String address = await getAddressFromCoordinates(
           position!.latitude, position!.longitude);
 
+           print(
+          'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and $email and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
+
       int value = await signupUser(
           username: _userNameController.text,
           fullname: _nameController.text,
-          phoneNumber: '1234567899',
-          email: _emailController.text,
+          phoneNumber: aadhar!.substring(2),
+          email: email!,
           aadhar: aadhar!,
           password: _passwordController.text,
           service: selectedWork!,
@@ -158,8 +159,7 @@ class _SignupState extends State<Signup> {
           longitude: position!.longitude,
           homeLocation: address);
 
-      print(
-          'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and ${_emailController.text} and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
+     
 
       if (value == 404 || value == 405) {
         print('error in value and ${value}');

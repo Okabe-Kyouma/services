@@ -7,6 +7,7 @@ const expressSession = require("express-session");
 const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -39,6 +40,19 @@ app.use(passport.session());
 
 app.get("/", (req, res) => {
   res.send("hemlo");
+});
+
+app.get('/userList/:text',async (req,res)=>{
+
+  const text = req.params.text;
+
+  const userList = await User.find({service:text});
+
+  console.log('userlist: ' + userList);
+
+  res.status(202).send('done');
+  
+
 });
 
 app.post("/signup", async (req, res) => {
