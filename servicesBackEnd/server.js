@@ -30,7 +30,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    name : "servcies-cookie"
+    name : "kek"
   })
 );
 
@@ -59,15 +59,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-// app.post("/login", async (req, res, next) => {
-//   passport.authenticate("local", (err, user, info) => {
-//     if (err) return res.status(405).send("error");
-
-//     if (!user) return res.status(404).send("user not found");
-
-//     res.status(202).send("LoggedIn");
-//   });
-// });
 
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
@@ -93,17 +84,21 @@ app.post("/login", (req, res, next) => {
 
 app.post('/logout',(req,res)=>{
 
+  const sessionId = req.sessionID;
+
+
     req.session.destroy((err) => {
       if (err) {
         return res.status(405).send("Logout failed");
       }
-
       
-      res.clearCookie('servcies-cookie', {
-        path: '/',           
-        httpOnly: true,     
-        secure: false        
-      });
+      // res.clearCookie('kek', {
+      //   path: '/',           
+      //   httpOnly: true,     
+      //   secure: false        
+      // });
+
+      sessionStore.destroy(expressSession.Cookie);
 
       return res.status(202).send("Logged out");
     });
