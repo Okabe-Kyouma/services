@@ -1,19 +1,23 @@
 import 'package:dio/dio.dart';
 
-Future<int> getUserList(String text) async {
+Future<dynamic> getUserList(String text) async {
   Dio dio = Dio();
 
+  print('calling the api');
+
   try {
-    final response = await dio.post('http://192.168.29.163:4000/userList/$text');
+    Response<dynamic> response =
+        await dio.get('http://192.168.29.163:4000/userList/$text');
 
     print('response: $response');
 
     if (response.statusCode == 202) {
-      return 202;
+      return response.data;
     } else {
-      return 404;
+      return [];
     }
   } catch (e) {
-    return 404;
+    print('error received: ' + e.toString());
+    return [];
   }
 }

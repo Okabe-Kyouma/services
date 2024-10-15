@@ -19,7 +19,21 @@ class _CategoryClassState extends State<CategoryClass> {
   @override
   void initState() {
     super.initState();
-    getUserList(widget.text);
+    print('calling this');
+    populatelist();
+  }
+
+  void populatelist() async {
+    var response = await getUserList(widget.text);
+
+    if (response is List) {
+      setState(() {
+        userList = response;
+        print('userlist: $userList');
+      });
+    } else {
+      print('Error: Unexpected response format');
+    }
   }
 
   @override
@@ -30,13 +44,25 @@ class _CategoryClassState extends State<CategoryClass> {
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
       ),
-      body: Hero(
-        tag: widget.text,
-        child: SizedBox(
-          width: double.infinity,
-          height: 255,
-          child: Image.asset(widget.imageLink),
-        ),
+      body: Column(
+        children: [
+          Hero(
+            tag: widget.text,
+            child: SizedBox(
+              width: double.infinity,
+              height: 255,
+              child: Image.asset(widget.imageLink),
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: userList.length,
+              itemBuilder: (context, index) {
+                return Text(userList[index]['username']);
+              },
+            ),
+          )
+        ],
       ),
     );
   }

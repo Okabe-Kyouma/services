@@ -50,7 +50,7 @@ app.get('/userList/:text',async (req,res)=>{
 
   console.log('userlist: ' + userList);
 
-  res.status(202).send('done');
+  res.status(202).send(userList);
   
 
 });
