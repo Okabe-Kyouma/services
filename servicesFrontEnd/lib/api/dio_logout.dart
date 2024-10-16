@@ -1,18 +1,16 @@
-import 'package:dio/dio.dart';
+import 'package:services/api/dio_setup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<int> logout() async {
-  final dio = Dio();
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  final dio = await createDioWithCookieManager();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   try {
-    final response =
-        await dio.post('http://192.168.29.163:4000/logout');
-
+    final response = await dio.post('http://192.168.29.163:4000/logout');
 
     if (response.statusCode == 202) {
       print('logged Out!2');
-        await prefs.remove('session');
+      await prefs.remove('session');
       return 202;
     } else {
       print('Logout failed');

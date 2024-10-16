@@ -7,6 +7,7 @@ const expressSession = require("express-session");
 const MongoStore = require("connect-mongo");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 const { default: mongoose } = require("mongoose");
 
 const app = express();
@@ -18,6 +19,8 @@ initializingPassport(passport);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
 
 const sessionStore = MongoStore.create({
   mongoUrl: "mongodb://127.0.0.1:27017/services",
@@ -43,20 +46,24 @@ app.get("/", (req, res) => {
 });
 
 app.get("/userList/:text", async (req, res, next) => {
-
+  if (req.isAuthenticated()) {
     const text = req.params.text;
 
-    const currentUserId = req;
+    const currentUserId = req.user._id;
+
+    console.log("my user: " + currentUserId);
 
     const userList = await User.find({
       service: text,
+      _id: { $ne: currentUserId },
     });
 
     console.log("userlist: " + userList);
 
-    res.status(202).send(userList);
-
-  
+    return res.status(202).send(userList);
+  } else {
+    res.status(404).send("user not authenticated");
+  }
 });
 
 app.post("/signup", async (req, res) => {
@@ -99,24 +106,30 @@ app.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+app.get("/ping", (req, res) => {
+  if (req.isAuthenticated()) {
+    res.status(200).send("is authenticated");
+  } else {
+    res.status(404).send("not authenticated");
+  }
+});
+
 app.post("/logout", (req, res) => {
-  const sessionId = req.sessionID;
+  if (req.isAuthenticated()) {
+    const sessionId = req.sessionID;
 
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(405).send("Logout failed");
-    }
+    req.session.destroy((err) => {
+      if (err) {
+        return res.status(405).send("Logout failed");
+      }
 
-    // res.clearCookie('kek', {
-    //   path: '/',
-    //   httpOnly: true,
-    //   secure: false
-    // });
+      sessionStore.destroy(expressSession.Cookie);
 
-    sessionStore.destroy(expressSession.Cookie);
-
-    return res.status(202).send("Logged out");
-  });
+      return res.status(202).send("Logged out");
+    });
+  } else {
+    return res.status(404).send("user not authenticated");
+  }
 });
 
 app.listen(4000, () => {

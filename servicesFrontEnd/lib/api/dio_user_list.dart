@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:services/api/dio_setup.dart';
 
 Future<dynamic> getUserList(String text) async {
-  Dio dio = Dio();
+  Dio dio = await createDioWithCookieManager();
 
   print('calling the api');
 

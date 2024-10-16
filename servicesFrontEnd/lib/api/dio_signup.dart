@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:services/api/dio_setup.dart';
 
 Future<int> signupUser({
   required String username,
@@ -14,7 +14,7 @@ Future<int> signupUser({
   required double longitude,
   required String homeLocation,
 }) async {
-  final dio = Dio();
+  final dio = await createDioWithCookieManager();
 
   final userData = {
     'profilePictureUrl': profilePictureUrl,
@@ -34,6 +34,7 @@ Future<int> signupUser({
   };
 
   try {
+    //192.168.29.
     final response =
         await dio.post('http://192.168.29.163:4000/signup', data: userData);
 

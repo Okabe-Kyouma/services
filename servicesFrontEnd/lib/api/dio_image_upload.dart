@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:services/api/dio_setup.dart';
 
 Future<String> imageUploadtoImgur(File file) async {
-  Dio dio = Dio();
+  Dio dio = await createDioWithCookieManager();
 
   const clientId = '6ffafeb26ad4331';
 
