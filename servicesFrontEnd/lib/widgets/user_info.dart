@@ -22,6 +22,7 @@ class UserInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('The image that imgonna display: ${profilePhotoLink.substring(8)}');
     return Card(
       elevation: 5,
       margin: const EdgeInsets.all(12.0),

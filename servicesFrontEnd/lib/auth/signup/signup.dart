@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'package:geocoding/geocoding.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:services/api/dio_image_upload.dart';
 import 'package:services/api/dio_signup.dart';
 import 'package:services/widgets/providerModels/aadhar_model.dart';
 import 'package:services/widgets/providerModels/email_model.dart';
@@ -29,6 +31,7 @@ class _SignupState extends State<Signup> {
   Position? position;
   String? email;
   String? aadhar;
+  String? imgurImage;
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -106,7 +109,11 @@ class _SignupState extends State<Signup> {
 
   void pickImage() async {
     pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedImage != null) {
+      imgurImage = await imageUploadtoImgur(File(pickedImage!.path));
+    }
     setState(() {
+      imgurImage;
       pickedImage;
     });
   }
@@ -145,7 +152,8 @@ class _SignupState extends State<Signup> {
       print(
           'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and $email and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
 
-      String homeAdd = "H.NO.- ${_houseController.text} , ${_adressController.text}";
+      String homeAdd =
+          "H.NO.- ${_houseController.text} , ${_adressController.text}";
 
       int value = await signupUser(
           username: _userNameController.text,
@@ -156,7 +164,7 @@ class _SignupState extends State<Signup> {
           password: _passwordController.text,
           service: selectedWork!,
           exp: exp!,
-          profilePictureUrl: pickedImage!.path,
+          profilePictureUrl: imgurImage!,
           latitude: position!.latitude,
           longitude: position!.longitude,
           homeLocation: homeAdd);

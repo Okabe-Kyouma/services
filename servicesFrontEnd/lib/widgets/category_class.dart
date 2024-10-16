@@ -65,7 +65,7 @@ class _CategoryClassState extends State<CategoryClass> {
                     exp: '2-4 years',
                     fullname: userList[index]['fullname'],
                     phoneNumber: userList[index]['phoneNumber'],
-                    profilePhotoLink: 'assets/logos/services_logo.png',
+                    profilePhotoLink: userList[index]['profilePictureUrl'],
                     service: userList[index]['service']);
               },
             ),
