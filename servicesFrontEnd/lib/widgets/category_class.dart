@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_user_list.dart';
+import 'package:services/widgets/user_info.dart';
 
 class CategoryClass extends StatefulWidget {
   const CategoryClass({super.key, required this.text, required this.imageLink});
@@ -58,7 +59,14 @@ class _CategoryClassState extends State<CategoryClass> {
             child: ListView.builder(
               itemCount: userList.length,
               itemBuilder: (context, index) {
-                return Text(userList[index]['username']);
+                return UserInfo(
+                    username: userList[index]['username'],
+                    address: userList[index]['homeLocation'],
+                    exp: '2-4 years',
+                    fullname: userList[index]['fullname'],
+                    phoneNumber: userList[index]['phoneNumber'],
+                    profilePhotoLink: 'assets/logos/services_logo.png',
+                    service: userList[index]['service']);
               },
             ),
           )

@@ -31,7 +31,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: sessionStore,
-    name : "kek"
+    name: "kek",
   })
 );
 
@@ -42,17 +42,21 @@ app.get("/", (req, res) => {
   res.send("hemlo");
 });
 
-app.get('/userList/:text',async (req,res)=>{
+app.get("/userList/:text", async (req, res, next) => {
 
-  const text = req.params.text;
+    const text = req.params.text;
 
-  const userList = await User.find({service:text});
+    const currentUserId = req;
 
-  console.log('userlist: ' + userList);
+    const userList = await User.find({
+      service: text,
+    });
 
-  res.status(202).send(userList);
+    console.log("userlist: " + userList);
+
+    res.status(202).send(userList);
+
   
-
 });
 
 app.post("/signup", async (req, res) => {
@@ -73,7 +77,6 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -90,34 +93,31 @@ app.post("/login", (req, res, next) => {
       }
       return res.status(202).json({
         message: "Logged In",
-        sessionId :req.sessionID,
+        sessionId: req.sessionID,
       });
     });
   })(req, res, next);
 });
 
-app.post('/logout',(req,res)=>{
-
+app.post("/logout", (req, res) => {
   const sessionId = req.sessionID;
 
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(405).send("Logout failed");
+    }
 
-    req.session.destroy((err) => {
-      if (err) {
-        return res.status(405).send("Logout failed");
-      }
-      
-      // res.clearCookie('kek', {
-      //   path: '/',           
-      //   httpOnly: true,     
-      //   secure: false        
-      // });
+    // res.clearCookie('kek', {
+    //   path: '/',
+    //   httpOnly: true,
+    //   secure: false
+    // });
 
-      sessionStore.destroy(expressSession.Cookie);
+    sessionStore.destroy(expressSession.Cookie);
 
-      return res.status(202).send("Logged out");
-    });
-})
-
+    return res.status(202).send("Logged out");
+  });
+});
 
 app.listen(4000, () => {
   console.log("server started at port 4000");

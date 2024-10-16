@@ -142,8 +142,10 @@ class _SignupState extends State<Signup> {
       String address = await getAddressFromCoordinates(
           position!.latitude, position!.longitude);
 
-           print(
+      print(
           'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and $email and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
+
+      String homeAdd = "H.NO.- ${_houseController.text} , ${_adressController.text}";
 
       int value = await signupUser(
           username: _userNameController.text,
@@ -157,9 +159,7 @@ class _SignupState extends State<Signup> {
           profilePictureUrl: pickedImage!.path,
           latitude: position!.latitude,
           longitude: position!.longitude,
-          homeLocation: address);
-
-     
+          homeLocation: homeAdd);
 
       if (value == 404 || value == 405) {
         print('error in value and ${value}');
