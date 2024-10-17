@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:services/auth/login/login.dart';
 import 'package:services/first_screen.dart';
 import 'package:services/widgets/dashboard.dart';
 
@@ -15,23 +16,7 @@ class WorkProfileCreated extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: Text('Hey'),
-          actions: [
-            TextButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const FirstScreen(),
-                    ),
-                    (Route<dynamic> route) => false,
-                  );
-                },
-                child: const Text(
-                  'Logout',
-                  style: TextStyle(color: Colors.white),
-                ))
-          ],
+          title: const Text('Work Profile Created'),
           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
           automaticallyImplyLeading: false,
         ),
@@ -80,7 +65,7 @@ class WorkProfileCreated extends StatelessWidget {
                 height: 10,
               ),
               const Text(
-                'In the meantime you can look for services that you need',
+                'In the meantime you can Login and look for services that you need',
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.center,
               ),
@@ -92,18 +77,18 @@ class WorkProfileCreated extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const Dashboard(),
+                      builder: (context) => const Login(),
                     ),
                   );
                 },
-                child: const Text('Go to Services menu'),
+                child: const Text('Login'),
               ),
             ],
           )),
         ),
       );
     } else {
-      return const Dashboard();
+      return const Login();
     }
   }
 }

@@ -45,6 +45,50 @@ app.get("/", (req, res) => {
   res.send("hemlo");
 });
 
+app.get('/check/email/:email', async (req,res)=>{
+
+   const email = req.params.email;
+
+   try{
+
+   const user = await User.findOne({email: email});
+
+   if(user){
+     return res.status(202).send("email-id already exists");
+   }
+   else{
+    return res.status(200).send("email-id doesn't exists");
+   }
+  
+  }
+  catch(e){
+    return res.status(500).send('server is down');
+  }
+
+})
+
+app.get('/check/username/:username', async (req,res)=>{
+
+    const username = req.params.username;
+
+    try{
+          
+      const user = await User.findOne({username:username});
+
+      if(user){
+        return res.status(202).send('username already exists');
+      }
+      else{
+        return res.status(200).send('username is available');
+      }
+
+    }
+    catch(e){
+      return res.status(404).send('server Down');
+    }
+
+})
+
 app.get("/userList/:text", async (req, res, next) => {
   if (req.isAuthenticated()) {
     const text = req.params.text;
@@ -67,9 +111,11 @@ app.get("/userList/:text", async (req, res, next) => {
 });
 
 app.post("/signup", async (req, res) => {
+
   try {
-    const existingUser = await User.findOne({ email: req.body.email });
-    if (existingUser) return res.status(400).send("User already exists");
+    const existingUser = await User.findOne({ username: req.body.username });
+
+    if (existingUser) return res.status(202).send("User already exists");
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
@@ -78,7 +124,8 @@ app.post("/signup", async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).send(newUser);
+    res.status(200).send(newUser);
+
   } catch (error) {
     res.status(404).send("Server error: " + error.message);
   }

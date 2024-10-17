@@ -38,15 +38,17 @@ Future<int> signupUser({
     final response =
         await dio.post('http://192.168.29.163:4000/signup', data: userData);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       print('signed up!!');
-      return 201;
+      return 200;
+    } else if (response.statusCode == 202) {
+      print('signup failed! User already exists');
+      return 202;
     } else {
-      print('signup failed');
       return 404;
     }
   } catch (e) {
     print('error during signup: $e');
-    return 405;
+    return 404;
   }
 }

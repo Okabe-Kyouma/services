@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:services/api/dio_check_existingUser.dart';
 import 'package:services/api/dio_image_upload.dart';
 import 'package:services/api/dio_signup.dart';
 import 'package:services/widgets/providerModels/aadhar_model.dart';
@@ -32,6 +33,8 @@ class _SignupState extends State<Signup> {
   String? email;
   String? aadhar;
   String? imgurImage;
+  String _statusMessage = 'Username is available';
+  bool checkUsername = false;
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -118,13 +121,26 @@ class _SignupState extends State<Signup> {
     });
   }
 
+  void _checkUsername() async {
+    bool usernameExists = await checkIfUsernameExists(_userNameController.text);
+
+    setState(() {
+      if (usernameExists) {
+        _statusMessage = "Username is available";
+      } else {
+        _statusMessage = "Username already exists";
+      }
+      checkUsername = true;
+    });
+  }
+
   void createUser() async {
     if (_formKey.currentState!.validate()) {
       //create user.
 
-      if (selectedWork != listOfWork[0] &&
-          exp == listOfExp[0] &&
-          position == null) {
+      if ((selectedWork != listOfWork[0] && exp == listOfExp[0]) ||
+          (position == null)) {
+        Navigator.of(context).pop();
         showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
@@ -146,16 +162,16 @@ class _SignupState extends State<Signup> {
         return;
       }
 
-      String address = await getAddressFromCoordinates(
-          position!.latitude, position!.longitude);
+      // String address = await getAddressFromCoordinates(
+      //     position!.latitude, position!.longitude);
 
-      print(
-          'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and $email and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
+      // print(
+      //     'so i got the Locationaddress: $address and homeaddres: ${_houseController.text}${_adressController.text} and username: ${_userNameController.text} and fullname: ${_nameController.text} and password: ${_passwordController.text} and $email and service:  ${selectedWork} and exp: ${exp} and aadhar: $aadhar and the iamgeLink: ${pickedImage!.path}');
 
       String homeAdd =
           "H.NO.- ${_houseController.text} , ${_adressController.text}";
 
-      int value = await signupUser(
+      final response = await signupUser(
           username: _userNameController.text,
           fullname: _nameController.text,
           phoneNumber: aadhar!.substring(2),
@@ -169,314 +185,84 @@ class _SignupState extends State<Signup> {
           longitude: position!.longitude,
           homeLocation: homeAdd);
 
-      if (value == 404 || value == 405) {
-        print('error in value and ${value}');
-      }
+      if (response == 404) {
+        // print('error in value and ${response}');
 
-      if (mounted && value == 201) {
-        Navigator.pushAndRemoveUntil(
+        if (mounted) {
+          Navigator.of(context).pop();
+        }
+
+        if (mounted) {
+          showCupertinoDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Server Error!'),
+                content: const Text(
+                    'Our servers are down! Please try again after some time!'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Okay'))
+                ],
+              );
+            },
+          );
+        }
+      } else if (response == 200) {
+        if (mounted) {
+          Navigator.of(context).pop();
+
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
               builder: (context) => WorkProfileCreated(
-                  isWorkProfile: selectedWork != listOfWork[0]),
-            ), (route) {
-          return route.settings.name == '/firstScreen';
-        });
+                isWorkProfile: selectedWork != listOfWork[0],
+              ),
+            ),
+            (route) {
+              return route.settings.name == '/firstScreen';
+            },
+          );
+        }
+      } else {
+        if (mounted) {
+          Navigator.of(context).pop();
+          showCupertinoDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Server Error!'),
+                content: const Text(
+                    'We have already found a user with your details please go back to login page to login!'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WorkProfileCreated(
+                              isWorkProfile: false,
+                            ),
+                          ),
+                          (route) {
+                            return route.settings.name == "/login";
+                          },
+                        );
+                      },
+                      child: const Text('Okay'))
+                ],
+              );
+            },
+          );
+        }
       }
     }
   }
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     backgroundColor: Theme.of(context).colorScheme.onPrimary,
-  //     appBar: AppBar(
-  //       title: const Text(
-  //         'Signup',
-  //         style: TextStyle(color: Colors.white),
-  //       ),
-  //       foregroundColor: Colors.white,
-  //       backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
-  //     ),
-  //     body: SingleChildScrollView(
-  //       child: Container(
-  //         decoration: const BoxDecoration(
-  //             border: Border(top: BorderSide(color: Colors.black))),
-  //         child: Center(
-  //             child: Form(
-  //           child: Column(
-  //             children: [
-  //               Container(
-  //                 margin: const EdgeInsets.all(20),
-  //                 child: const Text(
-  //                   'Please Fill up your details',
-  //                   style: TextStyle(fontSize: 28),
-  //                 ),
-  //               ),
-  //               Container(
-  //                 margin:
-  //                     const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-  //                 child: Row(
-  //                   children: [
-  //                     SizedBox(
-  //                       height: 100,
-  //                       width: 100,
-  //                       child: pickedImage == null
-  //                           ? Image.asset('assets/logos/user_image.png')
-  //                           : FutureBuilder(
-  //                               future: pickedImage!.readAsBytes(),
-  //                               builder: (context, snapshot) {
-  //                                 if (snapshot.connectionState ==
-  //                                     ConnectionState.done) {
-  //                                   return ClipOval(
-  //                                     child: Image.memory(
-  //                                       snapshot.data as Uint8List,
-  //                                       fit: BoxFit.cover,
-  //                                     ),
-  //                                   );
-  //                                 } else {
-  //                                   // While the image is loading, show a loading indicator
-  //                                   return const CircularProgressIndicator();
-  //                                 }
-  //                               },
-  //                             ),
-  //                     ),
-  //                     const SizedBox(
-  //                       width: 30,
-  //                     ),
-  //                     OutlinedButton(
-  //                       onPressed: pickImage,
-  //                       child: Text('Upload Image'),
-  //                     )
-  //                   ],
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 10,
-  //               ),
-  //               Form(
-  //                 key: _formKey,
-  //                 child: Column(
-  //                   children: [
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       child: TextFormField(
-  //                         controller: _userNameController,
-  //                         validator: (value) {
-  //                           if (value == null ||
-  //                               value.isEmpty ||
-  //                               value.length < 6)
-  //                             return "Username must be of more then 5 letters";
-  //                           return null;
-  //                         },
-  //                         decoration: InputDecoration(
-  //                           label: Text('Create Your username'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.name,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       child: TextFormField(
-  //                         controller: _nameController,
-  //                         validator: (value) {
-  //                           if (value == null || value.isEmpty)
-  //                             return "Please enter you name";
-  //                           return null;
-  //                         },
-  //                         decoration: InputDecoration(
-  //                           label: Text('Enter Your full name'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.name,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       color: Colors.brown[50],
-  //                       child: TextFormField(
-  //                         controller: TextEditingController(text: '8433211426'),
-  //                         decoration: InputDecoration(
-  //                           label: Text('Your Number'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.name,
-  //                         readOnly: true,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       color: Colors.brown[50],
-  //                       child: TextFormField(
-  //                         controller: TextEditingController(
-  //                             text: 'ayushpal5432@gmail.com'),
-  //                         decoration: InputDecoration(
-  //                           label: Text('Your Email'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.name,
-  //                         readOnly: true,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       color: Colors.brown[50],
-  //                       child: TextFormField(
-  //                         controller: TextEditingController(text: '43434343'),
-  //                         decoration: InputDecoration(
-  //                           label: Text('Your Aadhar Number'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.name,
-  //                         readOnly: true,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       child: TextFormField(
-  //                         controller: _passwordController,
-  //                         validator: (value) {
-  //                           if (value == null || value.length < 8) {
-  //                             return "Please enter correct password";
-  //                           }
-  //                           return null;
-  //                         },
-  //                         decoration: InputDecoration(
-  //                           label: const Text('Create Your password'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.visiblePassword,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       child: TextFormField(
-  //                         controller: _houseController,
-  //                         validator: (value) {
-  //                           if (value == null || value.isEmpty) {
-  //                             return "Please enter your house number/flat number";
-  //                           }
-  //                           return null;
-  //                         },
-  //                         decoration: InputDecoration(
-  //                           label: const Text('House No./Flat No.'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.number,
-  //                       ),
-  //                     ),
-  //                     Container(
-  //                       margin: EdgeInsets.all(15),
-  //                       child: TextFormField(
-  //                         controller: _adressController,
-  //                         validator: (value) {
-  //                           if (value == null || value.isEmpty) {
-  //                             return "adress/area is required!";
-  //                           }
-  //                           return null;
-  //                         },
-  //                         decoration: InputDecoration(
-  //                           label: const Text('street adress/area'),
-  //                           border: OutlineInputBorder(
-  //                             borderRadius: BorderRadius.circular(5),
-  //                           ),
-  //                         ),
-  //                         keyboardType: TextInputType.text,
-  //                       ),
-  //                     ),
-  //                     const SizedBox(
-  //                       height: 10,
-  //                     ),
-  //                     const Text(
-  //                       'What can you do?',
-  //                       style: TextStyle(fontSize: 28),
-  //                     ),
-  //                     const SizedBox(
-  //                       height: 10,
-  //                     ),
-  //                     DropdownButton(
-  //                       value: selectedWork,
-  //                       items: listOfWork
-  //                           .map(
-  //                             (e) => DropdownMenuItem(
-  //                               value: e,
-  //                               enabled: true,
-  //                               child: Text(e),
-  //                             ),
-  //                           )
-  //                           .toList(),
-  //                       onChanged: (value) {
-  //                         setState(() {
-  //                           selectedWork = value!;
-  //                         });
-  //                       },
-  //                     ),
-  //                     const SizedBox(
-  //                       height: 30,
-  //                     ),
-  //                     if (selectedWork != listOfWork[0])
-  //                       Column(
-  //                         children: [
-  //                           Text(
-  //                             'Your Experience level',
-  //                             style: TextStyle(fontSize: 28),
-  //                           ),
-  //                           DropdownButton(
-  //                             value: exp,
-  //                             items: listOfExp
-  //                                 .map(
-  //                                   (e) => DropdownMenuItem(
-  //                                     value: e,
-  //                                     enabled: true,
-  //                                     child: Text(e),
-  //                                   ),
-  //                                 )
-  //                                 .toList(),
-  //                             onChanged: (value) {
-  //                               setState(() {
-  //                                 exp = value;
-  //                               });
-  //                             },
-  //                           ),
-  //                         ],
-  //                       )
-  //                   ],
-  //                 ),
-  //               ),
-  //               const SizedBox(
-  //                 height: 10,
-  //               ),
-  //               ElevatedButton(
-  //                 onPressed: () {
-  //                   createUser();
-  //                 },
-  //                 child: const Text('Submit'),
-  //               ),
-  //               const SizedBox(
-  //                 height: 50,
-  //               ),
-  //             ],
-  //           ),
-  //         )),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -556,11 +342,18 @@ class _SignupState extends State<Signup> {
                           ),
                           TextFormField(
                             controller: _userNameController,
+                            autovalidateMode: AutovalidateMode.always,
+                            onChanged: (name) {
+                              _checkUsername();
+                            },
                             validator: (value) {
                               if (value == null ||
                                   value.isEmpty ||
-                                  value.length < 6)
+                                  value.length < 6) {
                                 return "Username must be of more than 5 letters";
+                              } else if (value.contains(' ')) {
+                                return "Username cannot contain space";
+                              }
                               return null;
                             },
                             decoration: InputDecoration(
@@ -571,6 +364,16 @@ class _SignupState extends State<Signup> {
                             ),
                             keyboardType: TextInputType.name,
                           ),
+                          if (checkUsername &&
+                              _userNameController.text.length > 5)
+                            Text(
+                              _statusMessage,
+                              style: TextStyle(
+                                  color:
+                                      _statusMessage == 'Username is available'
+                                          ? Colors.green
+                                          : Colors.red),
+                            ),
                           const SizedBox(height: 25),
                           TextFormField(
                             controller: _nameController,
@@ -730,6 +533,17 @@ class _SignupState extends State<Signup> {
                 ElevatedButton(
                   onPressed: () {
                     createUser();
+
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const Center(
+                          child: PopScope(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    );
                   },
                   child: const Text('Submit'),
                 ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:services/api/dio_login.dart';
 import 'package:services/auth/forgotPassword/enter_email.dart';
+import 'package:services/widgets/dashboard.dart';
 import 'package:services/widgets/work_profile_created.dart';
 
 class Login extends StatefulWidget {
@@ -18,54 +19,65 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
 
   void checkIdAndPassword() async {
-   
     if (_formKey.currentState!.validate()) {
       final response = await signIn(
           username: _usernameController.text,
           password: _passwordController.text);
 
-      if (response == 202) {
+      // await Future.delayed(
+      //   const Duration(seconds: 10),
+      // );
 
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                const WorkProfileCreated(isWorkProfile: false),
-          ),
-          (Route<dynamic> route) => false,
-        );
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+
+      if (response == 202) {
+        if (mounted) {
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Dashboard(),
+            ),
+            (Route<dynamic> route) => false,
+          );
+        }
       } else if (response == 404) {
-        showCupertinoDialog(
-          context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: const Text('Wrong Username or password'),
-            content: const Text('Please enter correct username and password'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Okay'),
-              ),
-            ],
-          ),
-        );
+        if (mounted) {
+          showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+              title: const Text('Wrong Username or password'),
+              content: const Text('Please enter correct username and password'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay'),
+                ),
+              ],
+            ),
+          );
+        }
       } else {
-        showCupertinoDialog(
-          context: context,
-          builder: (context) => CupertinoAlertDialog(
-            title: const Text('Oops somethings wrong'),
-            content: const Text('Server Error ! please try again later!!'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Okay'),
-              ),
-            ],
-          ),
-        );
+        if (mounted) {
+          showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+              title: const Text('Oops somethings wrong'),
+              content: const Text('Server Error ! please try again later!!'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay'),
+                ),
+              ],
+            ),
+          );
+        }
       }
     }
   }
@@ -151,6 +163,35 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(10)),
                           child: TextButton(
                             onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const Center(
+                                    child: PopScope(
+                                      canPop: false,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                },
+                              );
+
+                              // showCupertinoDialog(
+                              //   context: context,
+                              //   builder: (context) {
+
+                              //     return const CupertinoAlertDialog(
+                              //       title: Text('PLEASE WAIT'),
+                              //       content: SizedBox(
+                              //         height: 40,
+                              //         width: 40,
+                              //         child: Center(
+                              //           child: CircularProgressIndicator(),
+                              //         ),
+                              //       ),
+                              //     );
+                              //   },
+                              // );
+
                               checkIdAndPassword();
                             },
                             child: Text(

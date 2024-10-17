@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:email_otp/email_otp.dart';
+import 'package:services/api/dio_check_existingUser.dart';
 import 'package:services/auth/signup/emailVerification/verify_email.dart';
+import 'package:services/first_screen.dart';
 
 class Email extends StatelessWidget {
   Email({super.key});
@@ -91,20 +93,81 @@ class Email extends StatelessWidget {
                               );
                             });
 
-                        if (await EmailOTP.sendOTP(
-                            email: _emailController.text)) {
-                          Navigator.pop(context);
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VerifyEmail(
-                                email: _emailController.text,
-                              ),
-                            ),
+                        final response =
+                            await checkIfEmailExistsInDb(_emailController.text);
+
+                        if (response == 202) {
+                          Navigator.of(context).pop();
+
+                          showCupertinoDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) {
+                              return CupertinoAlertDialog(
+                                title: const Text('Email-id already exists'),
+                                content: const Text(
+                                    'The Email-id you have provided already exists,please go to main page to login or enter different email-id!'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const FirstScreen(),
+                                        ),
+                                        (Route<dynamic> route) => false,
+                                      );
+                                    },
+                                    child: const Text('Go to Login'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Enter another Email-id'),
+                                  ),
+                                ],
+                              );
+                            },
                           );
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Otp failed send")),
+                        } else if (response == 200) {
+                          if (await EmailOTP.sendOTP(
+                              email: _emailController.text)) {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => VerifyEmail(
+                                  email: _emailController.text,
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Otp failed send")),
+                            );
+                          }
+                        } else if (response == 500 || response == 404) {
+                          Navigator.of(context).pop();
+
+                          showCupertinoDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (context) {
+                              return CupertinoAlertDialog(
+                                title: const Text('Server is Down!'),
+                                content: const Text(
+                                    'Our server are down!Please try again later!'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('Okay'))
+                                ],
+                              );
+                            },
                           );
                         }
                       }

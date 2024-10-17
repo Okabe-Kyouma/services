@@ -1,12 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:services/api/dio_logout.dart';
 import 'package:services/first_screen.dart';
-import 'package:services/widgets/category_class.dart';
 import 'package:services/widgets/dashboard_helper.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
 
@@ -52,7 +49,6 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
@@ -70,7 +66,21 @@ class _DashboardState extends State<Dashboard> {
         actions: [
           TextButton(
               onPressed: () async {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const Center(
+                      child: PopScope(
+                        canPop: false,
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
+                );
+
                 await logout();
+
+                Navigator.pop(context);
 
                 Navigator.pushAndRemoveUntil(
                   context,
