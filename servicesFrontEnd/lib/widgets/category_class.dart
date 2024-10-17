@@ -16,23 +16,33 @@ class CategoryClass extends StatefulWidget {
 class _CategoryClassState extends State<CategoryClass> {
   var userList = [];
   Dio dio = Dio();
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     print('calling this');
+
     populatelist();
   }
 
   void populatelist() async {
+    setState(() {
+      isLoading = true;
+    });
+
     var response = await getUserList(widget.text);
 
     if (response is List) {
       setState(() {
         userList = response;
+        isLoading = false;
         print('userlist: $userList');
       });
     } else {
+      setState(() {
+        isLoading = false;
+      });
       print('Error: Unexpected response format');
     }
   }
@@ -56,20 +66,27 @@ class _CategoryClassState extends State<CategoryClass> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: userList.length,
-              itemBuilder: (context, index) {
-                return UserInfo(
-                    username: userList[index]['username'],
-                    address: userList[index]['homeLocation'],
-                    exp: '2-4 years',
-                    fullname: userList[index]['fullname'],
-                    phoneNumber: userList[index]['phoneNumber'],
-                    profilePhotoLink: userList[index]['profilePictureUrl'],
-                    service: userList[index]['service']);
-              },
-            ),
-          )
+            child: isLoading
+                ? const Center(
+                    child:
+                        CircularProgressIndicator()) // Show loading indicator
+                : userList.isEmpty
+                    ? const Center(child: Text('No service Provider Found'))
+                    : ListView.builder(
+                        itemCount: userList.length,
+                        itemBuilder: (context, index) {
+                          return UserInfo(
+                              username: userList[index]['username'],
+                              address: userList[index]['homeLocation'],
+                              exp: '2-4 years',
+                              fullname: userList[index]['fullname'],
+                              phoneNumber: userList[index]['phoneNumber'],
+                              profilePhotoLink: userList[index]
+                                  ['profilePictureUrl'],
+                              service: userList[index]['service']);
+                        },
+                      ),
+          ),
         ],
       ),
     );
