@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:services/auth/login/login.dart';
-import 'package:services/first_screen.dart';
-import 'package:services/widgets/dashboard.dart';
 
 class WorkProfileCreated extends StatelessWidget {
   const WorkProfileCreated({super.key, required this.isWorkProfile});

@@ -45,53 +45,43 @@ app.get("/", (req, res) => {
   res.send("hemlo");
 });
 
-app.get('/check/email/:email', async (req,res)=>{
+app.get("/check/email/:email", async (req, res) => {
+  const email = req.params.email;
 
-   const email = req.params.email;
+  try {
+    const user = await User.findOne({ email: email });
 
-   try{
-
-   const user = await User.findOne({email: email});
-
-   if(user){
-     return res.status(202).send("email-id already exists");
-   }
-   else{
-    return res.status(200).send("email-id doesn't exists");
-   }
-  
-  }
-  catch(e){
-    return res.status(500).send('server is down');
-  }
-
-})
-
-app.get('/check/username/:username', async (req,res)=>{
-
-    const username = req.params.username;
-
-    try{
-          
-      const user = await User.findOne({username:username});
-
-      if(user){
-        return res.status(202).send('username already exists');
-      }
-      else{
-        return res.status(200).send('username is available');
-      }
-
+    if (user) {
+      return res.status(202).send("email-id already exists");
+    } else {
+      return res.status(200).send("email-id doesn't exists");
     }
-    catch(e){
-      return res.status(404).send('server Down');
+  } catch (e) {
+    return res.status(500).send("server is down");
+  }
+});
+
+app.get("/check/username/:username", async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({ username: username });
+
+    if (user) {
+      return res.status(202).send("username already exists");
+    } else {
+      return res.status(200).send("username is available");
     }
+  } catch (e) {
+    return res.status(404).send("server Down");
+  }
+});
 
-})
-
-app.get("/userList/:text", async (req, res, next) => {
+app.get("/userList/:text/:latidue/:longitude", async (req, res, next) => {
   if (req.isAuthenticated()) {
     const text = req.params.text;
+    const latidue = req.params.latidue;
+    const longitude = req.params.longitude;
 
     const currentUserId = req.user._id;
 
@@ -111,7 +101,6 @@ app.get("/userList/:text", async (req, res, next) => {
 });
 
 app.post("/signup", async (req, res) => {
-
   try {
     const existingUser = await User.findOne({ username: req.body.username });
 
@@ -125,7 +114,6 @@ app.post("/signup", async (req, res) => {
     });
 
     res.status(200).send(newUser);
-
   } catch (error) {
     res.status(404).send("Server error: " + error.message);
   }
@@ -134,18 +122,18 @@ app.post("/signup", async (req, res) => {
 app.post("/login", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
-      return res.status(405).send("error");
+      return res.status(404).send("error");
     }
 
     if (!user) {
-      return res.status(404).send(info ? info.message : "user not found");
+      return res.status(202).send(info ? info.message : "user not found");
     }
 
     req.logIn(user, (err) => {
       if (err) {
         return res.status(404).send("Login failed");
       }
-      return res.status(202).json({
+      return res.status(200).json({
         message: "Logged In",
         sessionId: req.sessionID,
       });

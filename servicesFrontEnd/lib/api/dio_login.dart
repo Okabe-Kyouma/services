@@ -11,19 +11,18 @@ Future<int> signIn({required String username, required String password}) async {
   };
 
   try {
-    final response =
-        await dio.post('http://192.168.29.163:4000/login', data: userData);
+    final response = await dio.post('$url/login', data: userData);
 
     final sesssionId = response.data['sessionId'];
 
     await prefs.setString('session', sesssionId.toString());
 
-    if (response.statusCode == 202) {
+    if (response.statusCode == 200) {
       print('logged In!');
-      return 202;
+      return 200;
     } else {
-      print('Signup failed');
-      return 404;
+      print('login failed! User donest Exists');
+      return 202;
     }
   } catch (e) {
     print('error duing login $e');

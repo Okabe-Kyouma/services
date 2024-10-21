@@ -6,7 +6,7 @@ Future<int> logout() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
   try {
-    final response = await dio.post('http://192.168.29.163:4000/logout');
+    final response = await dio.post('$url/logout');
 
     if (response.statusCode == 202) {
       print('logged Out!2');

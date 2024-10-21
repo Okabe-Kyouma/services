@@ -47,7 +47,6 @@ class _SplashScreenState extends State<SplashScreen>
 
       Future.delayed(const Duration(seconds: 1), () {
         Widget currentWidget = const FirstScreen();
-        
 
         final String? action = prefs.getString('session');
 
@@ -138,6 +137,7 @@ class _SplashScreenState extends State<SplashScreen>
       Provider.of<LocationModel>(context, listen: false)
           .updatePosition(position);
     }
+    print('Position is stored in providers now.');
     return position;
   }
 

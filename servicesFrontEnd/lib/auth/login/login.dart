@@ -4,7 +4,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:services/api/dio_login.dart';
 import 'package:services/auth/forgotPassword/enter_email.dart';
 import 'package:services/widgets/dashboard.dart';
-import 'package:services/widgets/work_profile_created.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -32,7 +31,7 @@ class _LoginState extends State<Login> {
         Navigator.of(context).pop();
       }
 
-      if (response == 202) {
+      if (response == 200) {
         if (mounted) {
           Navigator.pushAndRemoveUntil(
             context,
@@ -42,7 +41,7 @@ class _LoginState extends State<Login> {
             (Route<dynamic> route) => false,
           );
         }
-      } else if (response == 404) {
+      } else if (response == 202) {
         if (mounted) {
           showCupertinoDialog(
             context: context,

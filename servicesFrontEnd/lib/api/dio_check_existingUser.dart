@@ -5,7 +5,7 @@ Future<int> checkIfEmailExistsInDb(String email) async {
 
   try {
     final response =
-        await dio.get('http://192.168.29.163:4000/check/email/$email');
+        await dio.get('$url/check/email/$email');
 
     if (response.statusCode == 200) {
       return 200;

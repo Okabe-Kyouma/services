@@ -36,7 +36,7 @@ Future<int> signupUser({
   try {
     //192.168.29.
     final response =
-        await dio.post('http://192.168.29.163:4000/signup', data: userData);
+        await dio.post('$url/signup', data: userData);
 
     if (response.statusCode == 200) {
       print('signed up!!');

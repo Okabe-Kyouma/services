@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
 import 'package:services/api/dio_user_list.dart';
+import 'package:services/widgets/providerModels/location_model.dart';
 import 'package:services/widgets/user_info.dart';
 
 class CategoryClass extends StatefulWidget {
@@ -17,21 +20,41 @@ class _CategoryClassState extends State<CategoryClass> {
   var userList = [];
   Dio dio = Dio();
   bool isLoading = true;
+  Position? position;
+  double? latitude;
+  double? longitude;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+     position = Provider.of<LocationModel>(context).currentPosition;
+
+     populatelist();
+    
+  }
 
   @override
   void initState() {
     super.initState();
     print('calling this');
-
-    populatelist();
   }
+
+  
 
   void populatelist() async {
     setState(() {
       isLoading = true;
     });
+     
+   
+    print('position:........................$position');
+    
 
-    var response = await getUserList(widget.text);
+    latitude = position!.latitude;
+    longitude = position!.longitude;
+
+    var response = await getUserList(widget.text, latitude!, longitude!);
 
     if (response is List) {
       setState(() {
