@@ -1,13 +1,70 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:services/api/dio_check_existingUser.dart';
+import 'package:services/api/dio_findUser.dart';
 import 'package:services/auth/forgotPassword/password_recovery.dart';
 
 class EnterEmail extends StatelessWidget {
   EnterEmail({super.key});
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void isEmailRegistered(String email) async {
+      final response = await findUserByEmail(email);
+      print('email_check response-> $response');
+      Navigator.pop(context);
+      if (response == 202) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PasswordRecovery(),
+          ),
+        );
+      } else if (response == 200) {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: const Text('Email-id doesnt exists'),
+              content: const Text(
+                'The Email-id you have provided doesnt exists in our data please enter correct email-id , or signup!',
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      _emailController.clear();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Okay'))
+              ],
+            );
+          },
+        );
+      } else {
+        showCupertinoDialog(
+          context: context,
+          builder: (context) {
+            return CupertinoAlertDialog(
+              title: const Text('Oops!'),
+              content: const Text(
+                'Our Servers are Down! Please try again later!',
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Okay'))
+              ],
+            );
+          },
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Password Recovery'),
@@ -43,15 +100,15 @@ class EnterEmail extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: TextFormField(
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
-                     validator: (value) {
-                              if (value == null ||
-                                  !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                                      .hasMatch(value)) {
-                                return "Please enter correct mail id";
-                              }
+                      validator: (value) {
+                        if (value == null ||
+                            !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                .hasMatch(value)) {
+                          return "Please enter correct mail id";
+                        }
 
-                              return null;
-                            },
+                        return null;
+                      },
                       decoration: const InputDecoration(
                         label: Text('Email-id'),
                         hintText: 'company12@gmail.com',
@@ -65,12 +122,18 @@ class EnterEmail extends StatelessWidget {
                   OutlinedButton(
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PasswordRecovery(),
-                          ),
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Center(
+                              child: PopScope(
+                                child: CircularProgressIndicator(),
+                              ),
+                            );
+                          },
                         );
+
+                        isEmailRegistered(_emailController.text);
                       }
                     },
                     child: const Text('Send Otp'),

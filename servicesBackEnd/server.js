@@ -9,6 +9,7 @@ const bcrypt = require("bcrypt");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { default: mongoose } = require("mongoose");
+const haversine = require("haversine-distance");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 
 const sessionStore = MongoStore.create({
   mongoUrl: "mongodb://127.0.0.1:27017/services",
+  //mongoUrl: "mongodb://192.168.29.163:27017/services",
   collectionName: "sessions",
   ttl: 300 * 24 * 60 * 60,
 });
@@ -49,6 +51,7 @@ app.get("/check/email/:email", async (req, res) => {
   const email = req.params.email;
 
   try {
+    console.log("this is the mssg ?");
     const user = await User.findOne({ email: email });
 
     if (user) {
@@ -85,16 +88,61 @@ app.get("/userList/:text/:latidue/:longitude", async (req, res, next) => {
 
     const currentUserId = req.user._id;
 
-    console.log("my user: " + currentUserId);
+    console.log(
+      "my user: " +
+        currentUserId +
+        " and his latitude: " +
+        latidue +
+        " and his longitude: " +
+        longitude
+    );
 
     const userList = await User.find({
       service: text,
       _id: { $ne: currentUserId },
     });
 
-    console.log("userlist: " + userList);
+    const currentUser = await User.findById(currentUserId);
 
-    return res.status(202).send(userList);
+    const currentLocation = {
+      latidue: currentUser.currentLocation.coordinates[1],
+      longitude: currentUser.currentLocation.coordinates[0],
+    };
+
+    const categorizedUsers = {
+      under2km: [],
+      under5km: [],
+      under10km: [],
+    };
+
+    userList.forEach((user) => {
+      const userLocation = {
+        latidue: user.currentLocation.coordinates[1],
+        longitude: user.currentLocation.coordinates[0],
+      };
+
+      console.log("user: " + user);
+
+      const distance = haversine(currentLocation, userLocation);
+
+      if (distance <= 2000) {
+        categorizedUsers.under2km.push(user);
+      } else if (distance <= 5000) {
+        categorizedUsers.under5km.push(user);
+      } else {
+        categorizedUsers.under10km.push(user);
+      }
+    });
+
+    const orderdUserList = [
+      ...categorizedUsers.under2km,
+      ...categorizedUsers.under5km,
+      ...categorizedUsers.under10km,
+    ];
+
+    console.log("userlist: " + orderdUserList);
+
+    return res.status(202).send(orderdUserList);
   } else {
     res.status(404).send("user not authenticated");
   }
