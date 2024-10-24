@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:services/api/dio_check_existingUser.dart';
 import 'package:services/api/dio_findUser.dart';
-import 'package:services/auth/forgotPassword/password_recovery.dart';
+import 'package:services/auth/forgotPassword/verify_email.dart';
 
 class EnterEmail extends StatelessWidget {
   EnterEmail({super.key});
@@ -21,7 +20,8 @@ class EnterEmail extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PasswordRecovery(),
+            builder: (context) =>
+                PasswordRecovery(email: _emailController.text),
           ),
         );
       } else if (response == 200) {

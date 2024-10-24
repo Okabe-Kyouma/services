@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:services/api/dio_login.dart';
-import 'package:services/auth/forgotPassword/enter_email.dart';
+import 'package:services/auth/forgotPassword/email.dart';
 import 'package:services/widgets/dashboard.dart';
 
 class Login extends StatefulWidget {
@@ -16,6 +16,8 @@ class _LoginState extends State<Login> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
+  final FocusNode _focusNode2 = FocusNode();
 
   void checkIdAndPassword() async {
     if (_formKey.currentState!.validate()) {
@@ -117,6 +119,7 @@ class _LoginState extends State<Login> {
                         Container(
                           padding: const EdgeInsets.all(20),
                           child: TextFormField(
+                            focusNode: _focusNode,
                             controller: _usernameController,
                             decoration: const InputDecoration(
                               label:
@@ -140,6 +143,8 @@ class _LoginState extends State<Login> {
                           padding: const EdgeInsets.all(20),
                           child: TextFormField(
                             controller: _passwordController,
+                            focusNode: _focusNode2,
+                            obscureText: true,
                             decoration: const InputDecoration(
                               label: Text('Please enter your password'),
                               border: OutlineInputBorder(
@@ -212,6 +217,8 @@ class _LoginState extends State<Login> {
                         ),
                         TextButton(
                           onPressed: () {
+                            _focusNode.unfocus();
+                            _focusNode2.unfocus();
                             Navigator.push(
                               context,
                               MaterialPageRoute(

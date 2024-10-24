@@ -49,7 +49,6 @@ app.get("/", (req, res) => {
 
 app.get("/check/email/:email", async (req, res) => {
   const email = req.params.email;
-  console.log("this is the mssg ?");
   try {
   
     const user = await User.findOne({ email: email });
@@ -79,6 +78,30 @@ app.get("/check/username/:username", async (req, res) => {
     return res.status(404).send("server Down");
   }
 });
+
+app.post("/update/password/:email/:newPassword", async (req,res)=>{
+  
+   const email = req.params.email;
+   const password = req.params.newPassword;
+
+   try{
+
+     const user = await User.findOne({email : email});
+
+     const hashedPassword = await bcrypt.hash(password, 10);
+
+     user.password = hashedPassword;
+
+    await user.save();
+
+    res.status(200).json({ message: "Password updated successfully" });
+     
+   }
+   catch(e){
+    res.status(500).json({ error: "An error occurred while updating password", details: e.message });
+   }
+
+})
 
 app.post("/update/location/:latitude/:longitude",(req,res)=>{
 
