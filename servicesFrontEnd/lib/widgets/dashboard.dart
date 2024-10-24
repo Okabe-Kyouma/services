@@ -3,6 +3,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:services/api/dio_logout.dart';
+import 'package:services/api/dio_update.dart';
 import 'package:services/first_screen.dart';
 import 'package:services/widgets/dashboard_helper.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
@@ -30,6 +31,11 @@ class _DashboardState extends State<Dashboard> {
     if (position != null) {
       getAddressFromCoordinates(position!.latitude, position!.longitude);
     }
+    upLocation(position!);
+  }
+
+  void upLocation(Position position) async {
+    await updateLocation(position.latitude, position.longitude);
   }
 
   void getAddressFromCoordinates(double latitude, double longitude) async {

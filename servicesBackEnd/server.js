@@ -49,9 +49,9 @@ app.get("/", (req, res) => {
 
 app.get("/check/email/:email", async (req, res) => {
   const email = req.params.email;
-
+  console.log("this is the mssg ?");
   try {
-    console.log("this is the mssg ?");
+  
     const user = await User.findOne({ email: email });
 
     if (user) {
@@ -78,6 +78,36 @@ app.get("/check/username/:username", async (req, res) => {
   } catch (e) {
     return res.status(404).send("server Down");
   }
+});
+
+app.post("/update/location/:latitude/:longitude",(req,res)=>{
+
+   if(req.isAuthenticated()){
+
+     const latitude = parseFloat(req.params.latitude);
+     const longitude = parseFloat(req.params.longitude);
+
+     const currentUser = req.user;
+
+     currentUser.currentLocation = {
+       type:'Point',
+       coordinates : [longitude,latitude],
+     };
+
+     currentUser.save()
+     .then(()=>{
+      res.status(200).send("location updated successfullly!");
+     })
+     .catch(()=>{
+      res.status(202).send("Error updating location");
+     });
+
+
+   }
+   else{
+     res.status(404).send("unauthorized");
+   }
+
 });
 
 app.get("/userList/:text/:latidue/:longitude", async (req, res, next) => {

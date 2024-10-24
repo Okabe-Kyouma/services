@@ -9,6 +9,7 @@ class EnterEmail extends StatelessWidget {
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
+  final FocusNode _emailFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +43,10 @@ class EnterEmail extends StatelessWidget {
               ],
             );
           },
+        ).then(
+          (_) {
+            _emailFocus.unfocus();
+          },
         );
       } else {
         showCupertinoDialog(
@@ -56,10 +61,15 @@ class EnterEmail extends StatelessWidget {
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
+                      _emailFocus.unfocus();
                     },
                     child: const Text('Okay'))
               ],
             );
+          },
+        ).then(
+          (_) {
+            _emailFocus.unfocus();
           },
         );
       }
@@ -100,6 +110,8 @@ class EnterEmail extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: TextFormField(
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
+                      controller: _emailController,
+                      focusNode: _emailFocus,
                       validator: (value) {
                         if (value == null ||
                             !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')

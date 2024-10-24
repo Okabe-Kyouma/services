@@ -1,15 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:services/api/dio_setup.dart';
 
-Future<int> findUserByEmail(String email) async {
-  Dio dio = Dio();
-
-  print('this working?? the comp: url: $url/check/email/$email');
+Future<int> updateLocation(double latitude, double longitude) async {
+  Dio dio = await createDioWithCookieManager();
 
   try {
-    final response = await dio.get('$url/check/email/$email');
-
-    print('response mssg: ${response.statusMessage}');
+    final response = await dio.post('$url/update/location/$latitude/$longitude');
 
     if (response.statusCode == 200) {
       return 200;
