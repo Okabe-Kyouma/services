@@ -1,11 +1,102 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:services/api/dio_findUser.dart';
+import 'package:services/api/dio_update.dart';
 
-class NewPassword extends StatelessWidget {
+class NewPassword extends StatefulWidget {
   NewPassword({super.key, required this.email});
 
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final String email;
+
+  @override
+  State<NewPassword> createState() => _NewPasswordState();
+}
+
+class _NewPasswordState extends State<NewPassword> {
+  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
+  String username = 'User';
+
+  @override
+  void initState() {
+    super.initState();
+    getUsersUsername();
+  }
+
+  void getUsersUsername() async {
+    try {
+      final response = await fetchUsername(widget.email);
+
+      if (response != null) {
+        print("Username: $response");
+        setState(() {
+          username = response;
+        });
+      } else {
+        print("Username not found or other error");
+        setState(() {
+          username = "User";
+        });
+      }
+    } catch (e) {
+      print("Exception: $e");
+      setState(() {
+        username = "User";
+      });
+    }
+  }
+
+  void changePassword() async {
+    String title = "Password Changed Successful";
+    String content = "Your password has been Changed Successfully!";
+
+    try {
+      final response =
+          await updatePassword(widget.email, _passwordController.text);
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+      if (response == 200) {
+      } else if (response == 202) {
+        title = "Password Changed Failed";
+        content =
+            "We couldn't change your password right now\n Please try again later!";
+      } else {
+        title = "Server Error";
+        content =
+            "Our Servers are not working right now\n Please try again later!";
+      }
+    } catch (e) {
+      title = "Server Error";
+      content =
+          "Our Servers are not working right now\n Please try again later!";
+      print('Exception: $e');
+    }
+
+    if (mounted) {
+      showCupertinoDialog(
+        context: context,
+        builder: (context) {
+          return CupertinoAlertDialog(
+            title: Text(title),
+            content: Text(content),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  if (mounted) {
+                    Navigator.popUntil(
+                        context, (route) => route.settings.name == "/login");
+                  }
+                },
+                child: const Text('Okay'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +118,15 @@ class NewPassword extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Container(
+                  //   margin: const EdgeInsets.fromLTRB(10, 0, 0, 20),
+                  //   width: double.infinity,
+                  //   child: Text(
+                  //     'Hi $username',
+                  //     style: TextStyle(fontSize: 38),
+                  //     textAlign: TextAlign.start,
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 120,
                     width: 120,
@@ -43,12 +143,46 @@ class NewPassword extends StatelessWidget {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: TextFormField(
-                            // autovalidateMode: AutovalidateMode.onUserInteraction,
+                            controller: TextEditingController(text: username),
+                            readOnly: true,
+                            decoration: InputDecoration(
+                              label: const Text('Your Username'),
+                              border: const OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5)),
+                              ),
+                              fillColor: Colors.grey[200],
+                              filled: true,
+                            ),
+                            keyboardType: TextInputType.visiblePassword,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: TextFormField(
+                            controller: _passwordController,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             validator: (value) {
-                              if (value == null || value.length < 8) {
+                              if (value == null ||
+                                  value.length < 6 ||
+                                  !value.contains(RegExp(r'[A-Z]')) ||
+                                  !value.contains(RegExp(r'[a-z]')) ||
+                                  !value.contains(RegExp(r'[0-9]')) ||
+                                  !value.contains(
+                                    RegExp(r'[@#\$%]'),
+                                  )) {
                                 return 'Password Must satisfy below conditions';
                               }
                               return null;
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                value;
+                              });
                             },
                             decoration: const InputDecoration(
                               label: Text('Please enter new password'),
@@ -59,29 +193,7 @@ class NewPassword extends StatelessWidget {
                               ),
                             ),
                             maxLength: 12,
-                            keyboardType: TextInputType.number,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: TextFormField(
-                            // autovalidateMode: AutovalidateMode.onUserInteraction,
-                            validator: (value) {
-                              if (value == null || value.length < 8) {
-                                return 'Password Must satisfy below conditions';
-                              }
-                              return null;
-                            },
-                            decoration: const InputDecoration(
-                              label: Text('Please re-enter new Password'),
-                              hintText: 'Re-enter new Password',
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                            ),
-                            maxLength: 12,
-                            keyboardType: TextInputType.number,
+                            keyboardType: TextInputType.visiblePassword,
                           ),
                         ),
                         Row(
@@ -128,10 +240,18 @@ class NewPassword extends StatelessWidget {
                             OutlinedButton(
                               onPressed: () {
                                 if (_formkey.currentState!.validate()) {
-                                  Navigator.popUntil(
-                                      context,
-                                      (route) =>
-                                          route.settings.name == "/login");
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const Center(
+                                        child: PopScope(
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    },
+                                  );
+
+                                  changePassword();
                                 }
                               },
                               child: const Text('Change Password'),
@@ -145,34 +265,68 @@ class NewPassword extends StatelessWidget {
                     height: 10,
                   ),
                   Container(
-                    margin: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
                     alignment: Alignment.centerLeft,
                     child: Text(
                       '*Password must be of at least 6 characters long',
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: _passwordController.text.length > 6
+                              ? Colors.green
+                              : Colors.red),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '*Must Include at least one Uppercase Letter (A-Z)',
+                      style: TextStyle(
+                        color:
+                            _passwordController.text.contains(RegExp(r'[A-Z]'))
+                                ? Colors.green
+                                : Colors.red,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      '*Must include at least one lowercase letter (a-z)',
+                      style: TextStyle(
+                        color:
+                            _passwordController.text.contains(RegExp(r'[a-z]'))
+                                ? Colors.green
+                                : Colors.red,
+                      ),
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.all(10),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                        '*Must Include at least one Uppercase Letter (A-Z)'),
+                      '*Must include at least one number (0-9)',
+                      style: TextStyle(
+                        color:
+                            _passwordController.text.contains(RegExp(r'[0-9]'))
+                                ? Colors.green
+                                : Colors.red,
+                      ),
+                    ),
                   ),
                   Container(
                     margin: EdgeInsets.all(10),
                     alignment: Alignment.centerLeft,
                     child: Text(
-                        '*Must include at least one lowercase letter (a-z)'),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    alignment: Alignment.centerLeft,
-                    child: Text('*Must include at least one number (0-9)'),
-                  ),
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    alignment: Alignment.centerLeft,
-                    child: Text('*Must inlude a special Character (@,#,\$,%)'),
+                      '*Must inlude a special Character (@,#,\$,%)',
+                      style: TextStyle(
+                        color: _passwordController.text.contains(
+                          RegExp(r'[@#\$%]'),
+                        )
+                            ? Colors.green
+                            : Colors.red,
+                      ),
+                    ),
                   ),
                 ],
               ),

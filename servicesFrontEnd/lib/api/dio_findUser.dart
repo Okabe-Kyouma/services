@@ -1,6 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:services/api/dio_setup.dart';
 
+Future<String?> fetchUsername(String email) async {
+  try {
+    final response = await Dio().get('$url/send/username/$email');
+
+    if (response.statusCode == 200) {
+      return response.data['username'];
+    } else if (response.statusCode == 202) {
+      return "email-id doesn't exist";
+    } else {
+      return "Unknown error occurred";
+    }
+  } catch (e) {
+    return "Server is down";
+  }
+}
+
 Future<int> findUserByEmail(String email) async {
   Dio dio = Dio();
 

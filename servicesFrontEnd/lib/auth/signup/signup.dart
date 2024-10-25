@@ -321,7 +321,7 @@ class _SignupState extends State<Signup> {
                       const SizedBox(width: 30),
                       OutlinedButton(
                         onPressed: pickImage,
-                        child: Text('Upload Image'),
+                        child: const Text('Upload Image'),
                       ),
                     ],
                   ),
@@ -357,7 +357,7 @@ class _SignupState extends State<Signup> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              label: Text('Create Your username'),
+                              label: const Text('Create Your username'),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -383,7 +383,7 @@ class _SignupState extends State<Signup> {
                               return null;
                             },
                             decoration: InputDecoration(
-                              label: Text('Enter Your full name'),
+                              label: const Text('Enter Your full name'),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
@@ -395,7 +395,7 @@ class _SignupState extends State<Signup> {
                             controller:
                                 TextEditingController(text: '1234567899'),
                             decoration: InputDecoration(
-                              label: Text('Your Number'),
+                              label: const Text('Your Number'),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),

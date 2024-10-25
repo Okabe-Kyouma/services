@@ -63,6 +63,24 @@ app.get("/check/email/:email", async (req, res) => {
   }
 });
 
+app.get('/send/username/:email',async (req,res)=>{
+  const email = req.params.email;
+  try {
+  
+    const user = await User.findOne({ email: email });
+
+    if (user) {
+      return res.status(200).send({username:user.username});
+    } else {
+      return res.status(202).send("email-id doesn't exists");
+    }
+  } catch (e) {
+    return res.status(500).send("server is down");
+  }
+
+
+})
+
 app.get("/check/username/:username", async (req, res) => {
   const username = req.params.username;
 
