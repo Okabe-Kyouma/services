@@ -1,3 +1,4 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/auth/forgotPassword/new_password.dart';
@@ -8,6 +9,7 @@ class PasswordRecovery extends StatelessWidget {
   final String email;
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+  final TextEditingController _otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class PasswordRecovery extends StatelessWidget {
                       padding: const EdgeInsets.all(20),
                       child: TextFormField(
                         // autovalidateMode: AutovalidateMode.onUserInteraction,
+                        controller: _otpController,
                         validator: (value) {
                           if (value == null || value.length < 6)
                           // !RegExp(r'^\d{12}$').hasMatch(value)
@@ -112,13 +115,34 @@ class PasswordRecovery extends StatelessWidget {
                         OutlinedButton(
                           onPressed: () {
                             if (_formkey.currentState!.validate()) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NewPassword(email: email),
-                                ),
-                              );
+                              if (EmailOTP.verifyOTP(
+                                  otp: _otpController.text)) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        NewPassword(email: email),
+                                  ),
+                                );
+                              } else {
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text('Wrong OTP'),
+                                      content: const Text(
+                                          'Please enter correct otp'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Okay'))
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             }
                           },
                           child: const Text('Verify'),

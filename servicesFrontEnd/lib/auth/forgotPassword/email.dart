@@ -1,3 +1,4 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_findUser.dart';
@@ -12,18 +13,53 @@ class EnterEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void main() {
+      EmailOTP.config(
+          appName: 'Services',
+          otpType: OTPType.numeric,
+          expiry: 30000,
+          emailTheme: EmailTheme.v3,
+          otpLength: 6,
+          appEmail: 'ayushpal5432@gmail.com');
+    }
+
     void isEmailRegistered(String email) async {
       final response = await findUserByEmail(email);
-      print('email_check response-> $response');
+
       Navigator.pop(context);
       if (response == 202) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) =>
-                PasswordRecovery(email: _emailController.text),
-          ),
+
+
+        showDialog(
+          context: context,
+          builder: (context) {
+            return const Center(
+              child: PopScope(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          },
         );
+
+        final isEmailSent =
+            await EmailOTP.sendOTP(email: _emailController.text);
+         
+           Navigator.pop(context);
+
+        if (isEmailSent) {
+        
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  PasswordRecovery(email: _emailController.text),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Otp failed send")),
+          );
+        }
       } else if (response == 200) {
         showCupertinoDialog(
           context: context,
