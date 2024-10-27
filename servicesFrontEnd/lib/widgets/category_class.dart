@@ -28,10 +28,9 @@ class _CategoryClassState extends State<CategoryClass> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-     position = Provider.of<LocationModel>(context).currentPosition;
+    position = Provider.of<LocationModel>(context).currentPosition;
 
-     populatelist();
-    
+    populatelist();
   }
 
   @override
@@ -40,16 +39,12 @@ class _CategoryClassState extends State<CategoryClass> {
     print('calling this');
   }
 
-  
-
   void populatelist() async {
     setState(() {
       isLoading = true;
     });
-     
-   
+
     print('position:........................$position');
-    
 
     latitude = position!.latitude;
     longitude = position!.longitude;
@@ -98,10 +93,10 @@ class _CategoryClassState extends State<CategoryClass> {
                     : ListView.builder(
                         itemCount: userList.length,
                         itemBuilder: (context, index) {
+                          print('index: $index and len: ${userList.length} ${userList[0]['username']} and ${userList[0]['exp']} and ${userList[0]['fullname']} and ${userList[0]['phoneNumber']}');
                           return UserInfo(
                               username: userList[index]['username'],
-                              address: userList[index]['homeLocation'],
-                              exp: '2-4 years',
+                              exp: userList[index]['exp'],
                               fullname: userList[index]['fullname'],
                               phoneNumber: userList[index]['phoneNumber'],
                               profilePhotoLink: userList[index]

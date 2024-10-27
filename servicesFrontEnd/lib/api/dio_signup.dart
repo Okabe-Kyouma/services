@@ -5,14 +5,12 @@ Future<int> signupUser({
   required String fullname,
   required String phoneNumber,
   required String email,
-  required String aadhar,
   required String password,
   required String service,
   required String exp,
   required String profilePictureUrl,
   required double latitude,
   required double longitude,
-  required String homeLocation,
 }) async {
   final dio = await createDioWithCookieManager();
 
@@ -22,7 +20,6 @@ Future<int> signupUser({
     'fullname': fullname,
     'phoneNumber': phoneNumber,
     'email': email,
-    'aadhar': aadhar,
     'password': password,
     'service': service,
     'exp': exp,
@@ -30,7 +27,6 @@ Future<int> signupUser({
       'type': 'Point',
       'coordinates': [latitude, longitude],
     },
-    'homeLocation': homeLocation
   };
 
   try {

@@ -1,37 +1,95 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:services/auth/signup/addharVerfication/verify_aadhar_number.dart';
 
-class Number extends StatefulWidget {
-  const Number({super.key});
+class Number extends StatelessWidget {
+  Number({super.key});
 
-  @override
-  State<Number> createState() => _NumberState();
-}
-
-class _NumberState extends State<Number> {
-  final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  final TextEditingController _aadharController = TextEditingController();
-
-  void checkAadharNumber() {
-    if (_formkey.currentState!.validate()) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => NumberVerification(
-            aadharNumber: _aadharController.text,
-          ),
-        ),
-      );
-    }
-  }
+  final _formKey = GlobalKey<FormState>();
+  final _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    void checkNumber(String phone) async {
+      if (phone.length == 10) {
+        final phoneNumber =
+            '+91 ${phone.substring(0, 4)} ${phone.substring(4, 7)} ${phone.substring(7)}';
+
+        try {
+          await Future.delayed(
+            const Duration(microseconds: 1000),
+          );
+          FirebaseAuth.instance.verifyPhoneNumber(
+              phoneNumber: phoneNumber,
+              verificationCompleted: (phoneAuthCredential) {},
+              verificationFailed: (error) {
+                print(error);
+                Navigator.of(context).pop();
+
+                showCupertinoDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: const Text('Server Error!'),
+                      content: const Text(
+                          'We are having Some Problem!\n Please try again later!'),
+                      actions: [
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text('Okay'))
+                      ],
+                    );
+                  },
+                );
+              },
+              codeSent: (verificationId, forceResendingToken) {
+                Navigator.of(context).pop();
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NumberVerification(
+                      verificationId: verificationId,
+                      phoneNumber: phone,
+                    ),
+                  ),
+                );
+              },
+              codeAutoRetrievalTimeout: (verificationId) {
+                print('auto timeout');
+              });
+        } catch (e) {
+          print('Exception: $e');
+          Navigator.of(context).pop();
+
+          showCupertinoDialog(
+            context: context,
+            builder: (context) {
+              return CupertinoAlertDialog(
+                title: const Text('Server Error!'),
+                content: const Text(
+                    'We are having Some Problem!\n Please try again later!'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Okay'))
+                ],
+              );
+            },
+          );
+        }
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Enter Aadhar Number',
+          'Enter Phone Number',
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
@@ -39,64 +97,86 @@ class _NumberState extends State<Number> {
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(top: 180),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                    height: 150,
-                    width: 150,
-                    child: Image.asset('assets/logos/aadhar_logo.png',
-                        fit: BoxFit.cover)),
-                const SizedBox(
-                  height: 10,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 150,
+                width: 150,
+                child: Image.asset(
+                  'assets/logos/aadhar_logo.png',
+                  fit: BoxFit.cover,
                 ),
-                Text(
-                  "Please enter your Aadhar number:",
-                  style: GoogleFonts.akatab(
-                    fontSize: 22,
+              ),
+              const SizedBox(height: 24),
+              const Text(
+                "Verify your phone number",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                ),
+              ),
+              const SizedBox(height: 16),
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: _phoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: "Enter your phone number",
+                    labelStyle: const TextStyle(color: Colors.grey),
+                    hintText: "10-digit phone number",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    prefixIcon: const Icon(Icons.phone, color: Colors.grey),
                   ),
-                  textAlign: TextAlign.center,
+                  maxLength: 10,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Phone number is required';
+                    } else if (value.length != 10 ||
+                        !RegExp(r'^[0-9]+$').hasMatch(value)) {
+                      return 'Enter a valid 10-digit phone number';
+                    }
+                    return null;
+                  },
                 ),
-                Form(
-                  key: _formkey,
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        child: TextFormField(
-                          controller: _aadharController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            if (value == null ||
-                                value.length < 12 ||
-                                !RegExp(r'^\d{12}$').hasMatch(value)) {
-                              return 'Aadhar number must be of 12 numbers';
-                            }
-                            return null;
-                          },
-                          decoration: const InputDecoration(
-                            label: Text('Aadhar Number'),
-                            border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
-                            ),
-                          ),
-                          maxLength: 12,
-                          keyboardType: TextInputType.number,
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: checkAadharNumber,
-                        child: const Text('SEND OTP'),
-                      ),
-                    ],
+              ),
+              const SizedBox(height: 24),
+              OutlinedButton(
+                onPressed: () {
+                  if (_formKey.currentState?.validate() ?? false) {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const Center(
+                          child: PopScope(child: CircularProgressIndicator()),
+                        );
+                      },
+                    );
+
+                    checkNumber(_phoneController.text);
+                  }
+                },
+                style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
+                  side: BorderSide(
+                      color: Theme.of(context).primaryColor, width: 2),
                 ),
-              ],
-            ),
+                child: const Text(
+                  'Send OTP',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
           ),
         ),
       ),

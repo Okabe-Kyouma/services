@@ -31,8 +31,8 @@ class _SignupState extends State<Signup> {
   String? exp;
   Position? position;
   String? email;
-  String? aadhar;
-  String? imgurImage;
+  String? phoneNumber;
+  String? imgurImage = "noimageisavailabletodisplayhere";
   String _statusMessage = 'Username is available';
   bool checkUsername = false;
   final TextEditingController _userNameController = TextEditingController();
@@ -53,7 +53,7 @@ class _SignupState extends State<Signup> {
     super.didChangeDependencies();
     position = Provider.of<LocationModel>(context).currentPosition;
     email = Provider.of<EmailModel>(context).email;
-    aadhar = Provider.of<AadharModel>(context).aadhar;
+    phoneNumber = Provider.of<AadharModel>(context).aadhar;
   }
 
   Future<String> getAddressFromCoordinates(
@@ -172,18 +172,17 @@ class _SignupState extends State<Signup> {
           "H.NO.- ${_houseController.text} , ${_adressController.text}";
 
       final response = await signupUser(
-          username: _userNameController.text,
-          fullname: _nameController.text,
-          phoneNumber: aadhar!.substring(2),
-          email: email!,
-          aadhar: aadhar!,
-          password: _passwordController.text,
-          service: selectedWork!,
-          exp: exp!,
-          profilePictureUrl: imgurImage!,
-          latitude: position!.latitude,
-          longitude: position!.longitude,
-          homeLocation: homeAdd);
+        username: _userNameController.text,
+        fullname: _nameController.text,
+        phoneNumber: phoneNumber!,
+        email: email!,
+        password: _passwordController.text,
+        service: selectedWork!,
+        exp: exp!,
+        profilePictureUrl: imgurImage!,
+        latitude: position!.latitude,
+        longitude: position!.longitude,
+      );
 
       if (response == 404) {
         // print('error in value and ${response}');
@@ -393,7 +392,7 @@ class _SignupState extends State<Signup> {
                           const SizedBox(height: 25),
                           TextFormField(
                             controller:
-                                TextEditingController(text: '1234567899'),
+                                TextEditingController(text: phoneNumber),
                             decoration: InputDecoration(
                               label: const Text('Your Number'),
                               border: OutlineInputBorder(
@@ -407,24 +406,12 @@ class _SignupState extends State<Signup> {
                           TextFormField(
                             controller: TextEditingController(text: email),
                             decoration: InputDecoration(
-                              label: Text('Your Email'),
+                              label: const Text('Your Email'),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                               ),
                             ),
                             keyboardType: TextInputType.emailAddress,
-                            readOnly: true,
-                          ),
-                          const SizedBox(height: 25),
-                          TextFormField(
-                            controller: TextEditingController(text: aadhar),
-                            decoration: InputDecoration(
-                              label: Text('Your Aadhar Number'),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
                             readOnly: true,
                           ),
                           const SizedBox(height: 25),
@@ -445,39 +432,6 @@ class _SignupState extends State<Signup> {
                             keyboardType: TextInputType.visiblePassword,
                           ),
                           const SizedBox(height: 25),
-                          TextFormField(
-                            controller: _houseController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter your house number/flat number";
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              label: const Text('House No./Flat No.'),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                          const SizedBox(height: 25),
-                          TextFormField(
-                            controller: _adressController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Address/area is required!";
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              label: const Text('Street Address/Area'),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                            ),
-                            keyboardType: TextInputType.text,
-                          ),
                         ],
                       ),
                     ),

@@ -33,6 +33,8 @@ class _LoginState extends State<Login> {
         Navigator.of(context).pop();
       }
 
+      _focusNode2.unfocus();
+
       print('RESPONSE: $response');
 
       if (response == 200) {

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +14,13 @@ final colorScheme = ColorScheme.fromSeed(
         Colors.deepPurpleAccent);
 
 void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDE3CEW3kTZK5LxNN_qjLWCH4rx4A_2ues",
+          appId: "1:69047120729:android:9f24bd5bba8f6da2a79248",
+          messagingSenderId: "69047120729",
+          projectId: "services-e8b07"));
   runApp(
     MultiProvider(
       providers: [
@@ -40,7 +48,8 @@ class MyApp extends StatelessWidget {
         theme: ThemeData.from(colorScheme: colorScheme).copyWith(
             colorScheme: colorScheme,
             textTheme: GoogleFonts.montserratTextTheme()),
-        home: const SplashScreen());
+         home: const SplashScreen(),
+        );
   }
 }
 

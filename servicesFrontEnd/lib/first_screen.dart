@@ -155,7 +155,7 @@ class _FirstScreenState extends State<FirstScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const Number()),
+                              builder: (context) => Number()),
                         );
                       },
                       child: const Text(

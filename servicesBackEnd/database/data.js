@@ -30,11 +30,6 @@ const userSchema = new Schema({
         unique: true,
         lowercase: true,
     },
-    aadhar:{
-        type:String,
-        required:true,
-        unique:true,
-    },
     password: {
         type: String,
         required: true,
@@ -56,10 +51,6 @@ const userSchema = new Schema({
         coordinates: {
             type: [Number],  
         }
-    },
-    homeLocation: {
-            type: String, 
-            required: true,
     },
 }, {
     timestamps: true,  

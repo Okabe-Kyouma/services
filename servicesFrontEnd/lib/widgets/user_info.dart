@@ -9,7 +9,6 @@ class UserInfo extends StatelessWidget {
     required this.fullname,
     required this.service,
     required this.exp,
-    required this.address,
   });
 
   final String username;
@@ -18,7 +17,6 @@ class UserInfo extends StatelessWidget {
   final String fullname;
   final String service;
   final String exp;
-  final String address;
 
   @override
   Widget build(BuildContext context) {
@@ -71,13 +69,13 @@ class UserInfo extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-                    Text(
-                      username,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    // Text(
+                    //   username,
+                    //   style: const TextStyle(
+                    //     fontSize: 16,
+                    //     color: Colors.grey,
+                    //   ),
+                    // ),
                   ],
                 ),
               ],
@@ -101,12 +99,12 @@ class UserInfo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
-            Text(
-              'Address: $address',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            // Text(
+            //   'Address: $address',
+            //   style: const TextStyle(
+            //     fontSize: 16,
+            //   ),
+            // ),
           ],
         ),
       ),
