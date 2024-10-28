@@ -13,6 +13,7 @@ class Email extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController _emailController = TextEditingController();
+    final FocusNode _focusNode = FocusNode();
 
     void main() {
       EmailOTP.config(
@@ -27,157 +28,247 @@ class Email extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Email verification'),
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 120,
-              width: 120,
-              child: Image.asset('assets/logos/email.png', fit: BoxFit.cover),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            const Text(
-              "Please enter your Email-id",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Form(
-              key: _formkey,
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    child: TextFormField(
-                      controller: _emailController,
-                      // autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) {
-                        if (value == null ||
-                            !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
-                                .hasMatch(value)) {
-                          return "Please enter correct mail id";
-                        }
-
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        label: Text('Email-id'),
-                        hintText: 'company12@gmail.com',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () async {
-                      if (_formkey.currentState!.validate()) {
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return const Center(
-                                child: PopScope(
-                                  canPop: false,
-                                  child: CircularProgressIndicator(),
-                                ),
-                              );
-                            });
-
-                        final response =
-                            await checkIfEmailExistsInDb(_emailController.text);
-
-                        if (response == 202) {
-                          Navigator.of(context).pop();
-
-                          showCupertinoDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              return CupertinoAlertDialog(
-                                title: const Text('Email-id already exists'),
-                                content: const Text(
-                                    'The Email-id you have provided already exists,please go to main page to login or enter different email-id!'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const FirstScreen(),
-                                        ),
-                                        (Route<dynamic> route) => false,
-                                      );
-                                    },
-                                    child: const Text('Go to Login'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: const Text('Enter another Email-id'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        } else if (response == 200) {
-                          if (await EmailOTP.sendOTP(
-                              email: _emailController.text)) {
-                            Navigator.pop(context);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => VerifyEmail(
-                                  email: _emailController.text,
-                                ),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Otp failed send")),
-                            );
+      body: PopScope(
+        canPop: false,
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 120,
+                width: 120,
+                child: Image.asset('assets/logos/email.png', fit: BoxFit.cover),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              const Text(
+                "Please enter your Email-id",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Form(
+                key: _formkey,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: TextFormField(
+                        controller: _emailController,
+                        focusNode: _focusNode,
+                        validator: (value) {
+                          if (value == null ||
+                              !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
+                                  .hasMatch(value)) {
+                            return "Please enter correct mail id";
                           }
-                        } else if (response == 500 || response == 404) {
-                          Navigator.of(context).pop();
 
-                          showCupertinoDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (context) {
-                              return CupertinoAlertDialog(
-                                title: const Text('Server is Down!'),
-                                content: const Text(
-                                    'Our server are down!Please try again later!'),
-                                actions: [
-                                  TextButton(
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                            labelText: 'Email-id',
+                            labelStyle: TextStyle(color: Colors.grey),
+                            hintText: 'company12@gmail.com',
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12)),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.email,
+                              color: Colors.grey,
+                            )),
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        OutlinedButton(
+                          onPressed: () {
+                            showCupertinoDialog(
+                              context: context,
+                              builder: (context) {
+                                return CupertinoAlertDialog(
+                                  title: const Text('CANCEL SIGNUP?'),
+                                  content: const Text(
+                                      'Click Yes to Cancel\n Click No to continue;'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.popUntil(
+                                            context,
+                                            (route) =>
+                                                route.settings.name ==
+                                                "/firstScreen");
+                                      },
+                                      child: const Text('Yes'),
+                                    ),
+                                    TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: const Text('Okay'))
-                                ],
-                              );
-                            },
-                          );
-                        }
-                      }
-                    },
-                    child: const Text('Send Otp'),
-                  ),
-                ],
+                                      child: const Text('No'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            side: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2),
+                          ),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        OutlinedButton(
+                          onPressed: () async {
+                            if (_formkey.currentState!.validate()) {
+                              _focusNode.unfocus();
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                      child: PopScope(
+                                        canPop: false,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  });
+
+                              final response = await checkIfEmailExistsInDb(
+                                  _emailController.text);
+
+                              if (response == 202) {
+                                Navigator.of(context).pop();
+
+                                showCupertinoDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text(
+                                          'EMAIL-ID ALREADY EXISTS!'),
+                                      content: const Text(
+                                          'The Email-id you have provided already exists,please go to main page to login or enter different email-id!'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pushAndRemoveUntil(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const FirstScreen(),
+                                              ),
+                                              (Route<dynamic> route) => false,
+                                            );
+                                          },
+                                          child: const Text('Go to Login'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: const Text(
+                                              'Enter another Email-id'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              } else if (response == 200) {
+                                if (await EmailOTP.sendOTP(
+                                    email: _emailController.text)) {
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => VerifyEmail(
+                                        email: _emailController.text,
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text("Otp failed send")),
+                                  );
+                                }
+                              } else if (response == 500 || response == 404) {
+                                Navigator.of(context).pop();
+
+                                showCupertinoDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text('Server is Down!'),
+                                      content: const Text(
+                                          'Our server are down!Please try again later!'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Okay'))
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            }
+                          },
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            side: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2),
+                          ),
+                          child: const Text(
+                            'Send Otp',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

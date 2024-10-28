@@ -18,6 +18,33 @@ class _LoginState extends State<Login> {
   final TextEditingController _passwordController = TextEditingController();
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
+  final ScrollController _scrollController = ScrollController();
+
+  void _scrollToTop() {
+    if (_focusNode.hasFocus || _focusNode2.hasFocus) {
+      _scrollController.animateTo(0,
+          duration: const Duration(milliseconds: 3000), curve: Curves.easeIn);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_scrollToTop);
+    _focusNode2.addListener(_scrollToTop);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _focusNode.removeListener(_scrollToTop);
+    _focusNode2.removeListener(_scrollToTop);
+    _focusNode.dispose();
+    _focusNode2.dispose();
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _scrollController.dispose();
+  }
 
   void checkIdAndPassword() async {
     if (_formKey.currentState!.validate()) {
@@ -103,6 +130,7 @@ class _LoginState extends State<Login> {
         width: double.infinity,
         color: Theme.of(context).colorScheme.onPrimary,
         child: SingleChildScrollView(
+          controller: _scrollController,
           child: Container(
             margin: const EdgeInsets.only(top: 120),
             child: Center(
@@ -124,13 +152,17 @@ class _LoginState extends State<Login> {
                             focusNode: _focusNode,
                             controller: _usernameController,
                             decoration: const InputDecoration(
-                              label:
-                                  Text('Please enter your registered username'),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                            ),
+                                labelText: 'Please enter your username',
+                                hintText: 'Username',
+                                labelStyle: TextStyle(color: Colors.grey),
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.person,
+                                  color: Colors.grey,
+                                )),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null || value.length < 5) {
@@ -148,12 +180,17 @@ class _LoginState extends State<Login> {
                             focusNode: _focusNode2,
                             obscureText: true,
                             decoration: const InputDecoration(
-                              label: Text('Please enter your password'),
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
-                              ),
-                            ),
+                                label: Text('Please enter your password'),
+                                labelStyle: TextStyle(color: Colors.grey),
+                                hintText: 'Password',
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(5)),
+                                ),
+                                prefixIcon: Icon(
+                                  Icons.password,
+                                  color: Colors.grey,
+                                )),
                             keyboardType: TextInputType.visiblePassword,
                             validator: (value) {
                               if (value == null || value.length < 8) {
@@ -171,36 +208,38 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(10)),
                           child: TextButton(
                             onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return const Center(
-                                    child: PopScope(
-                                      canPop: false,
-                                      child: CircularProgressIndicator(),
-                                    ),
-                                  );
-                                },
-                              );
+                              if (_formKey.currentState!.validate()) {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return const Center(
+                                      child: PopScope(
+                                        canPop: false,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                    );
+                                  },
+                                );
 
-                              // showCupertinoDialog(
-                              //   context: context,
-                              //   builder: (context) {
+                                // showCupertinoDialog(
+                                //   context: context,
+                                //   builder: (context) {
 
-                              //     return const CupertinoAlertDialog(
-                              //       title: Text('PLEASE WAIT'),
-                              //       content: SizedBox(
-                              //         height: 40,
-                              //         width: 40,
-                              //         child: Center(
-                              //           child: CircularProgressIndicator(),
-                              //         ),
-                              //       ),
-                              //     );
-                              //   },
-                              // );
+                                //     return const CupertinoAlertDialog(
+                                //       title: Text('PLEASE WAIT'),
+                                //       content: SizedBox(
+                                //         height: 40,
+                                //         width: 40,
+                                //         child: Center(
+                                //           child: CircularProgressIndicator(),
+                                //         ),
+                                //       ),
+                                //     );
+                                //   },
+                                // );
 
-                              checkIdAndPassword();
+                                checkIdAndPassword();
+                              }
                             },
                             child: Text(
                               'Login',

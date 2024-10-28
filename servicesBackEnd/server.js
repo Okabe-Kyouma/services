@@ -81,6 +81,25 @@ app.get('/send/username/:email',async (req,res)=>{
 
 })
 
+app.get('/check/number/:number',async (req,res)=>{
+
+      const number = req.params.number;
+
+      try {
+        const user = await User.findOne({ phoneNumber:number});
+    
+        if (user) {
+          return res.status(202).send("Phone Number already exists");
+        } else {
+          return res.status(200).send("Phone Number is available");
+        }
+      } catch (e) {
+        return res.status(404).send("server Down");
+      }
+   
+
+})
+
 app.get("/check/username/:username", async (req, res) => {
   const username = req.params.username;
 

@@ -23,9 +23,10 @@ class PasswordRecovery extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: PopScope(
         canPop: false,
-        child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 height: 150,
@@ -38,7 +39,10 @@ class PasswordRecovery extends StatelessWidget {
               const Text(
                 "We have sent an Otp to your registered Email-id",
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87),
               ),
               const SizedBox(
                 height: 5,
@@ -48,28 +52,34 @@ class PasswordRecovery extends StatelessWidget {
                 child: Column(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(12),
                       child: TextFormField(
-                        // autovalidateMode: AutovalidateMode.onUserInteraction,
                         controller: _otpController,
                         validator: (value) {
-                          if (value == null || value.length < 6)
-                          // !RegExp(r'^\d{12}$').hasMatch(value)
-                          {
+                          if (value == null || value.length < 6) {
                             return 'Otp Must be of 6 letters';
                           }
                           return null;
                         },
                         decoration: const InputDecoration(
-                          label: Text('OTP'),
-                          hintText: 'Enter Otp',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5)),
-                          ),
-                        ),
+                            labelText: 'Enter OTP',
+                            hintText: '6 digit number',
+                            labelStyle: TextStyle(color: Colors.grey),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.numbers,
+                              color: Colors.grey,
+                            )),
                         maxLength: 6,
                         keyboardType: TextInputType.number,
                       ),
+                    ),
+                    const SizedBox(
+                      height: 12,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -81,7 +91,7 @@ class PasswordRecovery extends StatelessWidget {
                               builder: (context) {
                                 return CupertinoAlertDialog(
                                   title:
-                                      const Text('Cancel Password Recovery?'),
+                                      const Text('CANCEL PASSWORD RECOVERY?'),
                                   content: const Text(
                                       'Press Yes to cancel password recovery\nPress No to continue;'),
                                   actions: [
@@ -107,7 +117,21 @@ class PasswordRecovery extends StatelessWidget {
                               },
                             );
                           },
-                          child: const Text('Cancel'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            side: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2),
+                          ),
+                          child: const Text(
+                            'Cancel',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                         const SizedBox(
                           width: 10,
@@ -129,7 +153,7 @@ class PasswordRecovery extends StatelessWidget {
                                   context: context,
                                   builder: (context) {
                                     return CupertinoAlertDialog(
-                                      title: const Text('Wrong OTP'),
+                                      title: const Text('WRONG OTP'),
                                       content: const Text(
                                           'Please enter correct otp'),
                                       actions: [
@@ -145,7 +169,21 @@ class PasswordRecovery extends StatelessWidget {
                               }
                             }
                           },
-                          child: const Text('Verify'),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 14, horizontal: 24),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            side: BorderSide(
+                                color: Theme.of(context).primaryColor,
+                                width: 2),
+                          ),
+                          child: const Text(
+                            'Verify',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ],
                     ),

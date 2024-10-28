@@ -28,8 +28,6 @@ class EnterEmail extends StatelessWidget {
 
       Navigator.pop(context);
       if (response == 202) {
-
-
         showDialog(
           context: context,
           builder: (context) {
@@ -43,11 +41,10 @@ class EnterEmail extends StatelessWidget {
 
         final isEmailSent =
             await EmailOTP.sendOTP(email: _emailController.text);
-         
-           Navigator.pop(context);
+
+        Navigator.pop(context);
 
         if (isEmailSent) {
-        
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -65,17 +62,24 @@ class EnterEmail extends StatelessWidget {
           context: context,
           builder: (context) {
             return CupertinoAlertDialog(
-              title: const Text('Email-id doesnt exists'),
+              title: const Text('EMAIL-ID NOT FOUND'),
               content: const Text(
-                'The Email-id you have provided doesnt exists in our data please enter correct email-id , or signup!',
-              ),
+                  "We couldn’t find that email. Please check it or sign up to continue!"),
               actions: [
                 TextButton(
-                    onPressed: () {
-                      _emailController.clear();
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('Okay'))
+                  onPressed: () {
+                    // _emailController.clear();
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Re-enter'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.popUntil(context,
+                        (route) => route.settings.name == "/firstScreen");
+                  },
+                  child: const Text('SignUp'),
+                ),
               ],
             );
           },
@@ -118,9 +122,10 @@ class EnterEmail extends StatelessWidget {
         foregroundColor: Colors.white,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
               height: 120,
@@ -133,7 +138,10 @@ class EnterEmail extends StatelessWidget {
             const Text(
               "Please enter your registered Email-id",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 18),
+              style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87),
             ),
             const SizedBox(
               height: 5,
@@ -143,7 +151,7 @@ class EnterEmail extends StatelessWidget {
               child: Column(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(12),
                     child: TextFormField(
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _emailController,
@@ -158,18 +166,24 @@ class EnterEmail extends StatelessWidget {
                         return null;
                       },
                       decoration: const InputDecoration(
-                        label: Text('Email-id'),
-                        hintText: 'company12@gmail.com',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                      ),
+                          labelText: 'Email-id',
+                          hintText: 'company12@gmail.com',
+                          labelStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(12)),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: Colors.grey,
+                          )),
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
+                  const SizedBox(height: 24),
                   OutlinedButton(
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
+                        _emailFocus.unfocus();
                         showDialog(
                           context: context,
                           builder: (context) {
@@ -184,7 +198,20 @@ class EnterEmail extends StatelessWidget {
                         isEmailRegistered(_emailController.text);
                       }
                     },
-                    child: const Text('Send Otp'),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 14, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      side: BorderSide(
+                          color: Theme.of(context).primaryColor, width: 2),
+                    ),
+                    child: const Text(
+                      'Send Otp',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    ),
                   ),
                 ],
               ),

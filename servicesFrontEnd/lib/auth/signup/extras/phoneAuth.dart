@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:services/auth/signup/phoneVerification/otp_screen.dart';
+import 'package:services/auth/signup/extras/otp_screen.dart';
 
 class PhoneAuth extends StatelessWidget {
   const PhoneAuth({super.key});

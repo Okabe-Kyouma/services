@@ -68,18 +68,26 @@ class WorkProfileCreated extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const Login(),
-                    ),
-                  );
+                  Navigator.popUntil(context,
+                      (route) => route.settings.name == "/firstScreen");
                 },
-                child: const Text('Login'),
+                style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  side: BorderSide(
+                      color: Theme.of(context).primaryColor, width: 2),
+                ),
+                child: const Text(
+                  'Login',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ),
             ],
           )),

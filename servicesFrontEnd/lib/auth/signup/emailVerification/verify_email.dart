@@ -7,7 +7,7 @@ import 'package:services/auth/signup/signup.dart';
 import 'package:services/widgets/providerModels/email_model.dart';
 
 class VerifyEmail extends StatelessWidget {
-  VerifyEmail({super.key,required this.email});
+  VerifyEmail({super.key, required this.email});
 
   final String email;
 
@@ -16,9 +16,11 @@ class VerifyEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController _otpController = TextEditingController();
+    final FocusNode _focusNode = FocusNode();
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(
           'Verify Email-id',
           style: TextStyle(color: Colors.white),
@@ -27,12 +29,13 @@ class VerifyEmail extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
-      body: SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.only(top: 170),
-          child: Center(
+      body: PopScope(
+        canPop: false,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
                   height: 150,
@@ -42,24 +45,26 @@ class VerifyEmail extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Text(
+                const Text(
                   "We have sent an Otp to your registered email id",
-                  style: GoogleFonts.akatab(
-                    fontSize: 22,
-                  ),
+                  style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
-                  height: 5,
+                  height: 20,
                 ),
                 Form(
                   key: _formkey,
                   child: Column(
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(10),
                         child: TextFormField(
                           controller: _otpController,
+                          focusNode: _focusNode,
                           autovalidateMode: AutovalidateMode.disabled,
                           validator: (value) {
                             if (value == null ||
@@ -70,50 +75,141 @@ class VerifyEmail extends StatelessWidget {
                             return null;
                           },
                           decoration: const InputDecoration(
-                            label: Text('OTP'),
-                            hintText: 'Enter Otp',
+                            labelText: 'Enter OTP',
+                            labelStyle: TextStyle(color: Colors.grey),
+                            hintText: 'Your Otp',
                             border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5)),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(12),
+                              ),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.numbers,
+                              color: Colors.grey,
                             ),
                           ),
                           maxLength: 6,
                           keyboardType: TextInputType.number,
                         ),
                       ),
-                      OutlinedButton(
-                        onPressed: () {
-                          if (EmailOTP.verifyOTP(otp: _otpController.text)) {
-                            
-                            Provider.of<EmailModel>(context, listen: false)
-                                .updateEmail(email);
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Signup()),
-                            );
-                          } else {
-                            showCupertinoDialog(
-                              context: context,
-                              builder: (context) {
-                                return CupertinoAlertDialog(
-                                  title: const Text('Wront OTP'),
-                                  content: const Text(
-                                      'Please enter the correct otp which is send to your email!'),
-                                  actions: [
-                                    TextButton(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () {
+                              showCupertinoDialog(
+                                context: context,
+                                builder: (context) {
+                                  return CupertinoAlertDialog(
+                                    title: const Text('CANCEL SIGNUP?'),
+                                    content: const Text(
+                                        'Click Yes to Cancel\n Click No to continue;'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.popUntil(
+                                              context,
+                                              (route) =>
+                                                  route.settings.name ==
+                                                  "/firstScreen");
+                                        },
+                                        child: const Text('Yes'),
+                                      ),
+                                      TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text('Okay'))
-                                  ],
+                                        child: const Text('No'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 24),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              side: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 2),
+                            ),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const Center(
+                                    child: PopScope(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                },
+                              );
+
+                              _focusNode.unfocus();
+                              if (EmailOTP.verifyOTP(
+                                  otp: _otpController.text)) {
+                                Provider.of<EmailModel>(context, listen: false)
+                                    .updateEmail(email);
+
+                                Navigator.pop(context);
+
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const Signup()),
                                 );
-                              },
-                            );
-                          }
-                        },
-                        child: const Text('Verify'),
+                              } else {
+                                Navigator.pop(context);
+                                showCupertinoDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return CupertinoAlertDialog(
+                                      title: const Text('WRONG OTP'),
+                                      content: const Text(
+                                          'Please enter the correct otp which is send to your email!'),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: const Text('Okay'))
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
+                            },
+                            style: OutlinedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 14, horizontal: 24),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              side: BorderSide(
+                                  color: Theme.of(context).primaryColor,
+                                  width: 2),
+                            ),
+                            child: const Text(
+                              'Verify',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

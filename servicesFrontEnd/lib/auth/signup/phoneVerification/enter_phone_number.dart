@@ -1,13 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:services/auth/signup/addharVerfication/verify_aadhar_number.dart';
+import 'package:services/api/dio_findUser.dart';
+import 'package:services/auth/signup/phoneVerification/verify_phone_number.dart';
 
 class Number extends StatelessWidget {
   Number({super.key});
 
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -63,26 +65,107 @@ class Number extends StatelessWidget {
               });
         } catch (e) {
           print('Exception: $e');
-          Navigator.of(context).pop();
+          if (context.mounted) {
+            Navigator.of(context).pop();
 
-          showCupertinoDialog(
-            context: context,
-            builder: (context) {
-              return CupertinoAlertDialog(
-                title: const Text('Server Error!'),
-                content: const Text(
-                    'We are having Some Problem!\n Please try again later!'),
-                actions: [
-                  TextButton(
+            showCupertinoDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: const Text('Server Error!'),
+                  content: const Text(
+                      'We are having Some Problem!\n Please try again later!'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Okay'))
+                  ],
+                );
+              },
+            );
+          }
+        }
+      }
+    }
+
+    void checkInDb(String phone) async {
+      try {
+        final response = await checkIfNumberExists(phone);
+
+        if (response == 200) {
+          checkNumber(phone);
+        } else if (response == 202) {
+          if (context.mounted) {
+            Navigator.pop(context);
+
+            showCupertinoDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: const Text('PHONE NUMBER ALREADY EXISTS!'),
+                  content: const Text(
+                      'Please login with this number or Change the Number'),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Login'),
+                    ),
+                    TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Okay'))
+                      child: const Text('Continue'),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        } else {
+          if (context.mounted) {
+            Navigator.pop(context);
+            showCupertinoDialog(
+              context: context,
+              builder: (context) => CupertinoAlertDialog(
+                title: const Text('Oops somethings wrong'),
+                content: const Text('Server Error ! please try again later!!'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Okay'),
+                  ),
                 ],
-              );
-            },
+              ),
+            );
+          }
+        }
+      } catch (e) {
+        if (context.mounted) {
+          Navigator.pop(context);
+          showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+              title: const Text('Oops somethings wrong'),
+              content: const Text('Server Error ! please try again later!!'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Okay'),
+                ),
+              ],
+            ),
           );
         }
+        print('Exception: $e');
       }
     }
 
@@ -124,6 +207,7 @@ class Number extends StatelessWidget {
                 key: _formKey,
                 child: TextFormField(
                   controller: _phoneController,
+                  focusNode: _focusNode,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: "Enter your phone number",
@@ -150,6 +234,7 @@ class Number extends StatelessWidget {
               OutlinedButton(
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
+                    _focusNode.unfocus();
                     showDialog(
                       context: context,
                       builder: (context) {
@@ -159,7 +244,9 @@ class Number extends StatelessWidget {
                       },
                     );
 
-                    checkNumber(_phoneController.text);
+                    checkInDb(_phoneController.text);
+
+                    //checkNumber(_phoneController.text);
                   }
                 },
                 style: OutlinedButton.styleFrom(
