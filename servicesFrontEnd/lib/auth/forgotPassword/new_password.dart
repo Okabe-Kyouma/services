@@ -4,7 +4,7 @@ import 'package:services/api/dio_findUser.dart';
 import 'package:services/api/dio_update.dart';
 
 class NewPassword extends StatefulWidget {
-  NewPassword({super.key, required this.email});
+  const NewPassword({super.key, required this.email});
 
   final String email;
 
@@ -22,6 +22,13 @@ class _NewPasswordState extends State<NewPassword> {
   void initState() {
     super.initState();
     getUsersUsername();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _passwordController.dispose();
+    _passFocus.dispose();
   }
 
   void getUsersUsername() async {

@@ -66,12 +66,12 @@ class _LoginState extends State<Login> {
 
       if (response == 200) {
         if (mounted) {
-          Navigator.pushAndRemoveUntil(
+          Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const Dashboard(),
             ),
-            (Route<dynamic> route) => false,
+            // (Route<dynamic> route) => false,
           );
         }
       } else if (response == 202) {

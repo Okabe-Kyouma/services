@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:restart_app/restart_app.dart';
 import 'package:services/api/dio_logout.dart';
 import 'package:services/api/dio_update.dart';
 import 'package:services/first_screen.dart';
@@ -56,6 +57,52 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: SafeArea(
+        child: Drawer(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                TextButton(
+                  onPressed: () async {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return const Center(
+                          child: PopScope(
+                            canPop: false,
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      },
+                    );
+
+                    await logout();
+
+                    if (context.mounted) {
+                      Navigator.pop(context);
+
+                      // Navigator.pushAndRemoveUntil(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const FirstScreen(),
+                      //   ),
+                      //     (Route<dynamic> route) => false,
+                      // );
+
+                       Navigator.popUntil(context,
+                           (route) => route.settings.name == "/firstScreen");
+                    }
+                  },
+                  child: const Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
       appBar: AppBar(
         foregroundColor: Colors.white,
         title: TextButton.icon(
@@ -69,38 +116,7 @@ class _DashboardState extends State<Dashboard> {
             style: const TextStyle(color: Colors.white),
           ),
         ),
-        actions: [
-          TextButton(
-              onPressed: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const Center(
-                      child: PopScope(
-                        canPop: false,
-                        child: CircularProgressIndicator(),
-                      ),
-                    );
-                  },
-                );
-
-                await logout();
-
-                Navigator.pop(context);
-
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FirstScreen(),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: const Text(
-                'Logout',
-                style: TextStyle(color: Colors.white),
-              ))
-        ],
+        actions: [],
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         automaticallyImplyLeading: false,
       ),

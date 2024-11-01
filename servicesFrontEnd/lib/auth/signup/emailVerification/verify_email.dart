@@ -1,7 +1,6 @@
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:services/auth/signup/signup.dart';
 import 'package:services/widgets/providerModels/email_model.dart';

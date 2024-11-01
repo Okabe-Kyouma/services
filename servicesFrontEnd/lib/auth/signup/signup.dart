@@ -49,6 +49,14 @@ class _SignupState extends State<Signup> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _userNameController.dispose();
+    _nameController.dispose();
+    _passwordController.dispose();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     position = Provider.of<LocationModel>(context).currentPosition;
