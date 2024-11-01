@@ -21,6 +21,7 @@ class UserInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print('The image that imgonna display: ${profilePhotoLink.substring(8)}');
+    String phn = phoneNumber.substring(0, 4);
     return Card(
       elevation: 5,
       margin: const EdgeInsets.all(12.0),
@@ -41,7 +42,6 @@ class UserInfo extends StatelessWidget {
                     height: 80,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
-                      // Fallback image if the profile photo link is invalid
                       return Image.asset(
                         'assets/logos/services_logo.png',
                         width: 80,
@@ -63,7 +63,7 @@ class UserInfo extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      "Call +91$phoneNumber",
+                      "Cell +91${phn}XXXXXX",
                       style: const TextStyle(
                         fontSize: 16,
                         color: Colors.grey,
@@ -85,12 +85,12 @@ class UserInfo extends StatelessWidget {
               thickness: 1,
             ),
             const SizedBox(height: 8),
-            Text(
-              'Service: $service',
-              style: const TextStyle(
-                fontSize: 16,
-              ),
-            ),
+            // Text(
+            //   'Service: $service',
+            //   style: const TextStyle(
+            //     fontSize: 16,
+            //   ),
+            // ),
             const SizedBox(height: 4),
             Text(
               'Experience: $exp',
@@ -99,6 +99,10 @@ class UserInfo extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 4),
+            ListTile(
+              title: Text('Message This person'),
+              leading: Icon(Icons.message),
+            )
             // Text(
             //   'Address: $address',
             //   style: const TextStyle(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
-import 'package:restart_app/restart_app.dart';
-import 'package:services/api/dio_logout.dart';
+import 'package:services/api/dio_setup.dart';
 import 'package:services/api/dio_update.dart';
-import 'package:services/first_screen.dart';
 import 'package:services/widgets/dashboard_helper.dart';
+import 'package:services/widgets/drawerFiles/current_user_info.dart';
+import 'package:services/widgets/drawerFiles/options.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
 
 class Dashboard extends StatefulWidget {
@@ -19,10 +19,45 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   Position? position;
   String? address;
+  String fullname = 'Loading..';
+  String email = 'Loading..';
+  String profilePictureUrl = 'assets/logos/services_logo.png';
+
+  Future<void> fetchUserDetails() async {
+    final dio = await createDioWithCookieManager();
+    try {
+      final response = await dio.get(
+        '$url/send/userdetails',
+      );
+
+      if (response.statusCode == 200) {
+        print(
+            'response status is received: as the data: ${response.data['fullname']} and ${response.data['email']} and ${response.data['profilePictureUrl']}');
+        setState(() {
+          fullname = response.data['fullname'];
+          email = response.data['email'];
+          profilePictureUrl = response.data['profilePictureUrl'];
+        });
+      } else {
+        setState(() {
+          fullname = 'Server Error';
+          email = 'Server Error';
+          profilePictureUrl = 'assets/logos/services_logo.png';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        fullname = 'Server Error';
+        email = 'Server Error';
+        profilePictureUrl = 'assets/logos/services_logo.png';
+      });
+    }
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchUserDetails();
   }
 
   @override
@@ -62,42 +97,12 @@ class _DashboardState extends State<Dashboard> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TextButton(
-                  onPressed: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const Center(
-                          child: PopScope(
-                            canPop: false,
-                            child: CircularProgressIndicator(),
-                          ),
-                        );
-                      },
-                    );
-
-                    await logout();
-
-                    if (context.mounted) {
-                      Navigator.pop(context);
-
-                      // Navigator.pushAndRemoveUntil(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => const FirstScreen(),
-                      //   ),
-                      //     (Route<dynamic> route) => false,
-                      // );
-
-                       Navigator.popUntil(context,
-                           (route) => route.settings.name == "/firstScreen");
-                    }
-                  },
-                  child: const Text(
-                    'Logout',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                )
+                CurrentUserInfo(
+                  email: email,
+                  fullName: fullname,
+                  image: profilePictureUrl,
+                ),
+                const Options(),
               ],
             ),
           ),

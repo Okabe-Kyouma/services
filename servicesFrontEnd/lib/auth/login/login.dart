@@ -154,6 +154,7 @@ class _LoginState extends State<Login> {
                             decoration: const InputDecoration(
                                 labelText: 'Please enter your username',
                                 hintText: 'Username',
+                                hintStyle: TextStyle(color: Colors.grey),
                                 labelStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius:
@@ -183,6 +184,7 @@ class _LoginState extends State<Login> {
                                 label: Text('Please enter your password'),
                                 labelStyle: TextStyle(color: Colors.grey),
                                 hintText: 'Password',
+                                hintStyle: TextStyle(color: Colors.grey),
                                 border: OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),

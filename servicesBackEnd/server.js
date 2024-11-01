@@ -100,6 +100,27 @@ app.get('/check/number/:number',async (req,res)=>{
 
 })
 
+app.get('/send/userdetails', async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const currentUser = req.user;
+
+      const userDetails = {
+        fullname: currentUser.fullname,
+        email: currentUser.email,
+        profilePictureUrl: currentUser.profilePictureUrl || null,
+      };
+
+      return res.status(200).json(userDetails); 
+    } catch (e) {
+      return res.status(404).send("Some Error Occurred");
+    }
+  } else {
+    return res.status(500).send('User not Authorized');
+  }
+});
+
+
 app.get("/check/username/:username", async (req, res) => {
   const username = req.params.username;
 
