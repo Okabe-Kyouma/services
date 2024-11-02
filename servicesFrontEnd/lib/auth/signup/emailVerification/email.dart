@@ -48,13 +48,13 @@ class Email extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const Text(
+              Text(
                 "Please enter your Email-id",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87),
+                    color: Theme.of(context).primaryTextTheme.displaySmall?.color),
               ),
               const SizedBox(
                 height: 10,
@@ -68,6 +68,7 @@ class Email extends StatelessWidget {
                       child: TextFormField(
                         controller: _emailController,
                         focusNode: _focusNode,
+                         style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                         validator: (value) {
                           if (value == null ||
                               !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')

@@ -44,12 +44,12 @@ class NumberVerification extends StatelessWidget {
                 const SizedBox(
                   height: 24,
                 ),
-                const Text(
+                Text(
                   "Enter the Otp that is sent to your number",
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
+                    color: Theme.of(context).primaryTextTheme.displaySmall?.color,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -61,6 +61,7 @@ class NumberVerification extends StatelessWidget {
                   child: TextFormField(
                     controller: _otpController,
                     keyboardType: TextInputType.phone,
+                     style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                     decoration: InputDecoration(
                       labelText: "Enter Otp",
                       labelStyle: const TextStyle(color: Colors.grey),

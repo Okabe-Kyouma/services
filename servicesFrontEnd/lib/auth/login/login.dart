@@ -19,11 +19,19 @@ class _LoginState extends State<Login> {
   final FocusNode _focusNode = FocusNode();
   final FocusNode _focusNode2 = FocusNode();
   final ScrollController _scrollController = ScrollController();
+  bool obsPassword = true;
+  Icon obsIcon = const Icon(
+    Icons.lock_outline_rounded,
+    color: Colors.blueAccent,
+    size: 20,
+  );
 
   void _scrollToTop() {
     if (_focusNode.hasFocus || _focusNode2.hasFocus) {
-      _scrollController.animateTo(0,
-          duration: const Duration(milliseconds: 3000), curve: Curves.easeIn);
+      setState(() {
+        _scrollController.animateTo(1.1,
+            duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+      });
     }
   }
 
@@ -114,6 +122,27 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void seePass() {
+    obsPassword = !obsPassword;
+
+    obsIcon = obsPassword
+        ? const Icon(
+            Icons.lock_outline_rounded,
+            color: Colors.blueAccent,
+            size: 20,
+          )
+        : const Icon(
+            Icons.lock_open_rounded,
+            color: Colors.blueAccent,
+            size: 20,
+          );
+
+    setState(() {
+      obsPassword;
+      obsIcon;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,6 +180,7 @@ class _LoginState extends State<Login> {
                           child: TextFormField(
                             focusNode: _focusNode,
                             controller: _usernameController,
+                             style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                             decoration: const InputDecoration(
                                 labelText: 'Please enter your username',
                                 hintText: 'Username',
@@ -179,17 +209,24 @@ class _LoginState extends State<Login> {
                           child: TextFormField(
                             controller: _passwordController,
                             focusNode: _focusNode2,
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                                label: Text('Please enter your password'),
-                                labelStyle: TextStyle(color: Colors.grey),
+                            obscureText: obsPassword,
+                            style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                            decoration: InputDecoration(
+                                label: const Text('Please enter your password'),
+                                labelStyle: const TextStyle(color: Colors.grey),
                                 hintText: 'Password',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
+                                suffix: InkWell(
+                                  child: obsIcon,
+                                  onTap: () {
+                                    seePass();
+                                  },
+                                ),
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
                                 ),
-                                prefixIcon: Icon(
+                                prefixIcon: const Icon(
                                   Icons.password,
                                   color: Colors.grey,
                                 )),
@@ -256,7 +293,9 @@ class _LoginState extends State<Login> {
                         ),
                         Text(
                           "Don't remember password?",
-                          style: GoogleFonts.montserrat(),
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme.displaySmall?.color),
                         ),
                         TextButton(
                           onPressed: () {

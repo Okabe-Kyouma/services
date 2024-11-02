@@ -294,9 +294,9 @@ class _SignupState extends State<Signup> {
                 children: [
                   Container(
                     margin: const EdgeInsets.all(20),
-                    child: const Text(
+                    child:  Text(
                       'Please Fill up your details',
-                      style: TextStyle(fontSize: 28),
+                      style: TextStyle(fontSize: 28,color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                     ),
                   ),
                   Container(
@@ -351,6 +351,7 @@ class _SignupState extends State<Signup> {
                             TextFormField(
                               controller: _userNameController,
                               autovalidateMode: AutovalidateMode.always,
+                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                               onChanged: (name) {
                                 _checkUsername();
                               },
@@ -388,6 +389,7 @@ class _SignupState extends State<Signup> {
                             const SizedBox(height: 25),
                             TextFormField(
                               controller: _nameController,
+                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                               validator: (value) {
                                 if (value == null || value.isEmpty)
                                   return "Please enter your name";
@@ -408,6 +410,7 @@ class _SignupState extends State<Signup> {
                             const SizedBox(height: 25),
                             TextFormField(
                               controller: _passwordController,
+                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                               validator: (value) {
                                 if (value == null || value.length < 8) {
                                   return "Please enter a correct password";
@@ -431,6 +434,7 @@ class _SignupState extends State<Signup> {
                             TextFormField(
                               controller:
                                   TextEditingController(text: phoneNumber),
+                                   style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                               decoration: InputDecoration(
                                 label: const Text('Your Number'),
                                 filled: true,
@@ -449,6 +453,7 @@ class _SignupState extends State<Signup> {
                             const SizedBox(height: 25),
                             TextFormField(
                               controller: TextEditingController(text: email),
+                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                               decoration: InputDecoration(
                                 label: const Text('Your Email'),
                                 filled: true,

@@ -194,12 +194,12 @@ class Number extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
+              Text(
                 "Verify your phone number",
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: Theme.of(context).primaryTextTheme.displaySmall?.color,
                 ),
               ),
               const SizedBox(height: 16),
@@ -208,6 +208,11 @@ class Number extends StatelessWidget {
                 child: TextFormField(
                   controller: _phoneController,
                   focusNode: _focusNode,
+                  style: TextStyle(
+                      color: Theme.of(context)
+                          .primaryTextTheme
+                          .displaySmall
+                          ?.color),
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
                     labelText: "Enter your phone number",

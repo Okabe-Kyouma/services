@@ -91,7 +91,7 @@ class _CategoryClassState extends State<CategoryClass> {
                     child:
                         CircularProgressIndicator()) // Show loading indicator
                 : userList.isEmpty
-                    ? const Center(child: Text('No service Provider Found'))
+                    ? Center(child: Text('No service Provider Found',style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),))
                     : ListView.builder(
                         itemCount: userList.length,
                         itemBuilder: (context, index) {

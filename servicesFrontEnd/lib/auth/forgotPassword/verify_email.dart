@@ -36,13 +36,13 @@ class PasswordRecovery extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const Text(
+              Text(
                 "We have sent an Otp to your registered Email-id",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87),
+                    color: Theme.of(context).primaryTextTheme.displaySmall?.color),
               ),
               const SizedBox(
                 height: 5,
@@ -55,6 +55,7 @@ class PasswordRecovery extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       child: TextFormField(
                         controller: _otpController,
+                         style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                         validator: (value) {
                           if (value == null || value.length < 6) {
                             return 'Otp Must be of 6 letters';

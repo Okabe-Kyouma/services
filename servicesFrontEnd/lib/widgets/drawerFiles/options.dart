@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_logout.dart';
+import 'package:services/widgets/drawerFiles/settings/setting.dart';
 
 class Options extends StatelessWidget {
   const Options({super.key});
@@ -51,7 +52,14 @@ class Options extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings'),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Setting(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.logout),

@@ -142,15 +142,27 @@ class _NewPasswordState extends State<NewPassword> {
                         padding: const EdgeInsets.symmetric(horizontal: 10),
                         child: TextFormField(
                           controller: TextEditingController(text: username),
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color),
                           readOnly: true,
                           decoration: InputDecoration(
                               labelText: 'Your Username',
-                              labelStyle: const TextStyle(color: Colors.black),
+                              labelStyle: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .displaySmall
+                                      ?.color),
                               border: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12)),
                               ),
-                              fillColor: Colors.grey[200],
+                              fillColor: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.grey[1000]
+                                  : Colors.grey[100],
                               filled: true,
                               prefixIcon: const Icon(
                                 Icons.person,
@@ -167,6 +179,11 @@ class _NewPasswordState extends State<NewPassword> {
                         child: TextFormField(
                           controller: _passwordController,
                           focusNode: _passFocus,
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color),
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           validator: (value) {
                             if (value == null ||

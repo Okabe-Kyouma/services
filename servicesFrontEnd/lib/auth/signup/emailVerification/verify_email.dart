@@ -44,12 +44,12 @@ class VerifyEmail extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                const Text(
+                 Text(
                   "We have sent an Otp to your registered email id",
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black87),
+                      color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -64,6 +64,7 @@ class VerifyEmail extends StatelessWidget {
                         child: TextFormField(
                           controller: _otpController,
                           focusNode: _focusNode,
+                           style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                           autovalidateMode: AutovalidateMode.disabled,
                           validator: (value) {
                             if (value == null ||

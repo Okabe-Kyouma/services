@@ -135,13 +135,13 @@ class EnterEmail extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const Text(
+            Text(
               "Please enter your registered Email-id",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black87),
+                  color: Theme.of(context).primaryTextTheme.displaySmall?.color),
             ),
             const SizedBox(
               height: 5,
@@ -155,6 +155,7 @@ class EnterEmail extends StatelessWidget {
                     child: TextFormField(
                       // autovalidateMode: AutovalidateMode.onUserInteraction,
                       controller: _emailController,
+                       style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
                       focusNode: _emailFocus,
                       validator: (value) {
                         if (value == null ||

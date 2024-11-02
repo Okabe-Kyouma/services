@@ -25,19 +25,24 @@ class _CurrentUserInfoState extends State<CurrentUserInfo> {
 
   @override
   Widget build(BuildContext context) {
-    String imageProvider = widget.image;
-    DecorationImage decoImage;
+    // String imageProvider = widget.image;
+    // DecorationImage decoImage;
 
-    if (imageProvider == 'assets/logos/services_logo.png' ||
-        imageProvider == 'noimageisavailabletodisplayhere') {
-      decoImage = const DecorationImage(
-        image: AssetImage('assets/logos/services_logo.png'),
-      );
-    } else {
-      decoImage = DecorationImage(
-        image: NetworkImage(imageProvider),
-      );
-    }
+    // if (imageProvider == 'assets/logos/services_logo.png' ||
+    //     imageProvider == 'noimageisavailabletodisplayhere') {
+    //   decoImage = const DecorationImage(
+    //     image: AssetImage('assets/logos/services_logo.png'),
+    //   );
+    // } else {
+    //   decoImage = DecorationImage(
+    //     image: NetworkImage(imageProvider),
+    //     onError: (exception, stackTrace) {
+    //       decoImage = decoImage = const DecorationImage(
+    //         image: AssetImage('assets/logos/services_logo.png'),
+    //       );
+    //     },
+    //   );
+    // }
 
     return Container(
       color: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -50,7 +55,31 @@ class _CurrentUserInfoState extends State<CurrentUserInfo> {
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             height: 70,
-            decoration: BoxDecoration(shape: BoxShape.circle, image: decoImage),
+            // decoration: BoxDecoration(
+            //   shape: BoxShape.circle,
+            //   image: decoImage,
+            // ),
+            child: ClipOval(
+              child: SizedBox(
+                height: 80,
+                width: 80,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/logos/home_logo.png',
+                  image: widget.image,
+                  fit: BoxFit.cover,
+                  imageErrorBuilder: (context, error, stackTrace) {
+                    return Image.asset(
+                      'assets/logos/home_logo.png',
+                      height: 40,
+                      width: 40,
+                    );
+                  },
+                  placeholderErrorBuilder: (context, error, stackTrace) {
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ),
+            ),
           ),
           Text(
             widget.fullName,

@@ -1,11 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:phone_email_auth/phone_email_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:services/widgets/providerModels/aadhar_model.dart';
 import 'package:services/widgets/providerModels/email_model.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
 import 'package:services/widgets/splash_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+final GlobalKey<_MyAppState> myAppKey = GlobalKey<_MyAppState>();
 
 final colorScheme = ColorScheme.fromSeed(
     seedColor:
@@ -13,14 +17,25 @@ final colorScheme = ColorScheme.fromSeed(
         // Color.fromARGB(255, 196, 185, 207),
         Colors.deepPurpleAccent);
 
+final darkColorScheme = ColorScheme.fromSeed(
+        seedColor: const Color.fromARGB(255, 38, 32, 53),
+        brightness: Brightness.dark)
+    .copyWith(
+        onPrimary: Colors.black87,
+        onPrimaryContainer: const Color.fromARGB(57, 15, 69, 47));
+
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       options: const FirebaseOptions(
           apiKey: "AIzaSyDE3CEW3kTZK5LxNN_qjLWCH4rx4A_2ues",
           appId: "1:69047120729:android:9f24bd5bba8f6da2a79248",
           messagingSenderId: "69047120729",
           projectId: "services-e8b07"));
+
+  final prefs = await SharedPreferences.getInstance();
+  final isDarkMode = prefs.getBool('isDarkMode') ?? false;
+
   runApp(
     MultiProvider(
       providers: [
@@ -34,22 +49,61 @@ void main() async {
           create: (context) => AadharModel(),
         ),
       ],
-      child: const MyApp(),
+      child: MyApp(
+        isDarkMode: isDarkMode,
+        key: myAppKey,
+      ),
     ),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  const MyApp({super.key, required this.isDarkMode});
+
+  final bool isDarkMode;
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late ThemeMode _themeMode;
+
+  @override
+  void initState() {
+    super.initState();
+    _themeMode = widget.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+  }
+
+  void toggleTheme(bool isDarkMode) async {
+    setState(() {
+      _themeMode = isDarkMode ? ThemeMode.dark : ThemeMode.light;
+    });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isDarkMode', isDarkMode);
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData.from(colorScheme: colorScheme).copyWith(
-            colorScheme: colorScheme,
-            textTheme: GoogleFonts.montserratTextTheme()),
-         home: const SplashScreen(),
-        );
+      theme: ThemeData.from(colorScheme: colorScheme).copyWith(
+        colorScheme: colorScheme,
+        textTheme: GoogleFonts.montserratTextTheme(),
+        primaryTextTheme: const TextTheme(
+          displaySmall: TextStyle(color: Colors.black),
+        ),
+      ),
+      home: const SplashScreen(),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: darkColorScheme,
+        textTheme: GoogleFonts.montserratTextTheme(),
+        scaffoldBackgroundColor: Colors.black,
+        primaryColorLight: Colors.black,
+        primaryTextTheme:
+            const TextTheme(displaySmall: TextStyle(color: Colors.white)),
+      ),
+      themeMode: _themeMode,
+    );
   }
 }
 
