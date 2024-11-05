@@ -54,17 +54,23 @@ class WorkProfileCreated extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const Text(
+              Text(
                 'We have Created Your work Profile',
-                style: TextStyle(fontSize: 28),
+                style: TextStyle(
+                    fontSize: 28,
+                    color:
+                        Theme.of(context).primaryTextTheme.displaySmall?.color),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(
                 height: 10,
               ),
-              const Text(
+              Text(
                 'In the meantime you can Login and look for services that you need',
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                    fontSize: 20,
+                    color:
+                        Theme.of(context).primaryTextTheme.displaySmall?.color),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(

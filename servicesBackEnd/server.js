@@ -81,6 +81,31 @@ app.get('/send/username/:email',async (req,res)=>{
 
 })
 
+app.get('/profile',async (req,res)=>{
+
+  if(req.isAuthenticated()){
+
+    const user = req.user;
+
+    const data = {
+      "profilePictureUrl" : user.profilePictureUrl,
+      "email" : user.email,
+      "phoneNumber" : user.phoneNumber,
+      "username" : user.username,
+      "fullname" : user.fullname,
+      "service" : user.service,
+      "exp" : user.exp,
+    }
+
+    return res.json(data);
+
+  }
+  else{
+    return res.status(404).send("User not authorized");
+  }
+
+})
+
 app.get('/check/number/:number',async (req,res)=>{
 
       const number = req.params.number;

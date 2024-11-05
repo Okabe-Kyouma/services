@@ -294,9 +294,14 @@ class _SignupState extends State<Signup> {
                 children: [
                   Container(
                     margin: const EdgeInsets.all(20),
-                    child:  Text(
+                    child: Text(
                       'Please Fill up your details',
-                      style: TextStyle(fontSize: 28,color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                      style: TextStyle(
+                          fontSize: 28,
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .displaySmall
+                              ?.color),
                     ),
                   ),
                   Container(
@@ -351,7 +356,11 @@ class _SignupState extends State<Signup> {
                             TextFormField(
                               controller: _userNameController,
                               autovalidateMode: AutovalidateMode.always,
-                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .displaySmall
+                                      ?.color),
                               onChanged: (name) {
                                 _checkUsername();
                               },
@@ -389,7 +398,11 @@ class _SignupState extends State<Signup> {
                             const SizedBox(height: 25),
                             TextFormField(
                               controller: _nameController,
-                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .displaySmall
+                                      ?.color),
                               validator: (value) {
                                 if (value == null || value.isEmpty)
                                   return "Please enter your name";
@@ -410,7 +423,11 @@ class _SignupState extends State<Signup> {
                             const SizedBox(height: 25),
                             TextFormField(
                               controller: _passwordController,
-                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .displaySmall
+                                      ?.color),
                               validator: (value) {
                                 if (value == null || value.length < 8) {
                                   return "Please enter a correct password";
@@ -434,11 +451,18 @@ class _SignupState extends State<Signup> {
                             TextFormField(
                               controller:
                                   TextEditingController(text: phoneNumber),
-                                   style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .displaySmall
+                                      ?.color),
                               decoration: InputDecoration(
                                 label: const Text('Your Number'),
                                 filled: true,
-                                fillColor: Colors.grey[200],
+                                fillColor: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.grey[1000]
+                                    : Colors.grey[100],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -453,11 +477,18 @@ class _SignupState extends State<Signup> {
                             const SizedBox(height: 25),
                             TextFormField(
                               controller: TextEditingController(text: email),
-                               style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .displaySmall
+                                      ?.color),
                               decoration: InputDecoration(
                                 label: const Text('Your Email'),
                                 filled: true,
-                                fillColor: Colors.grey[200],
+                                fillColor: Theme.of(context).brightness ==
+                                        Brightness.dark
+                                    ? Colors.grey[1000]
+                                    : Colors.grey[100],
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -476,18 +507,35 @@ class _SignupState extends State<Signup> {
                     ),
                   ),
                   const SizedBox(height: 25),
-                  const Text(
+                  Text(
                     'What can you do?',
-                    style: TextStyle(fontSize: 28),
+                    style: TextStyle(
+                        fontSize: 28,
+                        color: Theme.of(context)
+                            .primaryTextTheme
+                            .displaySmall
+                            ?.color),
                   ),
                   const SizedBox(height: 10),
                   DropdownButton(
                     value: selectedWork,
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .primaryTextTheme
+                            .displaySmall
+                            ?.color),
                     items: listOfWork.map((e) {
                       return DropdownMenuItem(
                         value: e,
                         enabled: true,
-                        child: Text(e),
+                        child: Text(
+                          e,
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color),
+                        ),
                       );
                     }).toList(),
                     onChanged: (value) {
@@ -500,9 +548,14 @@ class _SignupState extends State<Signup> {
                   if (selectedWork != listOfWork[0])
                     Column(
                       children: [
-                        const Text(
+                        Text(
                           'Your Experience Level',
-                          style: TextStyle(fontSize: 28),
+                          style: TextStyle(
+                              fontSize: 28,
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color),
                         ),
                         DropdownButton(
                           value: exp,
@@ -510,7 +563,14 @@ class _SignupState extends State<Signup> {
                             return DropdownMenuItem(
                               value: e,
                               enabled: true,
-                              child: Text(e),
+                              child: Text(
+                                e,
+                                style: TextStyle(
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .displaySmall
+                                        ?.color),
+                              ),
                             );
                           }).toList(),
                           onChanged: (value) {

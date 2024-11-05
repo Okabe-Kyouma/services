@@ -162,10 +162,10 @@ class UserInfo extends StatelessWidget {
     String phn = phoneNumber.substring(0, 4);
 
     return SizedBox(
-      height: 260,
+      height: 240,
       child: Card(
         elevation: 5,
-        margin: const EdgeInsets.all(12.0),
+        margin: const EdgeInsets.all(14.0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -178,8 +178,8 @@ class UserInfo extends StatelessWidget {
                 children: [
                   ClipOval(
                     child: SizedBox(
-                      width: 80,
-                      height: 80,
+                      width: 60,
+                      height: 60,
                       child: FadeInImage.assetNetwork(
                         key: UniqueKey(),
                         placeholder: 'assets/logos/home_logo.png',
@@ -189,8 +189,8 @@ class UserInfo extends StatelessWidget {
                           return Image.asset(
                             'assets/logos/home_logo.png',
                             // fit: BoxFit.contain,
-                            height: 40,
-                            width: 40,
+                            height: 60,
+                            width: 60,
                           );
                         },
                         placeholderErrorBuilder: (context, error, stackTrace) {
@@ -204,7 +204,7 @@ class UserInfo extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        fullname,
+                        fullname.toUpperCase(),
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

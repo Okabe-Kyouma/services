@@ -29,7 +29,7 @@ class _LoginState extends State<Login> {
   void _scrollToTop() {
     if (_focusNode.hasFocus || _focusNode2.hasFocus) {
       setState(() {
-        _scrollController.animateTo(1.1,
+        _scrollController.animateTo(0.0,
             duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
       });
     }
@@ -180,7 +180,11 @@ class _LoginState extends State<Login> {
                           child: TextFormField(
                             focusNode: _focusNode,
                             controller: _usernameController,
-                             style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .primaryTextTheme
+                                    .displaySmall
+                                    ?.color),
                             decoration: const InputDecoration(
                                 labelText: 'Please enter your username',
                                 hintText: 'Username',
@@ -210,7 +214,11 @@ class _LoginState extends State<Login> {
                             controller: _passwordController,
                             focusNode: _focusNode2,
                             obscureText: obsPassword,
-                            style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                            style: TextStyle(
+                                color: Theme.of(context)
+                                    .primaryTextTheme
+                                    .displaySmall
+                                    ?.color),
                             decoration: InputDecoration(
                                 label: const Text('Please enter your password'),
                                 labelStyle: const TextStyle(color: Colors.grey),
@@ -295,7 +303,9 @@ class _LoginState extends State<Login> {
                           "Don't remember password?",
                           style: TextStyle(
                               color: Theme.of(context)
-                                  .primaryTextTheme.displaySmall?.color),
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color),
                         ),
                         TextButton(
                           onPressed: () {

@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_logout.dart';
+import 'package:services/first_screen.dart';
+import 'package:services/widgets/drawerFiles/profile_update/profile.dart';
 import 'package:services/widgets/drawerFiles/settings/setting.dart';
 
 class Options extends StatelessWidget {
@@ -40,9 +43,13 @@ class Options extends StatelessWidget {
       // ),
       child: Column(
         children: [
-          const ListTile(
-            leading: Icon(Icons.person),
-            title: Text('Profile'),
+           ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Profile'),
+            onTap: (){
+              Navigator.push(context, 
+              MaterialPageRoute(builder: (context) => const Profile(),));
+            },
           ),
           ListTile(
             leading: const Icon(Icons.chat),
@@ -67,26 +74,54 @@ class Options extends StatelessWidget {
               'Logout',
             ),
             onTap: () async {
-              showDialog(
+              showCupertinoDialog(
                 context: context,
                 builder: (context) {
-                  return const Center(
-                    child: PopScope(
-                      canPop: false,
-                      child: CircularProgressIndicator(),
-                    ),
+                  return CupertinoAlertDialog(
+                    title: const Text('Logout?'),
+                    content: const Text('Do you want to Logout?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text('No'),
+                      ),
+                      TextButton(
+                        onPressed: () async {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return const Center(
+                                child: PopScope(
+                                  canPop: false,
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            },
+                          );
+
+                          await logout();
+
+                          if (context.mounted) {
+                            Navigator.pop(context);
+
+                            //Navigator.popUntil(
+                            //   context, (route) => route.settings.name == "/firstScreen");
+
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const FirstScreen()),
+                              (Route<dynamic> route) => false,
+                            );
+                          }
+                        },
+                        child: const Text('Yes'),
+                      ),
+                    ],
                   );
                 },
               );
-
-              await logout();
-
-              if (context.mounted) {
-                Navigator.pop(context);
-
-                Navigator.popUntil(
-                    context, (route) => route.settings.name == "/firstScreen");
-              }
             },
           ),
           ListTile(

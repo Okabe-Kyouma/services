@@ -35,7 +35,7 @@ class _SettingState extends State<Setting> {
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
       ),
-      backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      // backgroundColor: Theme.of(context).colorScheme.onPrimary,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
@@ -93,7 +93,7 @@ class _SettingState extends State<Setting> {
                         setState(() {
                           isDarkMode = value;
                         });
-                        
+
                         myAppKey.currentState?.toggleTheme(isDarkMode);
                       },
                     ),
@@ -103,7 +103,7 @@ class _SettingState extends State<Setting> {
                           "Dark Mode",
                           style: TextStyle(
                             fontSize: 16,
-                            color: isDarkMode ? Colors.black : Colors.grey,
+                            color: isDarkMode ? Colors.white : Colors.grey,
                           ),
                         ),
                         const SizedBox(width: 10),
