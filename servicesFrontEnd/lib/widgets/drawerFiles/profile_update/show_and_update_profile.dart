@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_profile.dart';
+import 'package:services/widgets/drawerFiles/profile_update/update_profile_helper.dart';
 
 class ShowNUpdate extends StatefulWidget {
   const ShowNUpdate({super.key, required this.profileData});
@@ -18,7 +20,15 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
   @override
   void initState() {
     super.initState();
+    getRefreshedDate();
     pro = widget.profileData;
+  }
+
+  void getRefreshedDate() async {
+    pro = widget.profileData;
+    setState(() {
+      pro;
+    });
   }
 
   @override
@@ -126,12 +136,54 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                     Align(
                       alignment: Alignment.center,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showCupertinoDialog(
+                            context: context,
+                            builder: (context) {
+                              return CupertinoAlertDialog(
+                                title: const Text('Update Profile'),
+                                content: const Text(
+                                    'Do you want to update your profile?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return UpdateProfileHelper(
+                                                profileData: pro!);
+                                          },
+                                        ),
+                                      );
+                                    },
+                                    child: const Text('Yes'),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 30,
                             vertical: 12,
                           ),
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.black
+                                  : null,
+                          foregroundColor:
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.white
+                                  : null,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

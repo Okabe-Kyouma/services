@@ -162,6 +162,42 @@ app.get("/check/username/:username", async (req, res) => {
   }
 });
 
+app.post('/profile/update/:service/:exp/:profileImage',async (req,res)=>{
+
+  if(req.isAuthenticated()){
+
+  const service = req.params.service;
+  const exp = req.params.exp;
+  const profileImage = req.params.profileImage;
+
+
+  try{
+
+    const user = req.user;
+ 
+    user.service = service;
+    user.exp = exp;
+    user.profilePictureUrl = profileImage;
+    
+
+   await user.save();
+
+   res.status(200).json({ message: "Porfile Updated Successfully" });
+    
+  }
+  catch(e){
+   res.status(500).json({ error: "An error occurred.", details: e.message });
+  }
+  
+ 
+  }
+  else{
+   return res.status(404).send("unauthorized");
+  }
+
+
+})
+
 app.post("/update/password/:email/:newPassword", async (req,res)=>{
   
    const email = req.params.email;

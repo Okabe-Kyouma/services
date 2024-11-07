@@ -28,12 +28,14 @@ class Profile extends StatelessWidget {
               );
             } else if (snapshot.hasError) {
               return Center(
-                child: Text('Server Error!',
-                    style: TextStyle(
-                        color: Theme.of(context)
-                            .primaryTextTheme
-                            .displaySmall
-                            ?.color)),
+                child: Text(
+                  'Server Error!',
+                  style: TextStyle(
+                      color: Theme.of(context)
+                          .primaryTextTheme
+                          .displaySmall
+                          ?.color),
+                ),
               );
             } else if (snapshot.hasData) {
               final data = snapshot.data!;

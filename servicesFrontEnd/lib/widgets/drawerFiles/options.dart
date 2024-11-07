@@ -48,7 +48,9 @@ class Options extends StatelessWidget {
             title: const Text('Profile'),
             onTap: (){
               Navigator.push(context, 
-              MaterialPageRoute(builder: (context) => const Profile(),));
+              MaterialPageRoute(builder: (context) => const Profile(),
+                  settings: const RouteSettings(name: '/update'),
+               ),);
             },
           ),
           ListTile(
