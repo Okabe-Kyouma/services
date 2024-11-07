@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:services/api/dio_profile.dart';
 import 'package:services/widgets/drawerFiles/profile_update/show_and_update_profile.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
   const Profile({super.key});
 
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

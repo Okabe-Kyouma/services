@@ -20,12 +20,18 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
   @override
   void initState() {
     super.initState();
-    getRefreshedDate();
     pro = widget.profileData;
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getRefreshedDate();
+    print('this running?');
+  }
+
   void getRefreshedDate() async {
-    pro = widget.profileData;
+    pro = await getProfileDate();
     setState(() {
       pro;
     });
@@ -33,6 +39,11 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
 
   @override
   Widget build(BuildContext context) {
+    if (ModalRoute.of(context)?.isCurrent ?? false) {
+      print("Profile is at the top of the stack");
+      getRefreshedDate();
+    }
+
     return pro == null
         ? Center(
             child: Text(

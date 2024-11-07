@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:services/api/dio_image_upload.dart';
 import 'package:services/api/dio_profile.dart';
@@ -77,8 +78,6 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
     imgurImage = profileData!.profileImage;
   }
 
-  
-
   void pickImage() async {
     pickedImage = await picker.pickImage(source: ImageSource.gallery);
     if (pickedImage != null) {
@@ -119,6 +118,20 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                     onPressed: () {
                       Navigator.popUntil(
                           context, (route) => route.settings.name == "/update");
+                      Fluttertoast.showToast(
+                          msg: "Actual Update may take some time",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Colors.black,
+                          textColor:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.black
+                                  : Colors.white,
+                          fontSize: 16.0);
                     },
                     child: const Text('Okay'),
                   ),

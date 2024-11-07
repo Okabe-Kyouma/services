@@ -28,6 +28,7 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -118,6 +119,15 @@ class _SettingState extends State<Setting> {
                   ],
                 ),
               ),
+              // const SizedBox(height: 20),
+              // Text(
+              //   'Change Number',
+              //   style: TextStyle(
+              //       fontSize: 20,
+              //       fontWeight: FontWeight.bold,
+              //       color:
+              //           Theme.of(context).primaryTextTheme.displaySmall?.color),
+              // ),
             ],
           ),
         ),
