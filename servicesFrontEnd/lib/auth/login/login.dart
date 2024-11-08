@@ -69,6 +69,7 @@ class _LoginState extends State<Login> {
       }
 
       _focusNode2.unfocus();
+      _focusNode.unfocus();
 
       print('RESPONSE: $response');
 
@@ -87,8 +88,8 @@ class _LoginState extends State<Login> {
           showCupertinoDialog(
             context: context,
             builder: (context) => CupertinoAlertDialog(
-              title: const Text('Wrong Username or password'),
-              content: const Text('Please enter correct username and password'),
+              title: const Text('Invalid Credentials'),
+              content: const Text('Please enter correct Username or Password'),
               actions: [
                 TextButton(
                   onPressed: () {

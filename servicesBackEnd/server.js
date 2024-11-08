@@ -162,6 +162,26 @@ app.get("/check/username/:username", async (req, res) => {
   }
 });
 
+app.post('/remove/account', async (req, res) => {
+
+  if (req.isAuthenticated()) {
+    const user_id = req.user._id;
+
+    try {
+      await User.findByIdAndDelete(user_id);
+      return res.status(200).send('Account removed successfully');
+    }
+    catch (e) {
+      console.error('Exception:', e);
+      return res.status(404).send('Error Removing Account');
+    }
+  } else {
+    return res.status(500).send("User not Authenticated");
+  }
+
+});
+
+
 app.post('/profile/update/:service/:exp/:profileImage',async (req,res)=>{
 
   if(req.isAuthenticated()){
