@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_profile.dart';
-import 'package:services/widgets/drawerFiles/profile_update/update_profile_helper.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/profile_update/update_profile_helper.dart';
 
 class ShowNUpdate extends StatefulWidget {
   const ShowNUpdate({super.key, required this.profileData});

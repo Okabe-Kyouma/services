@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_findUser.dart';
-import 'package:services/widgets/drawerFiles/profile_update/phone_update/phone_update_verify_number.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/phone_update/phone_update_verify_number.dart';
 
 class Number extends StatelessWidget {
   Number({super.key});

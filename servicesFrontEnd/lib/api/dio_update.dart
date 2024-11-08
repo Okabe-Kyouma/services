@@ -21,6 +21,29 @@ Future<int> updateLocation(double latitude, double longitude) async {
   }
 }
 
+Future<int> updateExistingPassword(String password)async{
+  final dio = await createDioWithCookieManager();
+
+  try{
+     final response = await dio.post('$url/update/existing/password/$password');
+
+    if (response.statusCode == 200) {
+      print('phone Number changed');
+      return 200;
+    } else if (response.statusCode == 202) {
+      print('Previous phone Number cant be new');
+      return 202;
+    } else {
+      print('Some Error Occurred');
+      return 404;
+    }
+  }catch (e) {
+    print('Exception: $e');
+    return 500;
+  }
+
+}
+
 Future<int> updatePhoneNumber(String phoneNumber) async {
   final dio = await createDioWithCookieManager();
 

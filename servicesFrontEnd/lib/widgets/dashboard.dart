@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:services/api/dio_setup.dart';
 import 'package:services/api/dio_update.dart';
 import 'package:services/widgets/dashboard_helper.dart';
-import 'package:services/widgets/drawerFiles/current_user_info.dart';
-import 'package:services/widgets/drawerFiles/options.dart';
+import 'package:services/widgets/drawerFiles/mainFiles/current_user_info.dart';
+import 'package:services/widgets/drawerFiles/mainFiles/options.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
 
 class Dashboard extends StatefulWidget {

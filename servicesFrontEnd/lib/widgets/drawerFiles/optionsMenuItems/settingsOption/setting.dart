@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_delete_account.dart';
 import 'package:services/main.dart';
-import 'package:services/widgets/drawerFiles/profile_update/phone_update/phone_update_enter_number.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/password_update/password_update.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/phone_update/phone_update_enter_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Setting extends StatefulWidget {
@@ -26,6 +27,15 @@ class _SettingState extends State<Setting> {
       context,
       MaterialPageRoute(
         builder: (context) => Number(),
+      ),
+    );
+  }
+
+  void _changePassword() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const NewPassword(),
       ),
     );
   }
@@ -333,41 +343,69 @@ class _SettingState extends State<Setting> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  width: double.infinity,
-                  height: 60,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.password,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Change Password',
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .displaySmall
-                                ?.color,
-                            fontSize: 18),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: const Text('Change Password'),
+                          content: const Text(
+                              'Do you want to Change Your Password?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                _changePassword();
+                              },
+                              child: const Text('Yes'),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('No'))
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.password,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Change Password',
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color,
+                              fontSize: 18),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30),

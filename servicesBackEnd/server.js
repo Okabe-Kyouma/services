@@ -50,7 +50,6 @@ app.get("/", (req, res) => {
 app.get("/check/email/:email", async (req, res) => {
   const email = req.params.email;
   try {
-  
     const user = await User.findOne({ email: email });
 
     if (user) {
@@ -63,69 +62,58 @@ app.get("/check/email/:email", async (req, res) => {
   }
 });
 
-app.get('/send/username/:email',async (req,res)=>{
+app.get("/send/username/:email", async (req, res) => {
   const email = req.params.email;
   try {
-  
     const user = await User.findOne({ email: email });
 
     if (user) {
-      return res.status(200).send({username:user.username});
+      return res.status(200).send({ username: user.username });
     } else {
       return res.status(202).send("email-id doesn't exists");
     }
   } catch (e) {
     return res.status(500).send("server is down");
   }
+});
 
-
-})
-
-app.get('/profile',async (req,res)=>{
-
-  if(req.isAuthenticated()){
-
+app.get("/profile", async (req, res) => {
+  if (req.isAuthenticated()) {
     const user = req.user;
 
     const data = {
-      "profilePictureUrl" : user.profilePictureUrl,
-      "email" : user.email,
-      "phoneNumber" : user.phoneNumber,
-      "username" : user.username,
-      "fullname" : user.fullname,
-      "service" : user.service,
-      "exp" : user.exp,
-    }
+      profilePictureUrl: user.profilePictureUrl,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      username: user.username,
+      fullname: user.fullname,
+      service: user.service,
+      exp: user.exp,
+    };
 
     return res.json(data);
-
-  }
-  else{
+  } else {
     return res.status(404).send("User not authorized");
   }
+});
 
-})
+app.get("/check/number/:number", async (req, res) => {
+  const number = req.params.number;
 
-app.get('/check/number/:number',async (req,res)=>{
+  try {
+    const user = await User.findOne({ phoneNumber: number });
 
-      const number = req.params.number;
+    if (user) {
+      return res.status(202).send("Phone Number already exists");
+    } else {
+      return res.status(200).send("Phone Number is available");
+    }
+  } catch (e) {
+    return res.status(404).send("server Down");
+  }
+});
 
-      try {
-        const user = await User.findOne({ phoneNumber:number});
-    
-        if (user) {
-          return res.status(202).send("Phone Number already exists");
-        } else {
-          return res.status(200).send("Phone Number is available");
-        }
-      } catch (e) {
-        return res.status(404).send("server Down");
-      }
-   
-
-})
-
-app.get('/send/userdetails', async (req, res) => {
+app.get("/send/userdetails", async (req, res) => {
   if (req.isAuthenticated()) {
     try {
       const currentUser = req.user;
@@ -136,15 +124,14 @@ app.get('/send/userdetails', async (req, res) => {
         profilePictureUrl: currentUser.profilePictureUrl || null,
       };
 
-      return res.status(200).json(userDetails); 
+      return res.status(200).json(userDetails);
     } catch (e) {
       return res.status(404).send("Some Error Occurred");
     }
   } else {
-    return res.status(500).send('User not Authorized');
+    return res.status(500).send("User not Authorized");
   }
 });
-
 
 app.get("/check/username/:username", async (req, res) => {
   const username = req.params.username;
@@ -162,144 +149,142 @@ app.get("/check/username/:username", async (req, res) => {
   }
 });
 
-app.post('/remove/account', async (req, res) => {
-
+app.post("/remove/account", async (req, res) => {
   if (req.isAuthenticated()) {
     const user_id = req.user._id;
 
     try {
       await User.findByIdAndDelete(user_id);
-      return res.status(200).send('Account removed successfully');
-    }
-    catch (e) {
-      console.error('Exception:', e);
-      return res.status(404).send('Error Removing Account');
+      return res.status(200).send("Account removed successfully");
+    } catch (e) {
+      console.error("Exception:", e);
+      return res.status(404).send("Error Removing Account");
     }
   } else {
     return res.status(500).send("User not Authenticated");
   }
-
 });
 
-app.get('/update/phoneNumber/:phoneNumber',async (req,res)=>{
+app.get("/update/phoneNumber/:phoneNumber", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const phoneNumber = req.params.phoneNumber;
 
-    if(req.isAuthenticated()){
-      const phoneNumber = req.params.phoneNumber;
+    const user = req.user;
 
-      const user = req.user;
-
-      try{
-
-        if(user.phoneNumber==phoneNumber){
-          return res.status(202).send("Old number can't be new Number");
-        }
+    try {
+      if (user.phoneNumber == phoneNumber) {
+        return res.status(202).send("Old number can't be new Number");
+      }
 
       user.phoneNumber = phoneNumber;
 
       await user.save();
- 
 
       return res.status(200).send("Phone Number changed");
-
-    
-      }
-      catch(e){
-        res.status(500).json({ error: "An error occurred.", details: e.message });
-      }
-
+    } catch (e) {
+      res.status(500).json({ error: "An error occurred.", details: e.message });
     }
-
-})
-
-
-app.post('/profile/update/:service/:exp/:profileImage',async (req,res)=>{
-
-  if(req.isAuthenticated()){
-
-  const service = req.params.service;
-  const exp = req.params.exp;
-  const profileImage = req.params.profileImage;
-
-
-  try{
-
-    const user = req.user;
- 
-    user.service = service;
-    user.exp = exp;
-    user.profilePictureUrl = profileImage;
-    
-
-   await user.save();
-
-   res.status(200).json({ message: "Porfile Updated Successfully" });
-    
   }
-  catch(e){
-   res.status(500).json({ error: "An error occurred.", details: e.message });
+});
+
+app.post("/profile/update/:service/:exp/:profileImage", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const service = req.params.service;
+    const exp = req.params.exp;
+    const profileImage = req.params.profileImage;
+
+    try {
+      const user = req.user;
+
+      user.service = service;
+      user.exp = exp;
+      user.profilePictureUrl = profileImage;
+
+      await user.save();
+
+      res.status(200).json({ message: "Porfile Updated Successfully" });
+    } catch (e) {
+      res.status(500).json({ error: "An error occurred.", details: e.message });
+    }
+  } else {
+    return res.status(404).send("unauthorized");
   }
-  
- 
+});
+
+app.post("/update/existing/password/:newPassword", async (req, res) => {
+  const password = req.params.newPassword;
+
+  if (req.isAuthenticated()) {
+    try {
+      const user = req.user;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      user.password = hashedPassword;
+
+      await user.save();
+
+      res.status(200).json({ message: "Password updated successfully" });
+    } catch (e) {
+      res
+        .status(404)
+        .json({
+          error: "An error occurred while updating password",
+          details: e.message,
+        });
+    }
+  } else {
+    return res.status(500).send("User not authorized");
   }
-  else{
-   return res.status(404).send("unauthorized");
-  }
+});
 
+app.post("/update/password/:email/:newPassword", async (req, res) => {
+  const email = req.params.email;
+  const password = req.params.newPassword;
 
-})
+  try {
+    const user = await User.findOne({ email: email });
 
-app.post("/update/password/:email/:newPassword", async (req,res)=>{
-  
-   const email = req.params.email;
-   const password = req.params.newPassword;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-   try{
-
-     const user = await User.findOne({email : email});
-
-     const hashedPassword = await bcrypt.hash(password, 10);
-
-     user.password = hashedPassword;
+    user.password = hashedPassword;
 
     await user.save();
 
     res.status(200).json({ message: "Password updated successfully" });
-     
-   }
-   catch(e){
-    res.status(500).json({ error: "An error occurred while updating password", details: e.message });
-   }
+  } catch (e) {
+    res
+      .status(500)
+      .json({
+        error: "An error occurred while updating password",
+        details: e.message,
+      });
+  }
+});
 
-})
+app.post("/update/location/:latitude/:longitude", (req, res) => {
+  if (req.isAuthenticated()) {
+    const latitude = parseFloat(req.params.latitude);
+    const longitude = parseFloat(req.params.longitude);
 
-app.post("/update/location/:latitude/:longitude",(req,res)=>{
+    const currentUser = req.user;
 
-   if(req.isAuthenticated()){
+    currentUser.currentLocation = {
+      type: "Point",
+      coordinates: [longitude, latitude],
+    };
 
-     const latitude = parseFloat(req.params.latitude);
-     const longitude = parseFloat(req.params.longitude);
-
-     const currentUser = req.user;
-
-     currentUser.currentLocation = {
-       type:'Point',
-       coordinates : [longitude,latitude],
-     };
-
-     currentUser.save()
-     .then(()=>{
-      res.status(200).send("location updated successfullly!");
-     })
-     .catch(()=>{
-      res.status(202).send("Error updating location");
-     });
-
-
-   }
-   else{
-     res.status(404).send("unauthorized");
-   }
-
+    currentUser
+      .save()
+      .then(() => {
+        res.status(200).send("location updated successfullly!");
+      })
+      .catch(() => {
+        res.status(202).send("Error updating location");
+      });
+  } else {
+    res.status(404).send("unauthorized");
+  }
 });
 
 app.get("/userList/:text/:latidue/:longitude", async (req, res, next) => {

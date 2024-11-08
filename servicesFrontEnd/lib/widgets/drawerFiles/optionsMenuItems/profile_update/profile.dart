@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_profile.dart';
-import 'package:services/widgets/drawerFiles/profile_update/show_and_update_profile.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/profile_update/show_and_update_profile.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});

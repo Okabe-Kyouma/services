@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_logout.dart';
 import 'package:services/first_screen.dart';
-import 'package:services/widgets/drawerFiles/profile_update/profile.dart';
-import 'package:services/widgets/drawerFiles/settings/setting.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/profile_update/profile.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/setting.dart';
 
 class Options extends StatelessWidget {
   const Options({super.key});
