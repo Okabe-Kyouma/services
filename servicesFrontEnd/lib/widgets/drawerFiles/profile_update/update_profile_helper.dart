@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:services/api/dio_image_upload.dart';
 import 'package:services/api/dio_profile.dart';
 import 'package:services/api/dio_update.dart';
-import 'package:services/widgets/drawerFiles/profile_update/profile.dart';
 
 class UpdateProfileHelper extends StatefulWidget {
   const UpdateProfileHelper({super.key, required this.profileData});
@@ -204,7 +203,6 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(profileData!.fullName),
               Container(
                 margin:
                     const EdgeInsets.symmetric(horizontal: 30, vertical: 20),

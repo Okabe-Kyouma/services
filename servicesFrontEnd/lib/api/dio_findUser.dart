@@ -40,10 +40,8 @@ Future<int> findUserByEmail(String email) async {
   }
 }
 
-
 Future<int> checkIfNumberExists(String number) async {
   Dio dio = Dio();
-
 
   try {
     final response = await dio.get('$url/check/number/$number');
@@ -61,6 +59,4 @@ Future<int> checkIfNumberExists(String number) async {
     print('Exception: $e');
     return 404;
   }
-  
-
 }

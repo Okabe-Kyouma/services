@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
-import 'package:services/auth/signup/emailVerification/email.dart';
+import 'package:services/api/dio_update.dart';
 import 'package:services/widgets/providerModels/aadhar_model.dart';
 
 class NumberVerification extends StatelessWidget {
@@ -21,7 +22,7 @@ class NumberVerification extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: const Text(
-          'Verify Aadhar number',
+          'Verify Phone number',
           style: TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
@@ -49,7 +50,8 @@ class NumberVerification extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryTextTheme.displaySmall?.color,
+                    color:
+                        Theme.of(context).primaryTextTheme.displaySmall?.color,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -61,7 +63,11 @@ class NumberVerification extends StatelessWidget {
                   child: TextFormField(
                     controller: _otpController,
                     keyboardType: TextInputType.phone,
-                     style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .primaryTextTheme
+                            .displaySmall
+                            ?.color),
                     decoration: InputDecoration(
                       labelText: "Enter Otp",
                       labelStyle: const TextStyle(color: Colors.grey),
@@ -92,9 +98,9 @@ class NumberVerification extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return CupertinoAlertDialog(
-                              title: const Text('CANCEL SIGNUP?'),
+                              title: const Text('Cancel Number Updation'),
                               content: const Text(
-                                  'Click Yes to Cancel\n Click No to continue;'),
+                                  'Do You want to Cancel Number updation process?'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -102,8 +108,7 @@ class NumberVerification extends StatelessWidget {
                                     Navigator.popUntil(
                                         context,
                                         (route) =>
-                                            route.settings.name ==
-                                            "/firstScreen");
+                                            route.settings.name == "/settings");
                                   },
                                   child: const Text('Yes'),
                                 ),
@@ -157,16 +162,56 @@ class NumberVerification extends StatelessWidget {
                             await FirebaseAuth.instance
                                 .signInWithCredential(cred);
 
-                            Provider.of<AadharModel>(context, listen: false)
-                                .updateAadhar(phoneNumber);
+                            final response =
+                                await updatePhoneNumber(phoneNumber);
 
-                            if (context.mounted) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Email(),
-                                ),
-                              );
+                            if (response == 200) {
+                              if (context.mounted) {
+                                Provider.of<AadharModel>(context, listen: false)
+                                    .updateAadhar(phoneNumber);
+                                Fluttertoast.showToast(
+                                    msg:
+                                        "Your Phone Number has been Changed Successfully.",
+                                    toastLength: Toast.LENGTH_LONG,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor:
+                                        Theme.of(context).brightness ==
+                                                Brightness.dark
+                                            ? Colors.white
+                                            : Colors.black,
+                                    textColor: Theme.of(context).brightness ==
+                                            Brightness.dark
+                                        ? Colors.black
+                                        : Colors.white,
+                                    fontSize: 16.0);
+
+                                Navigator.popUntil(
+                                    context,
+                                    (route) =>
+                                        route.settings.name == "/settings");
+                              }
+                            } else if (response == 202) {
+                              Fluttertoast.showToast(
+                                  msg:
+                                      "Some Error Occured! Please Try Again Later",
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor:
+                                      Theme.of(context).brightness ==
+                                              Brightness.dark
+                                          ? Colors.white
+                                          : Colors.black,
+                                  textColor: Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.black
+                                      : Colors.white,
+                                  fontSize: 16.0);
+                              Navigator.popUntil(
+                                  context,
+                                  (route) =>
+                                      route.settings.name == "/settings");
                             }
                           } catch (err) {
                             print('Error in flutterfbase: $err');

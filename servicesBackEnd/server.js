@@ -181,6 +181,36 @@ app.post('/remove/account', async (req, res) => {
 
 });
 
+app.get('/update/phoneNumber/:phoneNumber',async (req,res)=>{
+
+    if(req.isAuthenticated()){
+      const phoneNumber = req.params.phoneNumber;
+
+      const user = req.user;
+
+      try{
+
+        if(user.phoneNumber==phoneNumber){
+          return res.status(202).send("Old number can't be new Number");
+        }
+
+      user.phoneNumber = phoneNumber;
+
+      await user.save();
+ 
+
+      return res.status(200).send("Phone Number changed");
+
+    
+      }
+      catch(e){
+        res.status(500).json({ error: "An error occurred.", details: e.message });
+      }
+
+    }
+
+})
+
 
 app.post('/profile/update/:service/:exp/:profileImage',async (req,res)=>{
 

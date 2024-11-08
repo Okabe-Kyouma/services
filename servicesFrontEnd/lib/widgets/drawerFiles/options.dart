@@ -43,14 +43,17 @@ class Options extends StatelessWidget {
       // ),
       child: Column(
         children: [
-           ListTile(
+          ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Profile'),
-            onTap: (){
-              Navigator.push(context, 
-              MaterialPageRoute(builder: (context) => const Profile(),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Profile(),
                   settings: const RouteSettings(name: '/update'),
-               ),);
+                ),
+              );
             },
           ),
           ListTile(
@@ -65,8 +68,8 @@ class Options extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const Setting(),
-                ),
+                    builder: (context) => const Setting(),
+                    settings: const RouteSettings(name: '/settings')),
               );
             },
           ),

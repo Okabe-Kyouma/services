@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_findUser.dart';
-import 'package:services/auth/signup/phoneVerification/verify_phone_number.dart';
+import 'package:services/widgets/drawerFiles/profile_update/phone_update/phone_update_verify_number.dart';
 
 class Number extends StatelessWidget {
   Number({super.key});
@@ -104,22 +104,15 @@ class Number extends StatelessWidget {
               context: context,
               builder: (context) {
                 return CupertinoAlertDialog(
-                  title: const Text('PHONE NUMBER ALREADY EXISTS!'),
+                  title: const Text('Number already exists'),
                   content: const Text(
-                      'Please login with this number or Change the Number'),
+                      'This number already exists please change the number'),
                   actions: [
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.pop(context);
                       },
-                      child: const Text('Login'),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Continue'),
+                      child: const Text('Okay'),
                     ),
                   ],
                 );
@@ -195,7 +188,7 @@ class Number extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                "Verify your phone number",
+                "Enter new phone number",
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
