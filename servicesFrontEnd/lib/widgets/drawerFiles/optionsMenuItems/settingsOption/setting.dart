@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_delete_account.dart';
 import 'package:services/main.dart';
+import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/email_update/email_update_enter_email.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/password_update/password_update.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/phone_update/phone_update_enter_number.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -38,6 +39,10 @@ class _SettingState extends State<Setting> {
         builder: (context) => const NewPassword(),
       ),
     );
+  }
+
+  void _changeEmail() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Email(),));
   }
 
   void _confirmDeleteAccount() async {
@@ -305,41 +310,69 @@ class _SettingState extends State<Setting> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Container(
-                  width: double.infinity,
-                  height: 60,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        spreadRadius: 2,
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.email,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        'Change Email',
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .displaySmall
-                                ?.color,
-                            fontSize: 18),
-                      ),
-                    ],
+                InkWell(
+                  onTap: () {
+                    showCupertinoDialog(
+                      context: context,
+                      builder: (context) {
+                        return CupertinoAlertDialog(
+                          title: const Text('Change Email'),
+                          content: const Text(
+                              'Do you want to Change Your Email-id?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                                _changeEmail();
+                              },
+                              child: const Text('Yes'),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text('No'))
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 60,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surface,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.email,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Change Email',
+                          style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .displaySmall
+                                  ?.color,
+                              fontSize: 18),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),

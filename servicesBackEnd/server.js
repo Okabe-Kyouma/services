@@ -187,6 +187,28 @@ app.get("/update/phoneNumber/:phoneNumber", async (req, res) => {
   }
 });
 
+app.get("/update/email/:email", async (req, res) => {
+  if (req.isAuthenticated()) {
+    const email = req.params.email;
+
+    const user = req.user;
+
+    try {
+      if (user.email == email) {
+        return res.status(202).send("Old Email can't be new Email");
+      }
+
+      user.email = email;
+
+      await user.save();
+
+      return res.status(200).send("Email-id changed");
+    } catch (e) {
+      res.status(500).json({ error: "An error occurred.", details: e.message });
+    }
+  }
+});
+
 app.post("/profile/update/:service/:exp/:profileImage", async (req, res) => {
   if (req.isAuthenticated()) {
     const service = req.params.service;
