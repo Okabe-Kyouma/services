@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:services/widgets/category_class.dart';
 
 class DashboardHelper extends StatefulWidget {
@@ -45,6 +44,7 @@ class _DashboardHelperState extends State<DashboardHelper> {
 
   List<Map<String, String>> _filteredList = [];
   final FocusNode _focusNode = FocusNode();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -104,11 +104,24 @@ class _DashboardHelperState extends State<DashboardHelper> {
           Container(
             margin: const EdgeInsets.all(20),
             child: SearchBar(
+              controller: _searchController,
               focusNode: _focusNode,
               leading: const Icon(Icons.search_rounded),
               hintText: 'Electrician , plumber....',
               autoFocus: false,
               keyboardType: TextInputType.name,
+              trailing: _searchController.text.isEmpty
+                  ? null
+                  : List.of(
+                      [
+                        IconButton(
+                            onPressed: () {
+                              _searchController.clear();
+                              changeList("");
+                            },
+                            icon: const Icon(Icons.close)),
+                      ],
+                    ),
               onTapOutside: (event) {
                 _focusNode.unfocus();
               },
@@ -119,59 +132,69 @@ class _DashboardHelperState extends State<DashboardHelper> {
           ),
           Expanded(
             child: Center(
-              child: ListView.builder(
-                itemCount: _filteredList.length,
-                itemBuilder: (context, index) {
-                  String imagePath = _filteredList[index].values.first;
-                  String text = _filteredList[index].keys.first;
-                  return InkWell(
-                    onTap: () {
-                      _focusNode.unfocus();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CategoryClass(text: text, imageLink: imagePath),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      child: Stack(
-                        children: [
-                          Hero(
-                            tag: text,
-                            child: Image.asset(
-                              imagePath,
-                              fit: BoxFit.contain,
+              child: _filteredList.isEmpty
+                  ? Text(
+                      'No Service Found',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .displaySmall!
+                              .color),
+                    )
+                  : ListView.builder(
+                      itemCount: _filteredList.length,
+                      itemBuilder: (context, index) {
+                        String imagePath = _filteredList[index].values.first;
+                        String text = _filteredList[index].keys.first;
+                        return InkWell(
+                          onTap: () {
+                            _focusNode.unfocus();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CategoryClass(
+                                    text: text, imageLink: imagePath),
+                              ),
+                            );
+                          },
+                          child: Card(
+                            child: Stack(
+                              children: [
+                                Hero(
+                                  tag: text,
+                                  child: Image.asset(
+                                    imagePath,
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                Container(
+                                  height: 55,
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(top: 170),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.6)),
+                                  child: Text(
+                                    text,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 25),
+                                  ),
+                                )
+                                // Positioned(
+                                //   top: 190,
+                                //   left: 115,
+                                //   child: Text(
+                                //     text,
+                                //     style: TextStyle(fontSize: 25),
+                                //   ),
+                                // ),
+                              ],
                             ),
                           ),
-                          Container(
-                            height: 55,
-                            width: double.infinity,
-                            margin: const EdgeInsets.only(top: 170),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.6)),
-                            child: Text(
-                              text,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 25),
-                            ),
-                          )
-                          // Positioned(
-                          //   top: 190,
-                          //   left: 115,
-                          //   child: Text(
-                          //     text,
-                          //     style: TextStyle(fontSize: 25),
-                          //   ),
-                          // ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
             ),
           ),
         ],
