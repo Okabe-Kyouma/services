@@ -5,6 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:services/auth/signup/phoneVerification/enter_phone_number.dart';
 import 'package:services/auth/login/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:services/main.dart';
 
 class FirstScreen extends StatefulWidget {
   const FirstScreen({super.key});
@@ -20,6 +22,27 @@ class _FirstScreenState extends State<FirstScreen> {
   void initState() {
     super.initState();
     _playAnimations();
+  }
+
+  void showModal() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Container(
+          child: Column(
+            children: [
+              Text('Select Language', style: TextStyle(color: Colors.white)),
+              InkWell(
+                  onTap: () {
+                    myAppKey.currentState?.toggleLang('hi');
+                    Navigator.pop(context);
+                  },
+                  child: Text('Hindi', style: TextStyle(color: Colors.white))),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   final List<String> animations = [
@@ -69,7 +92,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 CupertinoDialogAction(
                   child: const Text("Yes"),
                   onPressed: () {
-                  SystemNavigator.pop();
+                    SystemNavigator.pop();
                   },
                 ),
               ],
@@ -139,10 +162,11 @@ class _FirstScreenState extends State<FirstScreen> {
                       GoogleFonts.montserrat(fontSize: 28, color: Colors.white),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Text(
-                  'Find Work Yourself!',
+                  //'Find Work Yourself!',
+                  AppLocalizations.of(context)!.firstScreenDown,
                   style:
                       GoogleFonts.montserrat(fontSize: 28, color: Colors.white),
                 ),
@@ -196,6 +220,17 @@ class _FirstScreenState extends State<FirstScreen> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      showModal();
+                    },
+                    child: Text('Change Language'),
+                  ),
+                )
               ],
             ),
           ),

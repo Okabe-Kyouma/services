@@ -52,6 +52,9 @@ dependencies:
   cookie_jar: ^4.0.8
   fluttertoast: ^8.2.8
   liquid_pull_to_refresh: ^3.0.1
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +76,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  generate: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
