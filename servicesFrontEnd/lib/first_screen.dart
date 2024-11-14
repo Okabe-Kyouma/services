@@ -26,18 +26,115 @@ class _FirstScreenState extends State<FirstScreen> {
 
   void showModal() {
     showModalBottomSheet(
+      backgroundColor: Colors.black,
       context: context,
       builder: (context) {
-        return Container(
+        return SizedBox(
+          width: double.infinity,
           child: Column(
             children: [
-              Text('Select Language', style: TextStyle(color: Colors.white)),
-              InkWell(
-                  onTap: () {
-                    myAppKey.currentState?.toggleLang('hi');
-                    Navigator.pop(context);
-                  },
-                  child: Text('Hindi', style: TextStyle(color: Colors.white))),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Select Language',
+                style: TextStyle(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black,
+                    fontSize: 20),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // InkWell(
+                  //   onTap: () {
+                  //     myAppKey.currentState?.toggleLang('en');
+                  //     Navigator.pop(context);
+                  //   },
+                  //   child: Text(
+                  //     'English',
+                  //     style: TextStyle(
+                  //         color: Theme.of(context).brightness == Brightness.dark
+                  //             ? Colors.white
+                  //             : Colors.black),
+                  //   ),
+                  // ),
+                  Container(
+                    decoration: BoxDecoration(color: Colors.black),
+                    margin: const EdgeInsets.fromLTRB(40, 20, 0, 0),
+                    child: TextButton.icon(
+                      onPressed: () {
+                        myAppKey.currentState?.toggleLang('en');
+                        Navigator.pop(context);
+                      },
+                      label: const Text(
+                        'English',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      icon: IconButton(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'assets/logos/uk.png',
+                          fit: BoxFit.cover,
+                          height: 20,
+                          width: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    decoration: const BoxDecoration(color: Colors.black),
+                    margin: const EdgeInsets.fromLTRB(0, 20, 40, 0),
+                    child: TextButton.icon(
+                      onPressed: () {
+                        myAppKey.currentState?.toggleLang('hi');
+                        Navigator.pop(context);
+                      },
+                      label: const Text(
+                        'हिन्दी',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      icon: IconButton(
+                        onPressed: () {},
+                        icon: Image.asset(
+                          'assets/logos/hi.png',
+                          fit: BoxFit.cover,
+                          height: 20,
+                          width: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.close_sharp,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
             ],
           ),
         );
@@ -57,17 +154,17 @@ class _FirstScreenState extends State<FirstScreen> {
     "assets/lottie/l15.json",
   ];
 
-  final List<String> animationText = [
-    'Find Cleaners near you!',
-    'Find Painters near you!',
-    'Find Teachers near you!',
-    'Find Electricians near you!',
-    'Find Gardeners near you!',
-    'Find Artists near you!',
-    'Find Carpentars near you!',
-    'Find Plumbers near you!',
-    'And many more!',
-  ];
+  // final List<String> animationText = [
+  //   'Find Cleaners near you!',
+  //   'Find Painters near you!',
+  //   'Find Teachers near you!',
+  //   'Find Electricians near you!',
+  //   'Find Gardeners near you!',
+  //   'Find Artists near you!',
+  //   'Find Carpentars near you!',
+  //   'Find Plumbers near you!',
+  //   'And many more!',
+  // ];
 
   Future<void> _playAnimations() async {
     while (true) {
@@ -104,6 +201,18 @@ class _FirstScreenState extends State<FirstScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> animationText = [
+      AppLocalizations.of(context)!.find_cleaners,
+      AppLocalizations.of(context)!.find_painters,
+      AppLocalizations.of(context)!.find_teachers,
+      AppLocalizations.of(context)!.find_electricians,
+      AppLocalizations.of(context)!.find_gardeners,
+      AppLocalizations.of(context)!.find_artists,
+      AppLocalizations.of(context)!.find_carpenters,
+      AppLocalizations.of(context)!.find_plumbers,
+      AppLocalizations.of(context)!.and_many_more,
+    ];
+
     return Scaffold(
       body: PopScope(
         canPop: false,
@@ -157,7 +266,7 @@ class _FirstScreenState extends State<FirstScreen> {
                 ),
                 const SizedBox(height: 25),
                 Text(
-                  "OR",
+                  AppLocalizations.of(context)!.firstScreenMid,
                   style:
                       GoogleFonts.montserrat(fontSize: 28, color: Colors.white),
                 ),
@@ -190,9 +299,9 @@ class _FirstScreenState extends State<FirstScreen> {
                             ),
                           );
                         },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.firstScreenLogin,
+                          style: const TextStyle(
                               color: Colors.black, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -211,9 +320,9 @@ class _FirstScreenState extends State<FirstScreen> {
                             MaterialPageRoute(builder: (context) => Number()),
                           );
                         },
-                        child: const Text(
-                          'Signup',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.firstScreenSignup,
+                          style: const TextStyle(
                               color: Colors.white, fontWeight: FontWeight.bold),
                         ),
                       ),

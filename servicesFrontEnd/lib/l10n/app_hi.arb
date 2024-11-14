@@ -1,6 +1,18 @@
 {
     "@@locale": "hi",
     "firstScreenUp": "",
-    "firstScreenMid": "",
-    "firstScreenDown": "खुद काम खोजें!"
+    "firstScreenMid": "या",
+    "firstScreenDown": "खुद काम खोजें!",
+    "firstScreenLogin": "प्रवेश",
+    "firstScreenSignup": "पंजीकरण",
+    "find_cleaners": "अपने पास सफाई करने वाले खोजें!",
+    "find_painters": "अपने पास पेंटर्स खोजें!",
+    "find_teachers": "अपने पास शिक्षक खोजें!",
+    "find_electricians": "अपने पास इलेक्ट्रीशियन खोजें!",
+    "find_gardeners": "अपने पास माली खोजें!",
+    "find_artists": "अपने पास कलाकार खोजें!",
+    "find_carpenters": "अपने पास बढ़ई खोजें!",
+    "find_plumbers": "अपने पास प्लंबर खोजें!",
+    "and_many_more": "और भी बहुत कुछ!"
+      
 }

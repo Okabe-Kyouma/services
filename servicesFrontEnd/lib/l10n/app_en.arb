@@ -1,6 +1,19 @@
 {
     "@@locale": "en",
     "firstScreenUp": "",
-    "firstScreenMid": "",
-    "firstScreenDown": "Find Work Yourself!"
+    "firstScreenMid": "OR",
+    "firstScreenLogin": "Login",
+    "firstScreenSignup": "Signup",
+    "firstScreenDown": "Find Work Yourself!",
+    "find_cleaners": "Find Cleaners near you!",
+    "find_painters": "Find Painters near you!",
+    "find_teachers": "Find Teachers near you!",
+    "find_electricians": "Find Electricians near you!",
+    "find_gardeners": "Find Gardeners near you!",
+    "find_artists": "Find Artists near you!",
+    "find_carpenters": "Find Carpenters near you!",
+    "find_plumbers": "Find Plumbers near you!",
+    "and_many_more": "And many more!"
+      
 }
+

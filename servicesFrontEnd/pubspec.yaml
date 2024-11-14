@@ -91,6 +91,8 @@ flutter:
     - assets\logos\user_image.png
     - assets\logos\tick.png
     - assets\logos\email.png
+    - assets\logos\uk.png
+    - assets\logos\hi.png
     - assets\images\nanny.jpeg
     - assets\images\barber.jpeg
     - assets\images\beauty.jpeg
