@@ -1,5 +1,13 @@
 {
     "@@locale": "en",
+
+    "okay":"Okay",
+    "no":"No",
+    "yes":"Yes",
+    "cancel":"Cancel",
+
+    "firstScreen": "below",
+
     "firstScreenUp": "",
     "firstScreenMid": "OR",
     "firstScreenLogin": "Login",
@@ -13,7 +21,269 @@
     "find_artists": "Find Artists near you!",
     "find_carpenters": "Find Carpenters near you!",
     "find_plumbers": "Find Plumbers near you!",
-    "and_many_more": "And many more!"
+    "and_many_more": "And many more!",
+
+    "loginScreen": "below",
+
+    "appBarLoginScreen":"Login",
+    "loginScreenUsernamelabelText":"Please enter your username",
+    "loginScreenUsernamehintText":"Username",
+    "loginScreenPasswordlabelText":"Please enter your password",
+    "loginScreenPasswordhintText":"Password",
+    "loginScreenLoginButton":"Login",
+    "loginScreenDontRememberPass":"Don't remember password?",
+    "loginScreenClickHere":"Click Here!",
+    "loginScreenInvalidCredTitle":"Invalid Credentials",
+    "loginScreenInvalidCredContent":"Please enter correct Username or Password",
+    "loginScreenOkay":"Okay",
+    "loginScreenErrorTitle":"Oops somethings wrong",
+    "loginScreenErrorContent":"Server Error ! please try again later!",
+    "loginScreenUsernameValidation":"Please enter correct username",
+    "loginScreenPasswordValidation":"Please enter correct password",
+
+    "forgotPassEmailFile" : "below",
+
+    "forgotEmailAppBar":"Password Recovery",
+    "forgotEmailPleaseEnter":"Please enter your registered Email-id",
+    "forgotEmailValid":"Please enter correct mail id",
+    "forgotEmailLabelText":"Email-id",
+    "forgotEmailSendOtp":"Send Otp",
+    "forgotEmailSignup":"Signup",
+    "forgotEmailReenter":"Re-enter",
+    "forgotEmailNotFoundTitle":"Email-id not found",
+    "forgotEmailNotFoundText":"We couldnt find that email. Please check it or sign up to continue!",
+    "forgotEmailOtpFailed":"Otp failed send",
+
+    "forgotPassVerifyEmailFile":"below",
+
+    "forgotEmailVerifyAppBar":"Password Recovery",
+    "forgotEmailVerifyWeHave":"We have sent an Otp to your registered Email-id",
+    "forgotEmailVerifyValid":"Otp Must be of 6 letters",
+    "forgotEmailVerifyLabel":"'Enter OTP'",
+    "forgotEmailVerifyhint":"6 digit number",
+    "forgotEmailVerifyCancelPassRecovTitle":"Cancel Password Recovery?",
+    "forgotEmailVerifyCalcelPassRecovContent":"Are you sure you want to cancel password recovery?",
+    "forgotEmailVerifyYes":"Yes",
+    "forgotEmailVerifyNo":"No",
+    "forgotEmailVerifyCancel":"Cancel",
+    "forgotEmailVerifyWrongOtpTitle":"Wrong Otp",
+    "forgotEmailVerifyWrongOtpContent":"Please enter correct otp",
+    "forgotEmailVerifyVerify":"Verify",
+
+    "forgotPassResetNewPasswordFile":"below",
+
+    "forgotPassResetSucessTitle":"Password Changed Successfully!",
+    "forgotPassResetSucessContent":"Your password has been Changed Successfully!",
+    "forgotPassResetServerError":"Server Error",
+    "forgotPassResetFailedTitle":"Password Changed Failed",
+    "forgotPassResetFailedContent":"We couldn't change your password right now Please try again later!",
+    "forgotPassResetYourUsername":"Your Username",
+    "forgotPassResetMustSatisfy":"Password Must satisfy below conditions",
+    "forgotPassResetEnterNew":"Please enter new password",
+    "forgotPassResetNewPass":"New Password",
+    "forgotPassResetChangePass":"Change Password",
+    "forgotPassResetCondiA":"*Password must be longer then 6 letters",
+    "forgotPassResetCondiB":"*Must Include at least one Uppercase Letter (A-Z)",
+    "forgotPassResetCondiC":"*Must include at least one lowercase letter (a-z)",
+    "forgotPassResetCondiD":"*Must include at least one number (0-9)",
+    "forgotPassResetCondiE":"*Must inlude a special Character (@,#,$,%)",
+
+    "optionsFile" :"below",
+
+    "optionsProfile":"Profile",
+    "optionsChat" :"Chat",
+    "optionsSettings":"Settings",
+    "optionsLogout":"Logout",
+    "optionsLogoutConfirmTitle":"Logout?",
+    "optionsLogoutConfirmContent":"Do you want to Logout?",
+    "optionsClose":"Close",
+
+    "profileDisplayFile":"below",
+
+    "profileDisplayAppBar":"Profile",
+    "profileDisplayServerError":"Server Error!",
+    "profileDisplayNoDataToShow":"No data to show!",
+    "profileDisplaySorry":"Sorry! No data found!",
+    "profileDisplayEmail":"Email",
+    "profileDisplayPhone":"Phone Number",
+    "profileDisplayService":"Service",
+    "profileDisplayExp":"Experience (years)",
+    "profileDisplayUpdateTitle":"Update Profile",
+    "profileDisplayUpdateContent":"Do you want to update your profile?",
+
+    "profileUpdateFile" : "below",
+
+    "profileUpdateTitle":"Profile Updated!",
+    "profileUpdateContent":"Your Profile has been Updated!",
+    "profileUpdateToast":"Actual Update may take some time",
+    "profileUpdateSomeError":"Some Error Occurred!",
+    "profileUpdateTryLater":"Please try again Later!!",
+    "profileUpdateAppBar":"Profile Update",
+    "profileUpdateUploadImage":"Upload Photo",
+    "profileUpdateWhatCan":"What can you do?",
+    "profileUpdateYourExp":"Your Experience Level",
+    "profileUpdateCancelTitle":"Cancel Update?",
+    "profileUpdateCancelContent":"Do you want to cancel Profile update?",
+    "profileUpdateUpdate":"Update",
+
+    "settings":"below",
+
+    "settingSomeError":"Some Error Occurred",
+    "settingPleaseTry":"Please try again Later!",
+    "settingServerErrorTitle":"Server Error",
+    "settingServerErrorContent":"Please try again Later!",
+    "settingDeleteAccountTitle":"Delete Account",
+    "settingDeleteAccountContent":"Do you want to Delete Your Account?",
+    "settingAppBar":"Settings",
+    "settingAppear":"Appearance",
+    "settingLightMode":"Light Mode",
+    "settingDarkMode":"Dark Mode",
+    "settingChangeSensitive":"Change Sensitive Info",
+    "settingChangeNumberTitle":"Change Number",
+    "settingChangeNumberContent":"Do you want to Change Your Number?",
+    "settingChangeNumber":"Change Number",
+    "settingChangeEmailTitle":"Change Email",
+    "settingChangeEmailContent":"Do you want to Change Your Email-id?",
+    "settingChangeEmail":"Change Email",
+    "settingChangePassTitle":"Change Password",
+    "settingChangePassContent":"Do you want to Change Your Password?",
+    "settingChangePass":"Change Password",
+    "settingAccount":"Account",
+    "settingDeleteAccount":"Delete Account",
+    "settingGeneral":"General",
+    "settingChangeLang":"Change Language",
+    "settingChangeLangTitle":"Change Language",
+    "settingChangeLangContent":"Do you want to change the language?",
+
+    "changeNum":"below",
+
+    "changeNumNumberAlreadyTitle":"'Number already exists",
+    "changeNumberAlreadyContent":"This number already exists please change the number",
+    "changeNumberAppBar":"Enter Phone Number",
+    "changeNumberEnterNew":"Enter new phone number",
+    "changeNumberLabel":"Enter your phone number",
+    "changeNumberHint":"10-digit phone number",
+    "changeNumberValidA":"Phone number is required",
+    "changeNumberValidB":"Enter a valid 10-digit phone number",
+    "changeNumberSendOtp":"Send OTP",
+
+    "changeNumVerify":"below",
+
+    "changeNumVerifyAppBar":"Verify Phone number",
+    "changeNumVerifyEnterOtp":"Enter the Otp that is sent to your number",
+    "changeNumVerifyLabel":"Enter Otp",
+    "changeNumVerifyHint":"6-digit Otp",
+    "changeNumVerifyA":"Otp is required",
+    "changeNumVerifyB":"Enter a valid Otp",
+    "changeNumVerifyCancelTitle":"Cancel Number Updation",
+    "changeNumVerifyCancelContent":"Do You want to Cancel Number updation process?",
+    "changeNumVerifyToastA":"Your Phone Number has been Changed Successfully.",
+    "changeNumVerifyToastB":"Some Error Occured! Please Try Again Later",
+    "changeNumVerifyWrongOpt":"Wrong Otp",
+    "changeNumVerifyPleaseEnter":"Please enter correct OTP",
+
+    "changeEmail":"begin",
+
+    "changeEmailAppBar":"Email verification",
+    "changeEmailPleaseEnter":"Please enter your Email-id",
+    "changeEmailValid":"Please enter correct mail id",
+    "changeEmailAlreadyTitle":"Email already exists!",
+    "changeEmailAlreadyContent":"The Email-id you have provided already exists,please go to main page to login or enter different email-id!",
+    "changeEmailFailedOtp":"Otp failed send",
+    "changeEmailSendOtp":"Send Otp",
+
+    "changeEmailVerify": "begin",
+
+    "changeEmailVerifyToastA":"Your Email-id has been Changed Successfully.",
+    "changeEmailVerifyToastB":"Some Error Occured! Please Try Again Later",
+    "changeEmailVerifyAppBar":"Verify Email-id",
+    "changeEmailVerifyWeHave":"We have sent an Otp to your registered email id",
+    "changeEmailVerifyValid":"Otp Must be of 6 letters",
+    "changeEmailVerifyLabel":"Enter OTP",
+    "changeEmailVerifyContent":"Your Otp",
+    "changeEmailVerifyCancelTitle":"Cancel Email Updation",
+    "changeEmailVerifyCancelContent":"Do you want to cancel you Email update process?",
+
+    "signup" :"begin",
+
+    "signupUsernameIsUp":"Username is available",
+    "signupUsernameIsDown":"Username already exists",
+    "signupPleaseFill":"Please Fill All Details!",
+    "signupPleaseSelect":"Please select your experience level",
+    "signupWeAlreadyFound":"We have already found a user with your details please go back to login page to login!",
+    "signupAppBar":"Signup",
+    "signupPleaseFillUp":"Please Fill up your details",
+    "signupValidA":"Username must be of more than 5 letters",
+    "signupValidB":"Username cannot contain space",
+    "signupLabelA":"Create Your username",
+    "signupHintA":"Your Username",
+    "singupValidC":"Please enter your name",
+    "signupValidEnterFullnameLabel":"Enter Your full name",
+    "signupValidEnterFullnameContent":"Your Full Name",
+    "signupValidD":"Please enter a correct password",
+    "signupPassLabel":"Create Your password",
+    "signupPassContent":"Your password",
+    "signupYourNum":"Your Number",
+    "signupYourEmail":"Your Email",
+    "signupWhatCan":"What can you do?",
+    "signupYourExp":"Your Experience Level",
+    "signupCancelSignup":"Cancel Signup?",
+    "signupCancelSignupContent":"Are you really want to cancel your signup process?",
+    "signupsubmit":"Submit",
+
+    "signupEnterPhone": "begin",
+
+    "signupEnterPhoneAlreadyExTitle":"Phone Number already exists",
+    "signupEnterPhoneAleadyExContent":"Please login with this number or Change the Number",
+    "singupEnterPhoneLogin":"Login",
+    "signupEnterPhoneConti":"Continue",
+
+    "signupEmail":"begin",
+
+    "signupEmailAppBar":"Email Verification",
+    "signupGoToLogin":"Go To Login",
+    "signupEnterAnother":"Enter Another Email-id",
+
+    "workProfile":"begin",
+
+    "workProfileAppBar":"Work Profile Created!",
+    "workProfileExit":"Do you want to exit?",
+    "workProfileWeHave":"We have created your work profile",
+    "workProfileInThe":"In the meantime you can Login and look for services that you need",
+    "workProfileLogin":"Login",
+
+    "cate":"begin",
+
+    "cateNoServicePro":"No service Provider Found",
+
+
+    "dashboardHelper":"begin",
+
+    "dashboardHelperNoServiceFoundd":"No Service Found",
+
+
+    "dashboard":"begin",
+
+    "dashboardLoadin":"Loading....",
+    "dashboardFetching":"Fetching Location..",
+
+    "userInfo":"begin",
+
+    "userInfoExp":"Experience",
+    "userInfoMssgThis":"Message This Person"
+
+    
+
+
+
+
+
+
+
+
+
+
+
       
 }
 

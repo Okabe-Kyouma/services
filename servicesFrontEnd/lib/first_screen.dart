@@ -180,14 +180,14 @@ class _FirstScreenState extends State<FirstScreen> {
           context: context,
           builder: (BuildContext context) {
             return CupertinoAlertDialog(
-              title: const Text("Do you want to exit?"),
+              title: Text(AppLocalizations.of(context)!.workProfileExit),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child: const Text("No"),
+                  child:  Text(AppLocalizations.of(context)!.no),
                   onPressed: () => Navigator.of(context).pop(false),
                 ),
                 CupertinoDialogAction(
-                  child: const Text("Yes"),
+                  child:  Text(AppLocalizations.of(context)!.yes),
                   onPressed: () {
                     SystemNavigator.pop();
                   },
@@ -337,7 +337,7 @@ class _FirstScreenState extends State<FirstScreen> {
                     onPressed: () {
                       showModal();
                     },
-                    child: Text('Change Language'),
+                    child: const Text('Change Language'),
                   ),
                 )
               ],

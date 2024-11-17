@@ -4,6 +4,7 @@ import 'package:email_otp/email_otp.dart';
 import 'package:services/api/dio_check_existingUser.dart';
 import 'package:services/auth/signup/emailVerification/verify_email.dart';
 import 'package:services/first_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Email extends StatelessWidget {
   Email({super.key});
@@ -27,7 +28,7 @@ class Email extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Email verification'),
+        title: Text(AppLocalizations.of(context)!.changeEmailAppBar),
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
@@ -49,7 +50,7 @@ class Email extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                "Please enter your Email-id",
+               AppLocalizations.of(context)!.changeEmailPleaseEnter,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 22,
@@ -73,20 +74,20 @@ class Email extends StatelessWidget {
                           if (value == null ||
                               !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
                                   .hasMatch(value)) {
-                            return "Please enter correct mail id";
+                            return AppLocalizations.of(context)!.changeEmailValid;
                           }
 
                           return null;
                         },
-                        decoration: const InputDecoration(
-                            labelText: 'Email-id',
-                            labelStyle: TextStyle(color: Colors.grey),
+                        decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.forgotEmailLabelText,
+                            labelStyle: const TextStyle(color: Colors.grey),
                             hintText: 'company12@gmail.com',
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(12)),
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.email,
                               color: Colors.grey,
                             )),
@@ -105,9 +106,9 @@ class Email extends StatelessWidget {
                               context: context,
                               builder: (context) {
                                 return CupertinoAlertDialog(
-                                  title: const Text('CANCEL SIGNUP?'),
-                                  content: const Text(
-                                      'Click Yes to Cancel\n Click No to continue;'),
+                                  title: Text(AppLocalizations.of(context)!.signupCancelSignup),
+                                  content:  Text(
+                                      AppLocalizations.of(context)!.signupCancelSignupContent),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
@@ -118,13 +119,13 @@ class Email extends StatelessWidget {
                                                 route.settings.name ==
                                                 "/firstScreen");
                                       },
-                                      child: const Text('Yes'),
+                                      child: Text(AppLocalizations.of(context)!.yes),
                                     ),
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: const Text('No'),
+                                      child:  Text(AppLocalizations.of(context)!.no),
                                     ),
                                   ],
                                 );
@@ -141,9 +142,9 @@ class Email extends StatelessWidget {
                                 color: Theme.of(context).primaryColor,
                                 width: 2),
                           ),
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(
+                          child:  Text(
+                            AppLocalizations.of(context)!.cancel,
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ),
@@ -176,10 +177,10 @@ class Email extends StatelessWidget {
                                   barrierDismissible: false,
                                   builder: (context) {
                                     return CupertinoAlertDialog(
-                                      title: const Text(
-                                          'EMAIL-ID ALREADY EXISTS!'),
-                                      content: const Text(
-                                          'The Email-id you have provided already exists,please go to main page to login or enter different email-id!'),
+                                      title: Text(
+                                         AppLocalizations.of(context)!.changeEmailAlreadyTitle),
+                                      content:  Text(
+                                          AppLocalizations.of(context)!.changeEmailAlreadyContent),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
@@ -192,14 +193,14 @@ class Email extends StatelessWidget {
                                               (Route<dynamic> route) => false,
                                             );
                                           },
-                                          child: const Text('Go to Login'),
+                                          child:  Text( AppLocalizations.of(context)!.signupGoToLogin),
                                         ),
                                         TextButton(
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
-                                          child: const Text(
-                                              'Enter another Email-id'),
+                                          child:  Text(
+                                              AppLocalizations.of(context)!.signupEnterAnother),
                                         ),
                                       ],
                                     );
@@ -219,8 +220,8 @@ class Email extends StatelessWidget {
                                   );
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text("Otp failed send")),
+                                    SnackBar(
+                                        content: Text(AppLocalizations.of(context)!.forgotEmailOtpFailed)),
                                   );
                                 }
                               } else if (response == 500 || response == 404) {
@@ -231,15 +232,15 @@ class Email extends StatelessWidget {
                                   context: context,
                                   builder: (context) {
                                     return CupertinoAlertDialog(
-                                      title: const Text('Server is Down!'),
-                                      content: const Text(
-                                          'Our server are down!Please try again later!'),
+                                      title: Text(  AppLocalizations.of(context)!.forgotPassResetServerError),
+                                      content:  Text(
+                                          AppLocalizations.of(context)!.loginScreenErrorContent),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: const Text('Okay'))
+                                            child: Text(AppLocalizations.of(context)!.okay))
                                       ],
                                     );
                                   },
@@ -257,9 +258,9 @@ class Email extends StatelessWidget {
                                 color: Theme.of(context).primaryColor,
                                 width: 2),
                           ),
-                          child: const Text(
-                            'Send Otp',
-                            style: TextStyle(
+                          child:  Text(
+                              AppLocalizations.of(context)!.forgotEmailSendOtp,
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold, fontSize: 16),
                           ),
                         ),

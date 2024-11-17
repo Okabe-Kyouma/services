@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:services/api/dio_update.dart';
 import 'package:services/widgets/providerModels/aadhar_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NumberVerification extends StatelessWidget {
   NumberVerification(
@@ -21,9 +22,9 @@ class NumberVerification extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Verify Phone number',
-          style: TextStyle(color: Colors.white),
+        title:  Text(
+         AppLocalizations.of(context)!.changeNumVerifyAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -46,7 +47,7 @@ class NumberVerification extends StatelessWidget {
                   height: 24,
                 ),
                 Text(
-                  "Enter the Otp that is sent to your number",
+                  AppLocalizations.of(context)!.changeNumVerifyEnterOtp,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -69,9 +70,9 @@ class NumberVerification extends StatelessWidget {
                             .displaySmall
                             ?.color),
                     decoration: InputDecoration(
-                      labelText: "Enter Otp",
+                      labelText: AppLocalizations.of(context)!.changeNumVerifyLabel,
                       labelStyle: const TextStyle(color: Colors.grey),
-                      hintText: "6-digit Otp",
+                      hintText:AppLocalizations.of(context)!.changeNumVerifyHint,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -80,9 +81,9 @@ class NumberVerification extends StatelessWidget {
                     maxLength: 6,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Otp is required';
+                        return AppLocalizations.of(context)!.changeNumVerifyA;
                       } else if (value.length != 6) {
-                        return 'Enter a valid Otp';
+                        return AppLocalizations.of(context)!.changeNumVerifyB;
                       }
                       return null;
                     },
@@ -98,9 +99,9 @@ class NumberVerification extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return CupertinoAlertDialog(
-                              title: const Text('Cancel Number Updation'),
-                              content: const Text(
-                                  'Do You want to Cancel Number updation process?'),
+                              title:  Text(AppLocalizations.of(context)!.changeNumVerifyCancelTitle),
+                              content: Text(
+                                  AppLocalizations.of(context)!.changeNumVerifyCancelContent),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -110,13 +111,13 @@ class NumberVerification extends StatelessWidget {
                                         (route) =>
                                             route.settings.name == "/settings");
                                   },
-                                  child: const Text('Yes'),
+                                  child: Text(AppLocalizations.of(context)!.yes),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: const Text('No'),
+                                  child:  Text(AppLocalizations.of(context)!.no),
                                 ),
                               ],
                             );
@@ -132,9 +133,9 @@ class NumberVerification extends StatelessWidget {
                         side: BorderSide(
                             color: Theme.of(context).primaryColor, width: 2),
                       ),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(
+                      child: Text(
+                        AppLocalizations.of(context)!.cancel,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -171,7 +172,7 @@ class NumberVerification extends StatelessWidget {
                                     .updateAadhar(phoneNumber);
                                 Fluttertoast.showToast(
                                     msg:
-                                        "Your Phone Number has been Changed Successfully.",
+                                       AppLocalizations.of(context)!.changeNumVerifyToastA,
                                     toastLength: Toast.LENGTH_LONG,
                                     gravity: ToastGravity.BOTTOM,
                                     timeInSecForIosWeb: 1,
@@ -194,7 +195,7 @@ class NumberVerification extends StatelessWidget {
                             } else if (response == 202) {
                               Fluttertoast.showToast(
                                   msg:
-                                      "Some Error Occured! Please Try Again Later",
+                                      AppLocalizations.of(context)!.changeNumVerifyToastB,
                                   toastLength: Toast.LENGTH_LONG,
                                   gravity: ToastGravity.BOTTOM,
                                   timeInSecForIosWeb: 1,
@@ -217,14 +218,14 @@ class NumberVerification extends StatelessWidget {
                             print('Error in flutterfbase: $err');
                             Navigator.pop(context);
 
-                            String tit = 'Server Error!';
+                            String tit = AppLocalizations.of(context)!.profileDisplayServerError;
                             String con =
-                                'We are having Some Problem!\n Please try again later!';
+                               AppLocalizations.of(context)!.profileUpdateTryLater;
 
                             if (err.toString().contains(
                                 '[firebase_auth/invalid-verification-code]')) {
-                              tit = "Wrong Otp";
-                              con = "Please enter correct Otp";
+                              tit = AppLocalizations.of(context)!.changeNumVerifyWrongOpt;
+                              con = AppLocalizations.of(context)!.changeNumVerifyPleaseEnter;
                             }
 
                             showCupertinoDialog(
@@ -238,7 +239,7 @@ class NumberVerification extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text('Okay'))
+                                        child: Text(AppLocalizations.of(context)!.okay),)
                                   ],
                                 );
                               },
@@ -255,9 +256,9 @@ class NumberVerification extends StatelessWidget {
                         side: BorderSide(
                             color: Theme.of(context).primaryColor, width: 2),
                       ),
-                      child: const Text(
-                        'Verify',
-                        style: TextStyle(
+                      child:  Text(
+                        AppLocalizations.of(context)!.forgotEmailVerifyVerify,
+                        style:const  TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),

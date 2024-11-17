@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_findUser.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/phone_update/phone_update_verify_number.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Number extends StatelessWidget {
   Number({super.key});
@@ -33,15 +34,15 @@ class Number extends StatelessWidget {
                   context: context,
                   builder: (context) {
                     return CupertinoAlertDialog(
-                      title: const Text('Server Error!'),
-                      content: const Text(
-                          'We are having Some Problem!\n Please try again later!'),
+                      title: Text(AppLocalizations.of(context)!.profileDisplayServerError),
+                      content: Text(
+                         AppLocalizations.of(context)!.profileUpdateTryLater),
                       actions: [
                         TextButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
-                            child: const Text('Okay'))
+                            child:  Text(AppLocalizations.of(context)!.okay),)
                       ],
                     );
                   },
@@ -72,15 +73,15 @@ class Number extends StatelessWidget {
               context: context,
               builder: (context) {
                 return CupertinoAlertDialog(
-                  title: const Text('Server Error!'),
-                  content: const Text(
-                      'We are having Some Problem!\n Please try again later!'),
+                  title: Text(AppLocalizations.of(context)!.profileDisplayServerError),
+                  content: Text(
+                     AppLocalizations.of(context)!.profileUpdateTryLater),
                   actions: [
                     TextButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
-                        child: const Text('Okay'))
+                        child:  Text(AppLocalizations.of(context)!.okay),)
                   ],
                 );
               },
@@ -104,15 +105,15 @@ class Number extends StatelessWidget {
               context: context,
               builder: (context) {
                 return CupertinoAlertDialog(
-                  title: const Text('Number already exists'),
-                  content: const Text(
-                      'This number already exists please change the number'),
+                  title:  Text(AppLocalizations.of(context)!.changeNumNumberAlreadyTitle),
+                  content:  Text(
+                      AppLocalizations.of(context)!.changeNumberAlreadyContent),
                   actions: [
                     TextButton(
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Okay'),
+                      child: Text(AppLocalizations.of(context)!.okay),
                     ),
                   ],
                 );
@@ -125,14 +126,14 @@ class Number extends StatelessWidget {
             showCupertinoDialog(
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                title: const Text('Oops somethings wrong'),
-                content: const Text('Server Error ! please try again later!!'),
+                title:  Text(AppLocalizations.of(context)!.loginScreenErrorTitle),
+                content:  Text(AppLocalizations.of(context)!.loginScreenErrorContent),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.pop(context);
                     },
-                    child: const Text('Okay'),
+                    child: Text(AppLocalizations.of(context)!.okay),
                   ),
                 ],
               ),
@@ -145,14 +146,14 @@ class Number extends StatelessWidget {
           showCupertinoDialog(
             context: context,
             builder: (context) => CupertinoAlertDialog(
-              title: const Text('Oops somethings wrong'),
-              content: const Text('Server Error ! please try again later!!'),
+              title:  Text(AppLocalizations.of(context)!.loginScreenErrorTitle),
+              content:  Text(AppLocalizations.of(context)!.loginScreenErrorContent),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Okay'),
+                  child: Text(AppLocalizations.of(context)!.okay),
                 ),
               ],
             ),
@@ -164,9 +165,9 @@ class Number extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Enter Phone Number',
-          style: TextStyle(color: Colors.white),
+        title:  Text(
+          AppLocalizations.of(context)!.changeNumberAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -188,7 +189,7 @@ class Number extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Text(
-                "Enter new phone number",
+                AppLocalizations.of(context)!.changeNumberEnterNew,
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -208,9 +209,9 @@ class Number extends StatelessWidget {
                           ?.color),
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    labelText: "Enter your phone number",
+                    labelText: AppLocalizations.of(context)!.changeNumberLabel,
                     labelStyle: const TextStyle(color: Colors.grey),
-                    hintText: "10-digit phone number",
+                    hintText: AppLocalizations.of(context)!.changeNumberHint,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -219,10 +220,10 @@ class Number extends StatelessWidget {
                   maxLength: 10,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Phone number is required';
+                      return AppLocalizations.of(context)!.changeNumberValidA;
                     } else if (value.length != 10 ||
                         !RegExp(r'^[0-9]+$').hasMatch(value)) {
-                      return 'Enter a valid 10-digit phone number';
+                      return AppLocalizations.of(context)!.changeNumberValidB;
                     }
                     return null;
                   },
@@ -256,9 +257,9 @@ class Number extends StatelessWidget {
                   side: BorderSide(
                       color: Theme.of(context).primaryColor, width: 2),
                 ),
-                child: const Text(
-                  'Send OTP',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child:  Text(
+                 AppLocalizations.of(context)!.changeNumberSendOtp,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],

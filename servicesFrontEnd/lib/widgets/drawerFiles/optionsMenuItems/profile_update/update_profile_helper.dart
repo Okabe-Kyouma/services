@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:services/api/dio_image_upload.dart';
 import 'package:services/api/dio_profile.dart';
 import 'package:services/api/dio_update.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpdateProfileHelper extends StatefulWidget {
   const UpdateProfileHelper({super.key, required this.profileData});
@@ -110,15 +110,15 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
             context: context,
             builder: (context) {
               return CupertinoAlertDialog(
-                title: const Text('Profile Updated'),
-                content: const Text('Your Profile has been Updated!!'),
+                title:  Text(AppLocalizations.of(context)!.profileUpdateTitle),
+                content: Text(AppLocalizations.of(context)!.profileUpdateContent),
                 actions: [
                   TextButton(
                     onPressed: () {
                       Navigator.popUntil(
                           context, (route) => route.settings.name == "/update");
                       Fluttertoast.showToast(
-                          msg: "Actual Update may take some time",
+                          msg: AppLocalizations.of(context)!.profileUpdateToast,
                           toastLength: Toast.LENGTH_LONG,
                           gravity: ToastGravity.BOTTOM,
                           timeInSecForIosWeb: 1,
@@ -146,14 +146,14 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
           context: context,
           builder: (context) {
             return CupertinoAlertDialog(
-              title: const Text('Some Error Occurred'),
-              content: const Text('Please try again Later!!'),
+              title:  Text(AppLocalizations.of(context)!.profileUpdateSomeError),
+              content:  Text(AppLocalizations.of(context)!.profileUpdateTryLater),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Okay'),
+                  child: Text(AppLocalizations.of(context)!.okay),
                 ),
               ],
             );
@@ -170,14 +170,14 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
         context: context,
         builder: (context) {
           return CupertinoAlertDialog(
-            title: const Text('Server Error'),
-            content: const Text('Please try again Later!!'),
+            title:  Text(AppLocalizations.of(context)!.loginScreenErrorTitle),
+            content: Text(AppLocalizations.of(context)!.loginScreenErrorContent),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Okay'),
+                child:  Text(AppLocalizations.of(context)!.okay),
               ),
             ],
           );
@@ -191,9 +191,9 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Profile Update',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.profileUpdateAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
@@ -255,7 +255,7 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                     const SizedBox(width: 30),
                     OutlinedButton(
                       onPressed: pickImage,
-                      child: const Text('Upload Image'),
+                      child:  Text( AppLocalizations.of(context)!.profileUpdateUploadImage),
                     ),
                   ],
                 ),
@@ -264,7 +264,7 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                 height: 75,
               ),
               Text(
-                'What can you do?',
+               AppLocalizations.of(context)!.profileUpdateWhatCan,
                 style: TextStyle(
                     fontSize: 28,
                     color:
@@ -301,7 +301,7 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                 Column(
                   children: [
                     Text(
-                      'Your Experience Level',
+                       AppLocalizations.of(context)!.profileUpdateYourExp,
                       style: TextStyle(
                           fontSize: 22,
                           color: Theme.of(context)
@@ -344,9 +344,9 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                         context: context,
                         builder: (context) {
                           return CupertinoAlertDialog(
-                            title: const Text('Cancel Update'),
-                            content: const Text(
-                                'Do you want to cancel Profile update?'),
+                            title: Text( AppLocalizations.of(context)!.profileUpdateCancelTitle),
+                            content:  Text(
+                                AppLocalizations.of(context)!.profileUpdateCancelContent),
                             actions: [
                               TextButton(
                                 onPressed: () {
@@ -356,13 +356,13 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                                       (route) =>
                                           route.settings.name == "/update");
                                 },
-                                child: const Text('Yes'),
+                                child: Text( AppLocalizations.of(context)!.yes),
                               ),
                               TextButton(
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
-                                child: const Text('No'),
+                                child:  Text( AppLocalizations.of(context)!.no),
                               ),
                             ],
                           );
@@ -378,10 +378,10 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                       side: BorderSide(
                           color: Theme.of(context).primaryColor, width: 2),
                     ),
-                    child: const Text(
-                      'Cancel',
+                    child:  Text(
+                       AppLocalizations.of(context)!.cancel,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                   const SizedBox(
@@ -398,10 +398,10 @@ class _UpdateProfileHelperState extends State<UpdateProfileHelper> {
                       side: BorderSide(
                           color: Theme.of(context).primaryColor, width: 2),
                     ),
-                    child: const Text(
-                      'Update',
+                    child:  Text(
+                      AppLocalizations.of(context)!.profileUpdateUpdate,
                       style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],

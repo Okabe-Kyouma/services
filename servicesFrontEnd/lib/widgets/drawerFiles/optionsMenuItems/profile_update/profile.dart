@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_profile.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/profile_update/show_and_update_profile.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -14,9 +15,9 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Profile',
-          style: TextStyle(color: Colors.white),
+        title:  Text(
+          AppLocalizations.of(context)!.profileDisplayAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
@@ -34,7 +35,7 @@ class _ProfileState extends State<Profile> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  'Server Error!',
+                   AppLocalizations.of(context)!.profileDisplayServerError,
                   style: TextStyle(
                       color: Theme.of(context)
                           .primaryTextTheme
@@ -46,7 +47,7 @@ class _ProfileState extends State<Profile> {
               final data = snapshot.data!;
               return ShowNUpdate(profileData: data);
             } else {
-              return const Text('No data is available');
+              return Text(  AppLocalizations.of(context)!.profileDisplayNoDataToShow);
             }
           },
         ),

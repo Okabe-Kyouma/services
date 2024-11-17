@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:services/auth/signup/signup.dart';
 import 'package:services/widgets/providerModels/email_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VerifyEmail extends StatelessWidget {
   VerifyEmail({super.key, required this.email});
@@ -20,9 +21,9 @@ class VerifyEmail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Verify Email-id',
-          style: TextStyle(color: Colors.white),
+        title:  Text(
+         AppLocalizations.of(context)!.changeEmailVerifyAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -45,7 +46,7 @@ class VerifyEmail extends StatelessWidget {
                   height: 30,
                 ),
                  Text(
-                  "We have sent an Otp to your registered email id",
+                  AppLocalizations.of(context)!.changeEmailVerifyWeHave,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -70,20 +71,20 @@ class VerifyEmail extends StatelessWidget {
                             if (value == null ||
                                 value.length < 12 ||
                                 !RegExp(r'^\d{12}$').hasMatch(value)) {
-                              return 'Otp Must be of 6 letters';
+                              return AppLocalizations.of(context)!.changeEmailVerifyValid;
                             }
                             return null;
                           },
-                          decoration: const InputDecoration(
-                            labelText: 'Enter OTP',
-                            labelStyle: TextStyle(color: Colors.grey),
-                            hintText: 'Your Otp',
-                            border: OutlineInputBorder(
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!.changeEmailVerifyLabel,
+                            labelStyle: const TextStyle(color: Colors.grey),
+                            hintText: AppLocalizations.of(context)!.changeEmailVerifyContent,
+                            border: const OutlineInputBorder(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(12),
                               ),
                             ),
-                            prefixIcon: Icon(
+                            prefixIcon: const Icon(
                               Icons.numbers,
                               color: Colors.grey,
                             ),
@@ -101,9 +102,9 @@ class VerifyEmail extends StatelessWidget {
                                 context: context,
                                 builder: (context) {
                                   return CupertinoAlertDialog(
-                                    title: const Text('CANCEL SIGNUP?'),
-                                    content: const Text(
-                                        'Click Yes to Cancel\n Click No to continue;'),
+                                    title:  Text( AppLocalizations.of(context)!.signupCancelSignup),
+                                    content: Text(
+                                         AppLocalizations.of(context)!.signupCancelSignupContent),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
@@ -114,13 +115,13 @@ class VerifyEmail extends StatelessWidget {
                                                   route.settings.name ==
                                                   "/firstScreen");
                                         },
-                                        child: const Text('Yes'),
+                                        child: Text( AppLocalizations.of(context)!.yes),
                                       ),
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text('No'),
+                                        child:  Text( AppLocalizations.of(context)!.no),
                                       ),
                                     ],
                                   );
@@ -137,9 +138,9 @@ class VerifyEmail extends StatelessWidget {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             ),
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(
+                            child: Text(
+                               AppLocalizations.of(context)!.cancel,
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -178,15 +179,15 @@ class VerifyEmail extends StatelessWidget {
                                   context: context,
                                   builder: (context) {
                                     return CupertinoAlertDialog(
-                                      title: const Text('WRONG OTP'),
-                                      content: const Text(
-                                          'Please enter the correct otp which is send to your email!'),
+                                      title:  Text( AppLocalizations.of(context)!.forgotEmailVerifyWrongOtpTitle),
+                                      content:  Text(
+                                           AppLocalizations.of(context)!.forgotEmailVerifyWrongOtpContent),
                                       actions: [
                                         TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: const Text('Okay'))
+                                            child: Text( AppLocalizations.of(context)!.okay),)
                                       ],
                                     );
                                   },
@@ -203,9 +204,9 @@ class VerifyEmail extends StatelessWidget {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             ),
-                            child: const Text(
-                              'Verify',
-                              style: TextStyle(
+                            child:  Text(
+                               AppLocalizations.of(context)!.forgotEmailVerifyVerify,
+                              style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                           ),

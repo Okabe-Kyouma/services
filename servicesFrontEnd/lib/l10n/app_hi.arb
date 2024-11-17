@@ -1,5 +1,14 @@
 {
     "@@locale": "hi",
+    
+        "okay": "ठीक है",
+        "no": "नहीं",
+        "yes": "हाँ",
+        "cancel": "रद्द करें",
+    
+    
+    "firstScreen": "below",
+
     "firstScreenUp": "",
     "firstScreenMid": "या",
     "firstScreenDown": "खुद काम खोजें!",
@@ -13,6 +22,256 @@
     "find_artists": "अपने पास कलाकार खोजें!",
     "find_carpenters": "अपने पास बढ़ई खोजें!",
     "find_plumbers": "अपने पास प्लंबर खोजें!",
-    "and_many_more": "और भी बहुत कुछ!"
+    "and_many_more": "और भी बहुत कुछ!",
+
+    "loginScreen": "below",
+
+    
+        "appBarLoginScreen": "लॉगिन",
+        "loginScreenUsernamelabelText": "कृपया अपना उपयोगकर्ता नाम दर्ज करें",
+        "loginScreenUsernamehintText": "उपयोगकर्ता नाम",
+        "loginScreenPasswordlabelText": "कृपया अपना पासवर्ड दर्ज करें",
+        "loginScreenPasswordhintText": "पासवर्ड",
+        "loginScreenLoginButton": "लॉगिन",
+        "loginScreenDontRememberPass": "पासवर्ड याद नहीं है?",
+        "loginScreenClickHere": "यहाँ क्लिक करें!",
+        "loginScreenInvalidCredTitle": "अमान्य प्रमाण-पत्र",
+        "loginScreenInvalidCredContent": "कृपया सही उपयोगकर्ता नाम या पासवर्ड दर्ज करें",
+        "loginScreenOkay": "ठीक है",
+        "loginScreenErrorTitle": "उफ़! कुछ गलत है",
+        "loginScreenErrorContent": "सर्वर त्रुटि! कृपया बाद में पुनः प्रयास करें!",
+        "loginScreenUsernameValidation": "कृपया सही उपयोगकर्ता नाम दर्ज करें",
+        "loginScreenPasswordValidation": "कृपया सही पासवर्ड दर्ज करें",
+    
+    "forgotPassEmailFile": "नीचे",
+
+    "forgotEmailAppBar": "पासवर्ड पुनर्प्राप्ति",
+    "forgotEmailPleaseEnter": "कृपया अपना पंजीकृत ईमेल-आईडी दर्ज करें",
+    "forgotEmailValid": "कृपया सही ईमेल आईडी दर्ज करें",
+    "forgotEmailLabelText": "ईमेल-आईडी",
+    "forgotEmailSendOtp": "ओटीपी भेजें",
+    "forgotEmailSignup": "साइनअप",
+    "forgotEmailReenter": "पुनः दर्ज करें",
+    "forgotEmailNotFoundTitle": "ईमेल-आईडी नहीं मिली",
+    "forgotEmailNotFoundText": "हमें वह ईमेल नहीं मिला। कृपया इसे जांचें या जारी रखने के लिए साइन अप करें!",
+    "forgotEmailOtpFailed": "ओटीपी भेजने में विफल",
+
+    "forgotPassVerifyEmailFile": "नीचे",
+
+    "forgotEmailVerifyAppBar": "पासवर्ड पुनर्प्राप्ति",
+    "forgotEmailVerifyWeHave": "हमने आपकी पंजीकृत ईमेल-आईडी पर ओटीपी भेजा है",
+    "forgotEmailVerifyValid": "ओटीपी 6 अक्षरों का होना चाहिए",
+    "forgotEmailVerifyLabel": "'ओटीपी दर्ज करें'",
+    "forgotEmailVerifyhint": "6 अंकों की संख्या",
+    "forgotEmailVerifyCancelPassRecovTitle": "पासवर्ड पुनर्प्राप्ति रद्द करें?",
+    "forgotEmailVerifyCalcelPassRecovContent": "क्या आप वाकई पासवर्ड पुनर्प्राप्ति रद्द करना चाहते हैं?",
+    "forgotEmailVerifyYes": "हाँ",
+    "forgotEmailVerifyNo": "नहीं",
+    "forgotEmailVerifyCancel": "रद्द करें",
+    "forgotEmailVerifyWrongOtpTitle": "गलत ओटीपी",
+    "forgotEmailVerifyWrongOtpContent": "कृपया सही ओटीपी दर्ज करें",
+    "forgotEmailVerifyVerify": "सत्यापित करें",
+
+    "forgotPassResetNewPasswordFile": "नीचे",
+
+    "forgotPassResetSucessTitle": "पासवर्ड सफलतापूर्वक बदला गया!",
+    "forgotPassResetSucessContent": "आपका पासवर्ड सफलतापूर्वक बदल दिया गया है!",
+    "forgotPassResetServerError": "सर्वर त्रुटि",
+    "forgotPassResetFailedTitle": "पासवर्ड बदलने में विफल",
+    "forgotPassResetFailedContent": "हम अभी आपका पासवर्ड बदल नहीं सके। कृपया बाद में पुनः प्रयास करें!",
+    "forgotPassResetYourUsername": "आपका उपयोगकर्ता नाम",
+    "forgotPassResetMustSatisfy": "पासवर्ड को नीचे दी गई शर्तें पूरी करनी चाहिए",
+    "forgotPassResetEnterNew": "कृपया नया पासवर्ड दर्ज करें",
+    "forgotPassResetNewPass": "नया पासवर्ड",
+    "forgotPassResetChangePass": "पासवर्ड बदलें",
+    "forgotPassResetCondiA": "*पासवर्ड 6 अक्षरों से लंबा होना चाहिए",
+    "forgotPassResetCondiB": "*कम से कम एक बड़ा अक्षर (A-Z) शामिल होना चाहिए",
+    "forgotPassResetCondiC": "*कम से कम एक छोटा अक्षर (a-z) शामिल होना चाहिए",
+    "forgotPassResetCondiD": "*कम से कम एक संख्या (0-9) शामिल होनी चाहिए",
+    "forgotPassResetCondiE": "*कम से कम एक विशेष वर्ण (@,#,$,%) शामिल होना चाहिए",
+
+    "optionsFile": "नीचे",
+
+    "optionsProfile": "प्रोफ़ाइल",
+    "optionsChat": "चैट",
+    "optionsSettings": "सेटिंग्स",
+    "optionsLogout": "लॉगआउट",
+    "optionsLogoutConfirmTitle": "लॉगआउट करें?",
+    "optionsLogoutConfirmContent": "क्या आप लॉगआउट करना चाहते हैं?",
+    "optionsClose": "बंद करें",
+
+    "profileDisplayFile": "नीचे",
+
+    "profileDisplayAppBar": "प्रोफ़ाइल",
+    "profileDisplayServerError": "सर्वर त्रुटि!",
+    "profileDisplayNoDataToShow": "दिखाने के लिए कोई डेटा नहीं!",
+    "profileDisplaySorry": "माफ़ करें! कोई डेटा नहीं मिला!",
+    "profileDisplayEmail": "ईमेल",
+    "profileDisplayPhone": "फ़ोन नंबर",
+    "profileDisplayService": "सेवा",
+    "profileDisplayExp": "अनुभव (वर्ष)",
+    "profileDisplayUpdateTitle": "प्रोफ़ाइल अपडेट करें",
+    "profileDisplayUpdateContent": "क्या आप अपनी प्रोफ़ाइल अपडेट करना चाहते हैं?",
+
+    "profileUpdateFile": "नीचे",
+
+    "profileUpdateTitle": "प्रोफ़ाइल अपडेट की गई!",
+    "profileUpdateContent": "आपकी प्रोफ़ाइल अपडेट कर दी गई है!",
+    "profileUpdateToast": "वास्तविक अपडेट में कुछ समय लग सकता है",
+    "profileUpdateSomeError": "कुछ त्रुटि हुई!",
+    "profileUpdateTryLater": "कृपया बाद में पुनः प्रयास करें!",
+    "profileUpdateAppBar": "प्रोफ़ाइल अपडेट",
+    "profileUpdateUploadImage": "फोटो अपलोड करें",
+    "profileUpdateWhatCan": "आप क्या कर सकते हैं?",
+    "profileUpdateYourExp": "आपका अनुभव स्तर",
+    "profileUpdateCancelTitle": "अपडेट रद्द करें?",
+    "profileUpdateCancelContent": "क्या आप प्रोफ़ाइल अपडेट रद्द करना चाहते हैं?",
+    "profileUpdateUpdate": "अपडेट करें",
+
+    "settings": "नीचे",
+
+    "settingSomeError": "कुछ त्रुटि हुई",
+    "settingPleaseTry": "कृपया बाद में पुनः प्रयास करें!",
+    "settingServerErrorTitle": "सर्वर त्रुटि",
+    "settingServerErrorContent": "कृपया बाद में पुनः प्रयास करें!",
+    "settingDeleteAccountTitle": "खाता हटाएं",
+    "settingDeleteAccountContent": "क्या आप अपना खाता हटाना चाहते हैं?",
+    "settingAppBar": "सेटिंग्स",
+    "settingAppear": "दिखावट",
+    "settingLightMode": "लाइट मोड",
+    "settingDarkMode": "डार्क मोड",
+    "settingChangeSensitive": "संवेदनशील जानकारी बदलें",
+    "settingChangeNumberTitle": "नंबर बदलें",
+    "settingChangeNumberContent": "क्या आप अपना नंबर बदलना चाहते हैं?",
+    "settingChangeNumber": "नंबर बदलें",
+    "settingChangeEmailTitle": "ईमेल बदलें",
+    "settingChangeEmailContent": "क्या आप अपनी ईमेल आईडी बदलना चाहते हैं?",
+    "settingChangeEmail": "ईमेल बदलें",
+    "settingChangePassTitle": "पासवर्ड बदलें",
+    "settingChangePassContent": "क्या आप अपना पासवर्ड बदलना चाहते हैं?",
+    "settingChangePass": "पासवर्ड बदलें",
+    "settingAccount": "खाता",
+    "settingDeleteAccount": "खाता हटाएं",
+    "settingGeneral": "सामान्य",
+    "settingChangeLang": "भाषा बदलें",
+    "settingChangeLangTitle": "भाषा बदलें",
+    "settingChangeLangContent": "क्या आप भाषा बदलना चाहते हैं?",
+
+    "changeNum": "नीचे",
+
+    "changeNumNumberAlreadyTitle": "नंबर पहले से मौजूद है",
+    "changeNumberAlreadyContent": "यह नंबर पहले से मौजूद है। कृपया कोई और नंबर दर्ज करें।",
+    "changeNumberAppBar": "फोन नंबर दर्ज करें",
+    "changeNumberEnterNew": "नया फोन नंबर दर्ज करें",
+    "changeNumberLabel": "अपना फोन नंबर दर्ज करें",
+    "changeNumberHint": "10-अंकों का फोन नंबर",
+    "changeNumberValidA": "फोन नंबर आवश्यक है",
+    "changeNumberValidB": "एक मान्य 10-अंकों का फोन नंबर दर्ज करें",
+    "changeNumberSendOtp": "ओटीपी भेजें",
+
+    "changeNumVerify": "नीचे",
+
+    "changeNumVerifyAppBar": "फोन नंबर सत्यापित करें",
+    "changeNumVerifyEnterOtp": "अपने नंबर पर भेजा गया ओटीपी दर्ज करें",
+    "changeNumVerifyLabel": "ओटीपी दर्ज करें",
+    "changeNumVerifyHint": "6-अंकों का ओटीपी",
+    "changeNumVerifyA": "ओटीपी आवश्यक है",
+    "changeNumVerifyB": "एक मान्य ओटीपी दर्ज करें",
+    "changeNumVerifyCancelTitle": "नंबर अपडेट प्रक्रिया रद्द करें",
+    "changeNumVerifyCancelContent": "क्या आप नंबर अपडेट प्रक्रिया रद्द करना चाहते हैं?",
+    "changeNumVerifyToastA": "आपका फोन नंबर सफलतापूर्वक बदल दिया गया है।",
+    "changeNumVerifyToastB": "कुछ त्रुटि हुई! कृपया बाद में पुनः प्रयास करें।",
+    "changeNumVerifyWrongOpt": "गलत ओटीपी",
+    "changeNumVerifyPleaseEnter": "कृपया सही ओटीपी दर्ज करें।",
+
+    "changeEmail": "शुरू",
+
+    "changeEmailAppBar": "ईमेल सत्यापन",
+    "changeEmailPleaseEnter": "कृपया अपनी ईमेल-आईडी दर्ज करें।",
+    "changeEmailValid": "कृपया सही ईमेल-आईडी दर्ज करें।",
+    "changeEmailAlreadyTitle": "ईमेल पहले से मौजूद है!",
+    "changeEmailAlreadyContent": "जो ईमेल-आईडी आपने दी है वह पहले से मौजूद है। कृपया मुख्य पृष्ठ पर जाकर लॉगिन करें या कोई और ईमेल-आईडी दर्ज करें!",
+    "changeEmailFailedOtp": "ओटीपी भेजने में विफल।",
+    "changeEmailSendOtp": "ओटीपी भेजें",
+
+    "changeEmailVerify": "शुरू",
+
+    "changeEmailVerifyToastA": "आपकी ईमेल-आईडी सफलतापूर्वक बदल दी गई है।",
+    "changeEmailVerifyToastB": "कुछ त्रुटि हुई! कृपया बाद में पुनः प्रयास करें।",
+    "changeEmailVerifyAppBar": "ईमेल-आईडी सत्यापित करें",
+    "changeEmailVerifyWeHave": "हमने आपकी पंजीकृत ईमेल-आईडी पर ओटीपी भेजा है।",
+    "changeEmailVerifyValid": "ओटीपी 6 अक्षरों का होना चाहिए।",
+    "changeEmailVerifyLabel": "ओटीपी दर्ज करें।",
+    "changeEmailVerifyContent": "आपका ओटीपी",
+    "changeEmailVerifyCancelTitle": "ईमेल अपडेट प्रक्रिया रद्द करें",
+    "changeEmailVerifyCancelContent": "क्या आप अपनी ईमेल अपडेट प्रक्रिया रद्द करना चाहते हैं?",
+
+    "signup": "शुरू",
+
+    "signupUsernameIsUp": "यूज़रनेम उपलब्ध है।",
+    "signupUsernameIsDown": "यूज़रनेम पहले से मौजूद है।",
+    "signupPleaseFill": "कृपया सभी विवरण भरें।",
+    "signupPleaseSelect": "कृपया अपना अनुभव स्तर चुनें।",
+    "signupWeAlreadyFound": "हमने आपके विवरण के साथ पहले से एक उपयोगकर्ता पाया है। कृपया लॉगिन पृष्ठ पर जाएं।",
+    "signupAppBar": "साइनअप",
+    "signupPleaseFillUp": "कृपया अपने विवरण भरें।",
+    "signupValidA": "यूज़रनेम 5 अक्षरों से अधिक का होना चाहिए।",
+    "signupValidB": "यूज़रनेम में स्पेस नहीं हो सकता।",
+    "signupLabelA": "अपना यूज़रनेम बनाएं।",
+    "signupHintA": "आपका यूज़रनेम",
+    "singupValidC": "कृपया अपना नाम दर्ज करें।",
+    "signupValidEnterFullnameLabel": "अपना पूरा नाम दर्ज करें।",
+    "signupValidEnterFullnameContent": "आपका पूरा नाम",
+    "signupValidD": "कृपया एक सही पासवर्ड दर्ज करें।",
+    "signupPassLabel": "अपना पासवर्ड बनाएं।",
+    "signupPassContent": "आपका पासवर्ड",
+    "signupYourNum": "आपका नंबर",
+    "signupYourEmail": "आपका ईमेल",
+    "signupWhatCan": "आप क्या कर सकते हैं?",
+    "signupYourExp": "आपका अनुभव स्तर",
+    "signupCancelSignup": "साइनअप रद्द करें?",
+    "signupCancelSignupContent": "क्या आप वाकई अपनी साइनअप प्रक्रिया रद्द करना चाहते हैं?",
+    "signupsubmit": "सबमिट करें",
+
+    "signupEnterPhone": "शुरू",
+
+    "signupEnterPhoneAlreadyExTitle": "फोन नंबर पहले से मौजूद है।",
+    "signupEnterPhoneAleadyExContent": "कृपया इस नंबर से लॉगिन करें या नंबर बदलें।",
+    "singupEnterPhoneLogin": "लॉगिन",
+    "signupEnterPhoneConti": "जारी रखें",
+
+    "signupEmail": "शुरू",
+
+    "signupEmailAppBar": "ईमेल सत्यापन",
+    "signupGoToLogin": "लॉगिन पर जाएं।",
+    "signupEnterAnother": "कोई और ईमेल-आईडी दर्ज करें।",
+
+    "workProfile": "शुरू",
+
+    "workProfileAppBar": "कार्य प्रोफ़ाइल बनाई गई!",
+    "workProfileExit": "क्या आप बाहर निकलना चाहते हैं?",
+    "workProfileWeHave": "हमने आपकी कार्य प्रोफ़ाइल बना दी है।",
+    "workProfileInThe": "इस बीच, आप लॉगिन कर सकते हैं और जिन सेवाओं की आपको आवश्यकता है, उन्हें देख सकते हैं।",
+    "workProfileLogin": "लॉगिन",
+
+    "cate": "शुरू",
+
+    "cateNoServicePro": "कोई सेवा प्रदाता नहीं मिला।",
+
+    "dashboardHelper": "शुरू",
+
+    "dashboardHelperNoServiceFoundd": "कोई सेवा नहीं मिली।",
+
+    "dashboard": "शुरू",
+
+    "dashboardLoadin": "लोड हो रहा है....",
+    "dashboardFetching": "स्थान प्राप्त कर रहे हैं...",
+
+    "userInfo": "शुरू",
+
+    "userInfoExp": "अनुभव",
+    "userInfoMssgThis": "इस व्यक्ति को संदेश भेजें।"
+
+
       
 }

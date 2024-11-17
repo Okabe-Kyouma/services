@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:services/widgets/category_class.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardHelper extends StatefulWidget {
   const DashboardHelper({super.key});
@@ -81,19 +82,19 @@ class _DashboardHelperState extends State<DashboardHelper> {
         await showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
-            title: const Text('Do you want to exit?'),
+            title:  Text(AppLocalizations.of(context)!.workProfileExit),
             actions: [
               TextButton(
                 onPressed: () {
                   SystemNavigator.pop();
                 },
-                child: const Text('Yes'),
+                child:  Text(AppLocalizations.of(context)!.yes),
               ),
               TextButton(
                 onPressed: () {
                   Navigator.of(context).pop(false);
                 },
-                child: const Text('No'),
+                child:  Text(AppLocalizations.of(context)!.no),
               ),
             ],
           ),
@@ -119,7 +120,7 @@ class _DashboardHelperState extends State<DashboardHelper> {
                               _searchController.clear();
                               changeList("");
                             },
-                            icon: const Icon(Icons.close)),
+                            icon: const Icon(Icons.close),),
                       ],
                     ),
               onTapOutside: (event) {
@@ -134,7 +135,7 @@ class _DashboardHelperState extends State<DashboardHelper> {
             child: Center(
               child: _filteredList.isEmpty
                   ? Text(
-                      'No Service Found',
+                      AppLocalizations.of(context)!.dashboardHelperNoServiceFoundd,
                       style: TextStyle(
                           fontSize: 20,
                           color: Theme.of(context)

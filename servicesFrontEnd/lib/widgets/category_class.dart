@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:services/api/dio_user_list.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
 import 'package:services/widgets/user_info.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryClass extends StatefulWidget {
   const CategoryClass({super.key, required this.text, required this.imageLink});
@@ -91,7 +92,7 @@ class _CategoryClassState extends State<CategoryClass> {
                     child:
                         CircularProgressIndicator()) // Show loading indicator
                 : userList.isEmpty
-                    ? Center(child: Text('No service Provider Found',style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),))
+                    ? Center(child: Text(AppLocalizations.of(context)!.cateNoServicePro,style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),))
                     : ListView.builder(
                         itemCount: userList.length,
                         itemBuilder: (context, index) {

@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:services/api/dio_login.dart';
 import 'package:services/auth/forgotPassword/email.dart';
 import 'package:services/widgets/dashboard.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -88,14 +89,16 @@ class _LoginState extends State<Login> {
           showCupertinoDialog(
             context: context,
             builder: (context) => CupertinoAlertDialog(
-              title: const Text('Invalid Credentials'),
-              content: const Text('Please enter correct Username or Password'),
+              title: Text(
+                  AppLocalizations.of(context)!.loginScreenInvalidCredTitle),
+              content: Text(
+                  AppLocalizations.of(context)!.loginScreenInvalidCredTitle),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Okay'),
+                  child: Text(AppLocalizations.of(context)!.loginScreenOkay),
                 ),
               ],
             ),
@@ -106,14 +109,15 @@ class _LoginState extends State<Login> {
           showCupertinoDialog(
             context: context,
             builder: (context) => CupertinoAlertDialog(
-              title: const Text('Oops somethings wrong'),
-              content: const Text('Server Error ! please try again later!!'),
+              title: Text(AppLocalizations.of(context)!.loginScreenErrorTitle),
+              content:
+                  Text(AppLocalizations.of(context)!.loginScreenErrorContent),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Okay'),
+                  child: Text(AppLocalizations.of(context)!.loginScreenOkay),
                 ),
               ],
             ),
@@ -148,9 +152,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Login',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.appBarLoginScreen,
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -186,23 +190,26 @@ class _LoginState extends State<Login> {
                                     .primaryTextTheme
                                     .displaySmall
                                     ?.color),
-                            decoration: const InputDecoration(
-                                labelText: 'Please enter your username',
-                                hintText: 'Username',
-                                hintStyle: TextStyle(color: Colors.grey),
-                                labelStyle: TextStyle(color: Colors.grey),
-                                border: OutlineInputBorder(
+                            decoration: InputDecoration(
+                                labelText: AppLocalizations.of(context)!
+                                    .loginScreenUsernamelabelText,
+                                hintText: AppLocalizations.of(context)!
+                                    .loginScreenUsernamehintText,
+                                hintStyle: const TextStyle(color: Colors.grey),
+                                labelStyle: const TextStyle(color: Colors.grey),
+                                border: const OutlineInputBorder(
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(5)),
                                 ),
-                                prefixIcon: Icon(
+                                prefixIcon: const Icon(
                                   Icons.person,
                                   color: Colors.grey,
                                 )),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null || value.length < 5) {
-                                return "Please enter correct username";
+                                return AppLocalizations.of(context)!
+                                    .loginScreenUsernameValidation;
                               }
 
                               return null;
@@ -221,9 +228,11 @@ class _LoginState extends State<Login> {
                                     .displaySmall
                                     ?.color),
                             decoration: InputDecoration(
-                                label: const Text('Please enter your password'),
+                                label: Text(AppLocalizations.of(context)!
+                                    .loginScreenPasswordlabelText),
                                 labelStyle: const TextStyle(color: Colors.grey),
-                                hintText: 'Password',
+                                hintText: AppLocalizations.of(context)!
+                                    .loginScreenPasswordhintText,
                                 suffix: InkWell(
                                   child: obsIcon,
                                   onTap: () {
@@ -242,7 +251,8 @@ class _LoginState extends State<Login> {
                             keyboardType: TextInputType.visiblePassword,
                             validator: (value) {
                               if (value == null || value.length < 8) {
-                                return "Please enter correct password";
+                                return AppLocalizations.of(context)!
+                                    .loginScreenPasswordValidation;
                               }
 
                               return null;
@@ -290,7 +300,8 @@ class _LoginState extends State<Login> {
                               }
                             },
                             child: Text(
-                              'Login',
+                              AppLocalizations.of(context)!
+                                  .loginScreenLoginButton,
                               style: GoogleFonts.montserrat(
                                   color: Colors.white,
                                   fontWeight: FontWeight.w500),
@@ -301,7 +312,8 @@ class _LoginState extends State<Login> {
                           height: 10,
                         ),
                         Text(
-                          "Don't remember password?",
+                          AppLocalizations.of(context)!
+                              .loginScreenDontRememberPass,
                           style: TextStyle(
                               color: Theme.of(context)
                                   .primaryTextTheme
@@ -319,7 +331,8 @@ class _LoginState extends State<Login> {
                               ),
                             );
                           },
-                          child: const Text('Click Here!'),
+                          child: Text(AppLocalizations.of(context)!
+                              .loginScreenClickHere),
                         ),
                       ],
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_profile.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/profile_update/update_profile_helper.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowNUpdate extends StatefulWidget {
   const ShowNUpdate({super.key, required this.profileData});
@@ -47,7 +48,7 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
     return pro == null
         ? Center(
             child: Text(
-              'Sorry, no profile data found.',
+              AppLocalizations.of(context)!.profileDisplaySorry,
               style: TextStyle(
                 fontSize: 20,
                 color: Theme.of(context).primaryTextTheme.displaySmall!.color,
@@ -113,7 +114,7 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                     ),
                     const SizedBox(height: 30),
                     buildTextFormField(
-                      label: 'Email',
+                      label: AppLocalizations.of(context)!.profileDisplayEmail,
                       value: pro!.email,
                       icon: Icons.email,
                       context: context,
@@ -121,7 +122,7 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                     ),
                     const SizedBox(height: 30),
                     buildTextFormField(
-                      label: 'Phone Number',
+                      label: AppLocalizations.of(context)!.profileDisplayPhone,
                       value: pro!.phoneNumber,
                       icon: Icons.phone,
                       context: context,
@@ -129,7 +130,8 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                     ),
                     const SizedBox(height: 30),
                     buildTextFormField(
-                      label: 'Service',
+                      label:
+                          AppLocalizations.of(context)!.profileDisplayService,
                       value: pro!.service,
                       icon: Icons.build,
                       context: context,
@@ -137,7 +139,7 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                     ),
                     const SizedBox(height: 30),
                     buildTextFormField(
-                      label: 'Experience (years)',
+                      label: AppLocalizations.of(context)!.profileDisplayExp,
                       value: pro!.experience,
                       icon: Icons.timeline,
                       context: context,
@@ -152,15 +154,17 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                             context: context,
                             builder: (context) {
                               return CupertinoAlertDialog(
-                                title: const Text('Update Profile'),
-                                content: const Text(
-                                    'Do you want to update your profile?'),
+                                title: Text(AppLocalizations.of(context)!
+                                    .profileDisplayUpdateTitle),
+                                content: Text(AppLocalizations.of(context)!
+                                    .profileDisplayUpdateContent),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('No'),
+                                    child:
+                                        Text(AppLocalizations.of(context)!.no),
                                   ),
                                   TextButton(
                                     onPressed: () {
@@ -175,7 +179,8 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                                         ),
                                       );
                                     },
-                                    child: const Text('Yes'),
+                                    child:
+                                        Text(AppLocalizations.of(context)!.yes),
                                   )
                                 ],
                               );
@@ -199,9 +204,10 @@ class _ShowNUpdateState extends State<ShowNUpdate> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: const Text(
-                          'Update Profile',
-                          style: TextStyle(fontSize: 18),
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .profileDisplayUpdateTitle,
+                          style: const TextStyle(fontSize: 18),
                         ),
                       ),
                     ),

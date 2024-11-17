@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_update.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NewPassword extends StatefulWidget {
   const NewPassword({super.key});
@@ -28,8 +29,8 @@ class _NewPasswordState extends State<NewPassword> {
   }
 
   void changePassword() async {
-    String title = "Password Changed";
-    String content = "Your password has been Changed Successfully!";
+    String title = AppLocalizations.of(context)!.forgotPassResetSucessTitle;
+    String content =  AppLocalizations.of(context)!.forgotPassResetSucessContent;
 
     try {
       final response = await updateExistingPassword(_passwordController.text);
@@ -39,18 +40,18 @@ class _NewPasswordState extends State<NewPassword> {
       }
       if (response == 200) {
       } else if (response == 202) {
-        title = "Password Changed Failed";
+        title =  AppLocalizations.of(context)!.forgotPassResetFailedTitle;
         content =
-            "We couldn't change your password right now\n Please try again later!";
+             AppLocalizations.of(context)!.forgotPassResetFailedContent;
       } else {
-        title = "Server Error";
+        title =  AppLocalizations.of(context)!.forgotPassResetServerError;
         content =
-            "Our Servers are not working right now\n Please try again later!";
+             AppLocalizations.of(context)!.profileUpdateTryLater;
       }
     } catch (e) {
-      title = "Server Error";
+      title =  AppLocalizations.of(context)!.forgotPassResetServerError;
       content =
-          "Our Servers are not working right now\n Please try again later!";
+           AppLocalizations.of(context)!.profileUpdateTryLater;
       print('Exception: $e');
     }
 
@@ -69,7 +70,7 @@ class _NewPasswordState extends State<NewPassword> {
                         context, (route) => route.settings.name == "/settings");
                   }
                 },
-                child: const Text('Okay'),
+                child: Text( AppLocalizations.of(context)!.okay),
               ),
             ],
           );
@@ -82,7 +83,7 @@ class _NewPasswordState extends State<NewPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Password Recovery'),
+        title: Text( AppLocalizations.of(context)!.forgotEmailAppBar),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
         automaticallyImplyLeading: false,
@@ -166,7 +167,7 @@ class _NewPasswordState extends State<NewPassword> {
                                 !value.contains(
                                   RegExp(r'[@#\$%]'),
                                 )) {
-                              return 'Password Must satisfy below conditions';
+                              return  AppLocalizations.of(context)!.forgotPassResetMustSatisfy;
                             }
                             return null;
                           },
@@ -175,15 +176,15 @@ class _NewPasswordState extends State<NewPassword> {
                               value;
                             });
                           },
-                          decoration: const InputDecoration(
-                              labelText: 'Please enter new password',
-                              labelStyle: TextStyle(color: Colors.grey),
-                              hintText: 'New Password',
-                              border: OutlineInputBorder(
+                          decoration: InputDecoration(
+                              labelText:  AppLocalizations.of(context)!.forgotPassResetEnterNew,
+                              labelStyle: const TextStyle(color: Colors.grey),
+                              hintText:  AppLocalizations.of(context)!.forgotPassResetNewPass,
+                              border: const OutlineInputBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(12)),
                               ),
-                              prefixIcon: Icon(
+                              prefixIcon: const Icon(
                                 Icons.password,
                                 color: Colors.grey,
                               )),
@@ -203,9 +204,9 @@ class _NewPasswordState extends State<NewPassword> {
                                 context: context,
                                 builder: (context) {
                                   return CupertinoAlertDialog(
-                                    title: const Text('Cancel Password Change'),
-                                    content: const Text(
-                                        'Do you want to cancel password change process?'),
+                                    title: Text( AppLocalizations.of(context)!.forgotEmailVerifyCancelPassRecovTitle),
+                                    content:  Text(
+                                         AppLocalizations.of(context)!.forgotEmailVerifyCalcelPassRecovContent),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
@@ -216,13 +217,13 @@ class _NewPasswordState extends State<NewPassword> {
                                                   route.settings.name ==
                                                   "/settings");
                                         },
-                                        child: const Text('Yes'),
+                                        child: Text( AppLocalizations.of(context)!.yes),
                                       ),
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text('No'),
+                                        child: Text( AppLocalizations.of(context)!.no),
                                       ),
                                     ],
                                   );
@@ -239,9 +240,9 @@ class _NewPasswordState extends State<NewPassword> {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             ),
-                            child: const Text(
-                              'Cancel',
-                              style: TextStyle(
+                            child:  Text(
+                               AppLocalizations.of(context)!.cancel,
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -275,9 +276,9 @@ class _NewPasswordState extends State<NewPassword> {
                                   color: Theme.of(context).primaryColor,
                                   width: 2),
                             ),
-                            child: const Text(
-                              'Change Password',
-                              style: TextStyle(
+                            child:  Text(
+                               AppLocalizations.of(context)!.forgotPassResetChangePass,
+                              style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
                           ),
@@ -293,7 +294,7 @@ class _NewPasswordState extends State<NewPassword> {
                   margin: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '*Password must be longer then 6 letters',
+                     AppLocalizations.of(context)!.forgotPassResetCondiA,
                     style: TextStyle(
                         color: _passwordController.text.length > 6
                             ? Colors.green
@@ -304,7 +305,7 @@ class _NewPasswordState extends State<NewPassword> {
                   margin: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '*Must Include at least one Uppercase Letter (A-Z)',
+                     AppLocalizations.of(context)!.forgotPassResetCondiB,
                     style: TextStyle(
                       color: _passwordController.text.contains(RegExp(r'[A-Z]'))
                           ? Colors.green
@@ -316,7 +317,7 @@ class _NewPasswordState extends State<NewPassword> {
                   margin: const EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '*Must include at least one lowercase letter (a-z)',
+                     AppLocalizations.of(context)!.forgotPassResetCondiC,
                     style: TextStyle(
                       color: _passwordController.text.contains(RegExp(r'[a-z]'))
                           ? Colors.green
@@ -328,7 +329,7 @@ class _NewPasswordState extends State<NewPassword> {
                   margin: EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '*Must include at least one number (0-9)',
+                     AppLocalizations.of(context)!.forgotPassResetCondiD,
                     style: TextStyle(
                       color: _passwordController.text.contains(RegExp(r'[0-9]'))
                           ? Colors.green
@@ -340,7 +341,7 @@ class _NewPasswordState extends State<NewPassword> {
                   margin: EdgeInsets.all(10),
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    '*Must inlude a special Character (@,#,\$,%)',
+                     AppLocalizations.of(context)!.forgotPassResetCondiE,
                     style: TextStyle(
                       color: _passwordController.text.contains(
                         RegExp(r'[@#\$%]'),

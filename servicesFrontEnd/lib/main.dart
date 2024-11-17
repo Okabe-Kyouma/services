@@ -37,7 +37,7 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final isDarkMode = prefs.getBool('isDarkMode') ?? false;
-  final lang = 'en';
+  final lang = prefs.getString('lang') ?? 'en';
 
   runApp(
     MultiProvider(
@@ -82,10 +82,12 @@ class _MyAppState extends State<MyApp> {
     languageSelected = widget.lang;
   }
 
-  void toggleLang(String newLang) {
+  void toggleLang(String newLang) async {
     setState(() {
       languageSelected = newLang;
     });
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('lang', newLang);
   }
 
   void toggleTheme(bool isDarkMode) async {

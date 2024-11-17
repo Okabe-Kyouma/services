@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:services/auth/signup/emailVerification/email.dart';
 import 'package:services/widgets/providerModels/aadhar_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NumberVerification extends StatelessWidget {
   NumberVerification(
@@ -20,9 +21,9 @@ class NumberVerification extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Verify Aadhar number',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.changeNumVerifyAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -45,11 +46,12 @@ class NumberVerification extends StatelessWidget {
                   height: 24,
                 ),
                 Text(
-                  "Enter the Otp that is sent to your number",
+                 AppLocalizations.of(context)!.changeNumVerifyEnterOtp,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryTextTheme.displaySmall?.color,
+                    color:
+                        Theme.of(context).primaryTextTheme.displaySmall?.color,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -61,11 +63,15 @@ class NumberVerification extends StatelessWidget {
                   child: TextFormField(
                     controller: _otpController,
                     keyboardType: TextInputType.phone,
-                     style: TextStyle(color: Theme.of(context).primaryTextTheme.displaySmall?.color),
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .primaryTextTheme
+                            .displaySmall
+                            ?.color),
                     decoration: InputDecoration(
-                      labelText: "Enter Otp",
+                      labelText:  AppLocalizations.of(context)!.changeNumVerifyLabel,
                       labelStyle: const TextStyle(color: Colors.grey),
-                      hintText: "6-digit Otp",
+                      hintText:  AppLocalizations.of(context)!.changeNumVerifyHint,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -74,9 +80,9 @@ class NumberVerification extends StatelessWidget {
                     maxLength: 6,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Otp is required';
+                        return AppLocalizations.of(context)!.changeNumVerifyA;
                       } else if (value.length != 6) {
-                        return 'Enter a valid Otp';
+                        return  AppLocalizations.of(context)!.changeNumVerifyB;
                       }
                       return null;
                     },
@@ -92,9 +98,9 @@ class NumberVerification extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return CupertinoAlertDialog(
-                              title: const Text('CANCEL SIGNUP?'),
-                              content: const Text(
-                                  'Click Yes to Cancel\n Click No to continue;'),
+                              title: Text(AppLocalizations.of(context)!.signupCancelSignup),
+                              content:  Text(
+                                 AppLocalizations.of(context)!.signupCancelSignupContent),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -105,13 +111,13 @@ class NumberVerification extends StatelessWidget {
                                             route.settings.name ==
                                             "/firstScreen");
                                   },
-                                  child: const Text('Yes'),
+                                  child: Text(AppLocalizations.of(context)!.yes),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.pop(context);
                                   },
-                                  child: const Text('No'),
+                                  child: Text(AppLocalizations.of(context)!.no),
                                 ),
                               ],
                             );
@@ -127,9 +133,9 @@ class NumberVerification extends StatelessWidget {
                         side: BorderSide(
                             color: Theme.of(context).primaryColor, width: 2),
                       ),
-                      child: const Text(
-                        'Cancel',
-                        style: TextStyle(
+                      child:  Text(
+                        AppLocalizations.of(context)!.cancel,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
@@ -172,14 +178,14 @@ class NumberVerification extends StatelessWidget {
                             print('Error in flutterfbase: $err');
                             Navigator.pop(context);
 
-                            String tit = 'Server Error!';
+                            String tit =  AppLocalizations.of(context)!.forgotPassResetServerError;
                             String con =
-                                'We are having Some Problem!\n Please try again later!';
+                               AppLocalizations.of(context)!.loginScreenErrorContent;
 
                             if (err.toString().contains(
                                 '[firebase_auth/invalid-verification-code]')) {
-                              tit = "Wrong Otp";
-                              con = "Please enter correct Otp";
+                              tit = AppLocalizations.of(context)!.forgotEmailVerifyWrongOtpTitle;
+                              con = AppLocalizations.of(context)!.forgotEmailVerifyWrongOtpContent;
                             }
 
                             showCupertinoDialog(
@@ -193,7 +199,7 @@ class NumberVerification extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: const Text('Okay'))
+                                        child: Text(AppLocalizations.of(context)!.okay),)
                                   ],
                                 );
                               },
@@ -210,9 +216,9 @@ class NumberVerification extends StatelessWidget {
                         side: BorderSide(
                             color: Theme.of(context).primaryColor, width: 2),
                       ),
-                      child: const Text(
-                        'Verify',
-                        style: TextStyle(
+                      child:  Text(
+                        AppLocalizations.of(context)!.forgotEmailVerifyVerify,
+                        style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),

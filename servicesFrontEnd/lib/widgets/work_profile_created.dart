@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:services/auth/login/login.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:services/first_screen.dart';
 
 class WorkProfileCreated extends StatelessWidget {
   const WorkProfileCreated({super.key, required this.isWorkProfile});
@@ -14,7 +16,7 @@ class WorkProfileCreated extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: const Text('Work Profile Created'),
+          title:  Text(AppLocalizations.of(context)!.workProfileAppBar),
           backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
           automaticallyImplyLeading: false,
         ),
@@ -24,19 +26,19 @@ class WorkProfileCreated extends StatelessWidget {
             await showCupertinoDialog(
               context: context,
               builder: (context) => CupertinoAlertDialog(
-                title: const Text('Do you want to exit?'),
+                title: Text(AppLocalizations.of(context)!.workProfileExit),
                 actions: [
                   TextButton(
                     onPressed: () {
                       SystemNavigator.pop();
                     },
-                    child: const Text('Yes'),
+                    child:  Text(AppLocalizations.of(context)!.yes),
                   ),
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pop(false);
                     },
-                    child: const Text('No'),
+                    child:  Text(AppLocalizations.of(context)!.no),
                   ),
                 ],
               ),
@@ -55,7 +57,7 @@ class WorkProfileCreated extends StatelessWidget {
                 height: 30,
               ),
               Text(
-                'We have Created Your work Profile',
+               AppLocalizations.of(context)!.workProfileWeHave,
                 style: TextStyle(
                     fontSize: 28,
                     color:
@@ -66,7 +68,7 @@ class WorkProfileCreated extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                'In the meantime you can Login and look for services that you need',
+                AppLocalizations.of(context)!.workProfileInThe,
                 style: TextStyle(
                     fontSize: 20,
                     color:
@@ -78,8 +80,16 @@ class WorkProfileCreated extends StatelessWidget {
               ),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.popUntil(context,
-                      (route) => route.settings.name == "/firstScreen");
+
+                  // Navigator.popUntil(context,
+                  //     (route) => route.settings.name == "/firstScreen");
+
+                   Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => const FirstScreen(),),
+                              (Route<dynamic> route) => false,
+                            );
+
                 },
                 style: OutlinedButton.styleFrom(
                   padding:
@@ -90,9 +100,9 @@ class WorkProfileCreated extends StatelessWidget {
                   side: BorderSide(
                       color: Theme.of(context).primaryColor, width: 2),
                 ),
-                child: const Text(
-                  'Login',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                child: Text(
+                   AppLocalizations.of(context)!.workProfileLogin,
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],

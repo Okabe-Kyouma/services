@@ -8,6 +8,7 @@ import 'package:services/widgets/dashboard_helper.dart';
 import 'package:services/widgets/drawerFiles/mainFiles/current_user_info.dart';
 import 'package:services/widgets/drawerFiles/mainFiles/options.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -40,15 +41,15 @@ class _DashboardState extends State<Dashboard> {
         });
       } else {
         setState(() {
-          fullname = 'Server Error';
-          email = 'Server Error';
+          fullname = AppLocalizations.of(context)!.forgotPassResetServerError;
+          email = AppLocalizations.of(context)!.forgotPassResetServerError;
           profilePictureUrl = 'assets/logos/services_logo.png';
         });
       }
     } catch (e) {
       setState(() {
-        fullname = 'Server Error';
-        email = 'Server Error';
+        fullname = AppLocalizations.of(context)!.forgotPassResetServerError;
+        email = AppLocalizations.of(context)!.forgotPassResetServerError;
         profilePictureUrl = 'assets/logos/services_logo.png';
       });
     }
@@ -117,7 +118,7 @@ class _DashboardState extends State<Dashboard> {
           ),
           onPressed: () {},
           label: Text(
-            address ?? "Fetching Location..",
+            address ?? AppLocalizations.of(context)!.dashboardFetching,
             style: const TextStyle(color: Colors.white),
           ),
         ),

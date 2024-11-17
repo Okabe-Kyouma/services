@@ -13,6 +13,7 @@ import 'package:services/widgets/providerModels/aadhar_model.dart';
 import 'package:services/widgets/providerModels/email_model.dart';
 import 'package:services/widgets/providerModels/location_model.dart';
 import 'package:services/widgets/work_profile_created.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -134,9 +135,9 @@ class _SignupState extends State<Signup> {
 
     setState(() {
       if (usernameExists) {
-        _statusMessage = "Username is available";
+        _statusMessage = AppLocalizations.of(context)!.signupUsernameIsUp;
       } else {
-        _statusMessage = "Username already exists";
+        _statusMessage = AppLocalizations.of(context)!.signupUsernameIsDown;
       }
       checkUsername = true;
     });
@@ -152,18 +153,19 @@ class _SignupState extends State<Signup> {
         showCupertinoDialog(
           context: context,
           builder: (context) => CupertinoAlertDialog(
-            title: const Text(
-              'PLEASE FILL ALL DETAILS',
+            title: Text(
+              AppLocalizations.of(context)!.signupPleaseFill,
             ),
-            content: const Text(
-              'Please select your experience level',
+            content: Text(
+              AppLocalizations.of(context)!.signupPleaseSelect,
             ),
             actions: [
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text('Okay'))
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(AppLocalizations.of(context)!.okay),
+              )
             ],
           ),
         );
@@ -203,15 +205,17 @@ class _SignupState extends State<Signup> {
             barrierDismissible: false,
             builder: (context) {
               return CupertinoAlertDialog(
-                title: const Text('Server Error!'),
-                content: const Text(
-                    'Our servers are down! Please try again after some time!'),
+                title: Text(
+                    AppLocalizations.of(context)!.forgotPassResetServerError),
+                content:
+                    Text(AppLocalizations.of(context)!.loginScreenErrorContent),
                 actions: [
                   TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: const Text('Okay'))
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(AppLocalizations.of(context)!.okay),
+                  )
                 ],
               );
             },
@@ -241,25 +245,27 @@ class _SignupState extends State<Signup> {
             barrierDismissible: false,
             builder: (context) {
               return CupertinoAlertDialog(
-                title: const Text('Server Error!'),
-                content: const Text(
-                    'We have already found a user with your details please go back to login page to login!'),
+                title:
+                    Text(AppLocalizations.of(context)!.loginScreenErrorTitle),
+                content:
+                    Text(AppLocalizations.of(context)!.signupWeAlreadyFound),
                 actions: [
                   TextButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const WorkProfileCreated(
-                              isWorkProfile: false,
-                            ),
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WorkProfileCreated(
+                            isWorkProfile: false,
                           ),
-                          (route) {
-                            return route.settings.name == "/login";
-                          },
-                        );
-                      },
-                      child: const Text('Okay'))
+                        ),
+                        (route) {
+                          return route.settings.name == "/login";
+                        },
+                      );
+                    },
+                    child: Text(AppLocalizations.of(context)!.okay),
+                  )
                 ],
               );
             },
@@ -275,9 +281,9 @@ class _SignupState extends State<Signup> {
       backgroundColor: Theme.of(context).colorScheme.onPrimary,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text(
-          'Signup',
-          style: TextStyle(color: Colors.white),
+        title: Text(
+          AppLocalizations.of(context)!.signupAppBar,
+          style: const TextStyle(color: Colors.white),
         ),
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
@@ -295,7 +301,7 @@ class _SignupState extends State<Signup> {
                   Container(
                     margin: const EdgeInsets.all(20),
                     child: Text(
-                      'Please Fill up your details',
+                      AppLocalizations.of(context)!.signupPleaseFillUp,
                       style: TextStyle(
                           fontSize: 28,
                           color: Theme.of(context)
@@ -334,7 +340,8 @@ class _SignupState extends State<Signup> {
                         const SizedBox(width: 30),
                         OutlinedButton(
                           onPressed: pickImage,
-                          child: const Text('Upload Image'),
+                          child: Text(AppLocalizations.of(context)!
+                              .profileUpdateUploadImage),
                         ),
                       ],
                     ),
@@ -368,15 +375,18 @@ class _SignupState extends State<Signup> {
                                 if (value == null ||
                                     value.isEmpty ||
                                     value.length < 6) {
-                                  return "Username must be of more than 5 letters";
+                                  return AppLocalizations.of(context)!
+                                      .signupValidA;
                                 } else if (value.contains(' ')) {
-                                  return "Username cannot contain space";
+                                  AppLocalizations.of(context)!.signupValidB;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
-                                label: const Text('Create Your username'),
-                                hintText: 'Your Username',
+                                label: Text(
+                                    AppLocalizations.of(context)!.signupLabelA),
+                                hintText:
+                                    AppLocalizations.of(context)!.signupHintA,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -390,8 +400,10 @@ class _SignupState extends State<Signup> {
                               Text(
                                 _statusMessage,
                                 style: TextStyle(
-                                    color: _statusMessage ==
-                                            'Username is available'
+                                    color: (_statusMessage ==
+                                                'Username is available') ||
+                                            (_statusMessage ==
+                                                'यूज़रनेम उपलब्ध है।')
                                         ? Colors.green
                                         : Colors.red),
                               ),
@@ -405,12 +417,15 @@ class _SignupState extends State<Signup> {
                                       ?.color),
                               validator: (value) {
                                 if (value == null || value.isEmpty)
-                                  return "Please enter your name";
+                                  return AppLocalizations.of(context)!
+                                      .singupValidC;
                                 return null;
                               },
                               decoration: InputDecoration(
-                                  label: const Text('Enter Your full name'),
-                                  hintText: 'Your Full Name',
+                                  label: Text(AppLocalizations.of(context)!
+                                      .signupValidEnterFullnameLabel),
+                                  hintText: AppLocalizations.of(context)!
+                                      .signupValidEnterFullnameContent,
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(5),
                                   ),
@@ -430,13 +445,16 @@ class _SignupState extends State<Signup> {
                                       ?.color),
                               validator: (value) {
                                 if (value == null || value.length < 8) {
-                                  return "Please enter a correct password";
+                                  return AppLocalizations.of(context)!
+                                      .signupValidD;
                                 }
                                 return null;
                               },
                               decoration: InputDecoration(
-                                label: const Text('Create Your password'),
-                                hintText: 'Your password',
+                                label: Text(AppLocalizations.of(context)!
+                                    .signupPassLabel),
+                                hintText: AppLocalizations.of(context)!
+                                    .signupPassContent,
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(5),
                                 ),
@@ -457,7 +475,8 @@ class _SignupState extends State<Signup> {
                                       .displaySmall
                                       ?.color),
                               decoration: InputDecoration(
-                                label: const Text('Your Number'),
+                                label: Text(AppLocalizations.of(context)!
+                                    .signupYourNum),
                                 filled: true,
                                 fillColor: Theme.of(context).brightness ==
                                         Brightness.dark
@@ -483,7 +502,8 @@ class _SignupState extends State<Signup> {
                                       .displaySmall
                                       ?.color),
                               decoration: InputDecoration(
-                                label: const Text('Your Email'),
+                                label: Text(AppLocalizations.of(context)!
+                                    .signupYourEmail),
                                 filled: true,
                                 fillColor: Theme.of(context).brightness ==
                                         Brightness.dark
@@ -508,7 +528,7 @@ class _SignupState extends State<Signup> {
                   ),
                   const SizedBox(height: 25),
                   Text(
-                    'What can you do?',
+                    AppLocalizations.of(context)!.signupWhatCan,
                     style: TextStyle(
                         fontSize: 28,
                         color: Theme.of(context)
@@ -549,7 +569,7 @@ class _SignupState extends State<Signup> {
                     Column(
                       children: [
                         Text(
-                          'Your Experience Level',
+                          AppLocalizations.of(context)!.signupYourExp,
                           style: TextStyle(
                               fontSize: 28,
                               color: Theme.of(context)
@@ -591,9 +611,10 @@ class _SignupState extends State<Signup> {
                             context: context,
                             builder: (context) {
                               return CupertinoAlertDialog(
-                                title: const Text('CANCEL SIGNUP?'),
-                                content: const Text(
-                                    'Click Yes to Cancel\n Click No to continue;'),
+                                title: Text(AppLocalizations.of(context)!
+                                    .signupCancelSignup),
+                                content: Text(AppLocalizations.of(context)!
+                                    .signupCancelSignupContent),
                                 actions: [
                                   TextButton(
                                     onPressed: () {
@@ -604,13 +625,15 @@ class _SignupState extends State<Signup> {
                                               route.settings.name ==
                                               "/firstScreen");
                                     },
-                                    child: const Text('Yes'),
+                                    child:
+                                        Text(AppLocalizations.of(context)!.yes),
                                   ),
                                   TextButton(
                                     onPressed: () {
                                       Navigator.pop(context);
                                     },
-                                    child: const Text('No'),
+                                    child:
+                                        Text(AppLocalizations.of(context)!.no),
                                   ),
                                 ],
                               );
@@ -626,9 +649,9 @@ class _SignupState extends State<Signup> {
                           side: BorderSide(
                               color: Theme.of(context).primaryColor, width: 2),
                         ),
-                        child: const Text(
-                          'Cancel',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.cancel,
+                          style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -658,9 +681,9 @@ class _SignupState extends State<Signup> {
                           side: BorderSide(
                               color: Theme.of(context).primaryColor, width: 2),
                         ),
-                        child: const Text(
-                          'Submit',
-                          style: TextStyle(
+                        child: Text(
+                          AppLocalizations.of(context)!.signupsubmit,
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         ),
                       ),

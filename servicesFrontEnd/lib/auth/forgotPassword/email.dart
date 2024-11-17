@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_findUser.dart';
 import 'package:services/auth/forgotPassword/verify_email.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class EnterEmail extends StatelessWidget {
   EnterEmail({super.key});
@@ -54,7 +55,7 @@ class EnterEmail extends StatelessWidget {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("Otp failed send")),
+            SnackBar(content: Text(AppLocalizations.of(context)!.forgotEmailOtpFailed),),
           );
         }
       } else if (response == 200) {
@@ -62,23 +63,23 @@ class EnterEmail extends StatelessWidget {
           context: context,
           builder: (context) {
             return CupertinoAlertDialog(
-              title: const Text('EMAIL-ID NOT FOUND'),
-              content: const Text(
-                  "We couldn’t find that email. Please check it or sign up to continue!"),
+              title:  Text(AppLocalizations.of(context)!.forgotEmailNotFoundTitle),
+              content:  Text(
+                 AppLocalizations.of(context)!.forgotEmailNotFoundText),
               actions: [
                 TextButton(
                   onPressed: () {
                     // _emailController.clear();
                     Navigator.of(context).pop();
                   },
-                  child: const Text('Re-enter'),
+                  child: Text(AppLocalizations.of(context)!.forgotEmailReenter),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.popUntil(context,
                         (route) => route.settings.name == "/firstScreen");
                   },
-                  child: const Text('SignUp'),
+                  child: Text(AppLocalizations.of(context)!.forgotEmailSignup),
                 ),
               ],
             );
@@ -93,9 +94,9 @@ class EnterEmail extends StatelessWidget {
           context: context,
           builder: (context) {
             return CupertinoAlertDialog(
-              title: const Text('Oops!'),
-              content: const Text(
-                'Our Servers are Down! Please try again later!',
+              title:  Text(AppLocalizations.of(context)!.loginScreenErrorTitle),
+              content:  Text(
+                AppLocalizations.of(context)!.loginScreenErrorContent
               ),
               actions: [
                 TextButton(
@@ -103,7 +104,7 @@ class EnterEmail extends StatelessWidget {
                       Navigator.of(context).pop();
                       _emailFocus.unfocus();
                     },
-                    child: const Text('Okay'))
+                    child: Text(AppLocalizations.of(context)!.loginScreenOkay),)
               ],
             );
           },
@@ -117,7 +118,7 @@ class EnterEmail extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Password Recovery'),
+        title: Text(AppLocalizations.of(context)!.forgotEmailAppBar),
         backgroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
         foregroundColor: Colors.white,
       ),
@@ -136,7 +137,7 @@ class EnterEmail extends StatelessWidget {
               height: 30,
             ),
             Text(
-              "Please enter your registered Email-id",
+              AppLocalizations.of(context)!.forgotEmailPleaseEnter,
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 22,
@@ -161,19 +162,19 @@ class EnterEmail extends StatelessWidget {
                         if (value == null ||
                             !RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
                                 .hasMatch(value)) {
-                          return "Please enter correct mail id";
+                          return AppLocalizations.of(context)!.forgotEmailValid;
                         }
 
                         return null;
                       },
-                      decoration: const InputDecoration(
-                          labelText: 'Email-id',
+                      decoration: InputDecoration(
+                          labelText: AppLocalizations.of(context)!.forgotEmailLabelText,
                           hintText: 'company12@gmail.com',
-                          labelStyle: TextStyle(color: Colors.grey),
-                          border: OutlineInputBorder(
+                          labelStyle: const TextStyle(color: Colors.grey),
+                          border: const OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(12)),
                           ),
-                          prefixIcon: Icon(
+                          prefixIcon: const Icon(
                             Icons.email,
                             color: Colors.grey,
                           )),
@@ -208,10 +209,10 @@ class EnterEmail extends StatelessWidget {
                       side: BorderSide(
                           color: Theme.of(context).primaryColor, width: 2),
                     ),
-                    child: const Text(
-                      'Send Otp',
+                    child:  Text(
+                      AppLocalizations.of(context)!.forgotEmailSendOtp,
                       style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                          const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   ),
                 ],
