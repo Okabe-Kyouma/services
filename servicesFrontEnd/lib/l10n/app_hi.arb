@@ -42,6 +42,9 @@
         "loginScreenErrorContent": "सर्वर त्रुटि! कृपया बाद में पुनः प्रयास करें!",
         "loginScreenUsernameValidation": "कृपया सही उपयोगकर्ता नाम दर्ज करें",
         "loginScreenPasswordValidation": "कृपया सही पासवर्ड दर्ज करें",
+        "loginScreenUsernameAlreadyLoggedInTitle": "पहले से लॉगिन किया गया!",
+        "loginScreenUsernameAlreadyLoggedContent": "आप पहले से ही किसी अन्य डिवाइस पर लॉगिन हैं। कृपया पहले वहां से लॉगआउट करें।",
+        
     
     "forgotPassEmailFile": "नीचे",
 
@@ -136,6 +139,8 @@
     "settingServerErrorContent": "कृपया बाद में पुनः प्रयास करें!",
     "settingDeleteAccountTitle": "खाता हटाएं",
     "settingDeleteAccountContent": "क्या आप अपना खाता हटाना चाहते हैं?",
+     "settingDeleteAccountTitleConfirm": "क्या आप सुनिश्चित हैं?",
+    "settingDeleteAccountContentConfirm": "क्या आप वाकई अपना खाता हटाना चाहते हैं?",
     "settingAppBar": "सेटिंग्स",
     "settingAppear": "दिखावट",
     "settingLightMode": "लाइट मोड",

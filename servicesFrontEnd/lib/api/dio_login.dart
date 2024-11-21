@@ -19,6 +19,9 @@ Future<int> signIn({required String username, required String password}) async {
 
       await prefs.setString('session', sesssionId.toString());
       return 200;
+    } else if (response.statusCode == 500) {
+      print("user already loggedIn");
+      return 500;
     } else {
       print('login failed! User donest Exists');
       return 202;

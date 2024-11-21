@@ -240,7 +240,32 @@ class _SettingState extends State<Setting> {
           actions: [
             TextButton(
               onPressed: () {
-                _confirmDeleteAccount();
+                showCupertinoDialog(
+                  context: context,
+                  builder: (context) {
+                    return CupertinoAlertDialog(
+                      title: Text(AppLocalizations.of(context)!
+                          .settingDeleteAccountTitleConfirm),
+                      content: Text(AppLocalizations.of(context)!
+                          .settingDeleteAccountContentConfirm),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            _confirmDeleteAccount();
+                          },
+                          child: Text(AppLocalizations.of(context)!.yes),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text(AppLocalizations.of(context)!.no),
+                        )
+                      ],
+                    );
+                  },
+                );
               },
               child: Text(AppLocalizations.of(context)!.yes),
             ),

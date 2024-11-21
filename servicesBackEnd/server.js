@@ -10,6 +10,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const { default: mongoose } = require("mongoose");
 const haversine = require("haversine-distance");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 
@@ -248,12 +249,10 @@ app.post("/update/existing/password/:newPassword", async (req, res) => {
 
       res.status(200).json({ message: "Password updated successfully" });
     } catch (e) {
-      res
-        .status(404)
-        .json({
-          error: "An error occurred while updating password",
-          details: e.message,
-        });
+      res.status(404).json({
+        error: "An error occurred while updating password",
+        details: e.message,
+      });
     }
   } else {
     return res.status(500).send("User not authorized");
@@ -275,12 +274,10 @@ app.post("/update/password/:email/:newPassword", async (req, res) => {
 
     res.status(200).json({ message: "Password updated successfully" });
   } catch (e) {
-    res
-      .status(500)
-      .json({
-        error: "An error occurred while updating password",
-        details: e.message,
-      });
+    res.status(500).json({
+      error: "An error occurred while updating password",
+      details: e.message,
+    });
   }
 });
 
@@ -397,10 +394,19 @@ app.post("/signup", async (req, res) => {
 });
 
 app.post("/login", (req, res, next) => {
+
+
+
+
   passport.authenticate("local", (err, user, info) => {
+
     if (err) {
       return res.status(404).send("error");
     }
+
+    // if(info){
+    //   return res.status(500).send('User already LoggedIn!');
+    // }
 
     if (!user) {
       return res.status(202).send(info ? info.message : "user not found");
@@ -435,9 +441,14 @@ app.post("/logout", (req, res) => {
         return res.status(405).send("Logout failed");
       }
 
-      sessionStore.destroy(expressSession.Cookie);
+      sessionStore.destroy(sessionId, (err) => {
+        if (err) {
+          return res.status(405).send("Logout failed");
+        }
+        return res.status(202).send("Logged out");
+      });
 
-      return res.status(202).send("Logged out");
+      //return res.status(202).send("Logged out");
     });
   } else {
     return res.status(404).send("user not authenticated");

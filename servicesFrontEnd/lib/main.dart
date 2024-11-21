@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:services/l10n/l10n.dart';
@@ -39,6 +40,10 @@ void main() async {
   final isDarkMode = prefs.getBool('isDarkMode') ?? false;
   final lang = prefs.getString('lang') ?? 'en';
 
+  SystemChrome.setPreferredOrientations(
+    ([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]),
+  ).then((_) {
+
   runApp(
     MultiProvider(
       providers: [
@@ -59,6 +64,7 @@ void main() async {
       ),
     ),
   );
+  },);
 }
 
 class MyApp extends StatefulWidget {

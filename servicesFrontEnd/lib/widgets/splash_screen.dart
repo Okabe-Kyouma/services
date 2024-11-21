@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
       });
 
       Future.delayed(const Duration(seconds: 1), () {
-        Widget currentWidget = const FirstScreen();
+        Widget currentWidget = const FirstScreen(flag: true,);
 
         final String? action = prefs.getString('session');
 

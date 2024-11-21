@@ -9,7 +9,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:services/main.dart';
 
 class FirstScreen extends StatefulWidget {
-  const FirstScreen({super.key});
+  const FirstScreen({super.key, required this.flag});
+
+  final bool flag;
 
   @override
   State<FirstScreen> createState() => _FirstScreenState();
@@ -17,11 +19,21 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   var currentAnimation = 0;
+  bool isflag = false;
 
   @override
   void initState() {
     super.initState();
     _playAnimations();
+
+    isflag = widget.flag;
+
+    if (isflag) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        isflag = false;
+        showModal();
+      });
+    }
   }
 
   void showModal() {
@@ -64,7 +76,7 @@ class _FirstScreenState extends State<FirstScreen> {
                   //   ),
                   // ),
                   Container(
-                    decoration: BoxDecoration(color: Colors.black),
+                    decoration: const BoxDecoration(color: Colors.black),
                     margin: const EdgeInsets.fromLTRB(40, 20, 0, 0),
                     child: TextButton.icon(
                       onPressed: () {
@@ -183,11 +195,11 @@ class _FirstScreenState extends State<FirstScreen> {
               title: Text(AppLocalizations.of(context)!.workProfileExit),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child:  Text(AppLocalizations.of(context)!.no),
+                  child: Text(AppLocalizations.of(context)!.no),
                   onPressed: () => Navigator.of(context).pop(false),
                 ),
                 CupertinoDialogAction(
-                  child:  Text(AppLocalizations.of(context)!.yes),
+                  child: Text(AppLocalizations.of(context)!.yes),
                   onPressed: () {
                     SystemNavigator.pop();
                   },

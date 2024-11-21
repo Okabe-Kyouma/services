@@ -30,11 +30,27 @@ class _LoginState extends State<Login> {
   void _scrollToTop() {
     if (_focusNode.hasFocus || _focusNode2.hasFocus) {
       setState(() {
-        _scrollController.animateTo(0.0,
-            duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
-      });
+        _scrollController.animateTo(5,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOutCubic);
+      },);
     }
   }
+
+//  void _scrollToTop() {
+//   if (_focusNode.hasFocus || _focusNode2.hasFocus) {
+//     // Start scrolling
+//     Timer.periodic(const Duration(milliseconds: 16), (timer) {
+//       if (_scrollController.offset > 0) {
+//         double newOffset = (_scrollController.offset - 20).clamp(0.0, _scrollController.position.maxScrollExtent);
+//         _scrollController.jumpTo(newOffset); // Adjust this step size for smoother scroll
+//       } else {
+//         timer.cancel(); // Stop scrolling when at the top
+//       }
+//     });
+//   }
+// }
+
 
   @override
   void initState() {
@@ -93,6 +109,26 @@ class _LoginState extends State<Login> {
                   AppLocalizations.of(context)!.loginScreenInvalidCredTitle),
               content: Text(
                   AppLocalizations.of(context)!.loginScreenInvalidCredTitle),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(AppLocalizations.of(context)!.loginScreenOkay),
+                ),
+              ],
+            ),
+          );
+        }
+      } else if (response == 500) {
+        if (mounted) {
+          showCupertinoDialog(
+            context: context,
+            builder: (context) => CupertinoAlertDialog(
+              title: Text(AppLocalizations.of(context)!
+                  .loginScreenUsernameAlreadyLoggedInTitle),
+              content: Text(AppLocalizations.of(context)!
+                  .loginScreenUsernameAlreadyLoggedContent),
               actions: [
                 TextButton(
                   onPressed: () {

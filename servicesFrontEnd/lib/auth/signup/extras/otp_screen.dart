@@ -40,7 +40,7 @@ class OtpScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const FirstScreen(),
+                        builder: (context) => const FirstScreen(flag: false,),
                       ),
                     );
                   }

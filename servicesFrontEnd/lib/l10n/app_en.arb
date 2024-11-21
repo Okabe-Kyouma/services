@@ -40,6 +40,8 @@
     "loginScreenErrorContent":"Server Error ! please try again later!",
     "loginScreenUsernameValidation":"Please enter correct username",
     "loginScreenPasswordValidation":"Please enter correct password",
+    "loginScreenUsernameAlreadyLoggedInTitle":"Already Logged In!",
+    "loginScreenUsernameAlreadyLoggedContent":"You are already logged in another device please logout from that first",
 
     "forgotPassEmailFile" : "below",
 
@@ -134,6 +136,8 @@
     "settingServerErrorContent":"Please try again Later!",
     "settingDeleteAccountTitle":"Delete Account",
     "settingDeleteAccountContent":"Do you want to Delete Your Account?",
+    "settingDeleteAccountTitleConfirm":"Are you sure?",
+    "settingDeleteAccountContentConfirm":"Do you really want to Delete your account",
     "settingAppBar":"Settings",
     "settingAppear":"Appearance",
     "settingLightMode":"Light Mode",
