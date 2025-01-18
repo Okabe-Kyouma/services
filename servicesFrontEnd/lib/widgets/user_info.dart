@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:services/widgets/chat/chat_main.dart';
 
 class UserInfo extends StatelessWidget {
   const UserInfo({
@@ -104,7 +105,12 @@ class UserInfo extends StatelessWidget {
                 title: Text(AppLocalizations.of(context)!.userInfoMssgThis),
                 leading: const Icon(Icons.message),
                 onTap: () {
-                  // Handle message tap
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ChatMain(),
+                    ),
+                  );
                 },
               ),
             ],

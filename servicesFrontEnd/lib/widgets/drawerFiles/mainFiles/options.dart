@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:services/api/dio_logout.dart';
 import 'package:services/first_screen.dart';
+import 'package:services/widgets/chat/chat_main.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/profile_update/profile.dart';
 import 'package:services/widgets/drawerFiles/optionsMenuItems/settingsOption/setting.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -59,8 +60,15 @@ class Options extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.chat),
-            title:  Text(AppLocalizations.of(context)!.optionsChat),
-            onTap: () {},
+            title: Text(AppLocalizations.of(context)!.optionsChat),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChatMain(),
+                ),
+              );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings),
@@ -76,16 +84,18 @@ class Options extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title:  Text(
-             AppLocalizations.of(context)!.optionsLogout,
+            title: Text(
+              AppLocalizations.of(context)!.optionsLogout,
             ),
             onTap: () async {
               showCupertinoDialog(
                 context: context,
                 builder: (context) {
                   return CupertinoAlertDialog(
-                    title:  Text(AppLocalizations.of(context)!.optionsLogoutConfirmTitle),
-                    content: Text(AppLocalizations.of(context)!.optionsLogoutConfirmContent),
+                    title: Text(AppLocalizations.of(context)!
+                        .optionsLogoutConfirmTitle),
+                    content: Text(AppLocalizations.of(context)!
+                        .optionsLogoutConfirmContent),
                     actions: [
                       TextButton(
                         onPressed: () {
@@ -117,7 +127,10 @@ class Options extends StatelessWidget {
 
                             Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => const FirstScreen(flag: false,),),
+                                builder: (context) => const FirstScreen(
+                                  flag: false,
+                                ),
+                              ),
                               (Route<dynamic> route) => false,
                             );
                           }
@@ -132,8 +145,8 @@ class Options extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.close),
-            title:  Text(
-             AppLocalizations.of(context)!.optionsClose,
+            title: Text(
+              AppLocalizations.of(context)!.optionsClose,
             ),
             onTap: () {
               Navigator.of(context).pop();

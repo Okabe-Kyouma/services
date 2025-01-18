@@ -15,6 +15,7 @@ class NumberVerification extends StatelessWidget {
 
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   final TextEditingController _otpController = TextEditingController();
+  final FocusNode _focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class NumberVerification extends StatelessWidget {
                   height: 24,
                 ),
                 Text(
-                 AppLocalizations.of(context)!.changeNumVerifyEnterOtp,
+                  AppLocalizations.of(context)!.changeNumVerifyEnterOtp,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -63,15 +64,18 @@ class NumberVerification extends StatelessWidget {
                   child: TextFormField(
                     controller: _otpController,
                     keyboardType: TextInputType.phone,
+                    focusNode: _focusNode,
                     style: TextStyle(
                         color: Theme.of(context)
                             .primaryTextTheme
                             .displaySmall
                             ?.color),
                     decoration: InputDecoration(
-                      labelText:  AppLocalizations.of(context)!.changeNumVerifyLabel,
+                      labelText:
+                          AppLocalizations.of(context)!.changeNumVerifyLabel,
                       labelStyle: const TextStyle(color: Colors.grey),
-                      hintText:  AppLocalizations.of(context)!.changeNumVerifyHint,
+                      hintText:
+                          AppLocalizations.of(context)!.changeNumVerifyHint,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -82,7 +86,7 @@ class NumberVerification extends StatelessWidget {
                       if (value == null || value.isEmpty) {
                         return AppLocalizations.of(context)!.changeNumVerifyA;
                       } else if (value.length != 6) {
-                        return  AppLocalizations.of(context)!.changeNumVerifyB;
+                        return AppLocalizations.of(context)!.changeNumVerifyB;
                       }
                       return null;
                     },
@@ -98,9 +102,10 @@ class NumberVerification extends StatelessWidget {
                           context: context,
                           builder: (context) {
                             return CupertinoAlertDialog(
-                              title: Text(AppLocalizations.of(context)!.signupCancelSignup),
-                              content:  Text(
-                                 AppLocalizations.of(context)!.signupCancelSignupContent),
+                              title: Text(AppLocalizations.of(context)!
+                                  .signupCancelSignup),
+                              content: Text(AppLocalizations.of(context)!
+                                  .signupCancelSignupContent),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -111,7 +116,8 @@ class NumberVerification extends StatelessWidget {
                                             route.settings.name ==
                                             "/firstScreen");
                                   },
-                                  child: Text(AppLocalizations.of(context)!.yes),
+                                  child:
+                                      Text(AppLocalizations.of(context)!.yes),
                                 ),
                                 TextButton(
                                   onPressed: () {
@@ -133,7 +139,7 @@ class NumberVerification extends StatelessWidget {
                         side: BorderSide(
                             color: Theme.of(context).primaryColor, width: 2),
                       ),
-                      child:  Text(
+                      child: Text(
                         AppLocalizations.of(context)!.cancel,
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
@@ -145,6 +151,7 @@ class NumberVerification extends StatelessWidget {
                     OutlinedButton(
                       onPressed: () async {
                         if (_formkey.currentState?.validate() ?? false) {
+                          _focusNode.unfocus();
                           showDialog(
                             context: context,
                             builder: (context) {
@@ -178,14 +185,17 @@ class NumberVerification extends StatelessWidget {
                             print('Error in flutterfbase: $err');
                             Navigator.pop(context);
 
-                            String tit =  AppLocalizations.of(context)!.forgotPassResetServerError;
-                            String con =
-                               AppLocalizations.of(context)!.loginScreenErrorContent;
+                            String tit = AppLocalizations.of(context)!
+                                .forgotPassResetServerError;
+                            String con = AppLocalizations.of(context)!
+                                .loginScreenErrorContent;
 
                             if (err.toString().contains(
                                 '[firebase_auth/invalid-verification-code]')) {
-                              tit = AppLocalizations.of(context)!.forgotEmailVerifyWrongOtpTitle;
-                              con = AppLocalizations.of(context)!.forgotEmailVerifyWrongOtpContent;
+                              tit = AppLocalizations.of(context)!
+                                  .forgotEmailVerifyWrongOtpTitle;
+                              con = AppLocalizations.of(context)!
+                                  .forgotEmailVerifyWrongOtpContent;
                             }
 
                             showCupertinoDialog(
@@ -196,10 +206,12 @@ class NumberVerification extends StatelessWidget {
                                   content: Text(con),
                                   actions: [
                                     TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(AppLocalizations.of(context)!.okay),)
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                          AppLocalizations.of(context)!.okay),
+                                    )
                                   ],
                                 );
                               },
@@ -216,7 +228,7 @@ class NumberVerification extends StatelessWidget {
                         side: BorderSide(
                             color: Theme.of(context).primaryColor, width: 2),
                       ),
-                      child:  Text(
+                      child: Text(
                         AppLocalizations.of(context)!.forgotEmailVerifyVerify,
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),

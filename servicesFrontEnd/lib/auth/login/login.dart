@@ -28,13 +28,13 @@ class _LoginState extends State<Login> {
   );
 
   void _scrollToTop() {
-    if (_focusNode.hasFocus || _focusNode2.hasFocus) {
-      setState(() {
-        _scrollController.animateTo(5,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOutCubic);
-      },);
-    }
+    // if (_focusNode.hasFocus || _focusNode2.hasFocus) {
+    //   setState(() {
+    //     _scrollController.animateTo(5,
+    //         duration: const Duration(milliseconds: 300),
+    //         curve: Curves.easeInOutCubic);
+    //   },);
+    // }
   }
 
 //  void _scrollToTop() {
@@ -50,7 +50,6 @@ class _LoginState extends State<Login> {
 //     });
 //   }
 // }
-
 
   @override
   void initState() {
